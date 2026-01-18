@@ -13,28 +13,35 @@ app.use(helmet());
 app.use(cors());
 app.use(express.json());
 
-// Rate limiting
+// Rate limiting: 10 requests per minute per IP
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: { error: 'Too many requests, please try again later.' }
+  windowMs: 60 * 1000, // 1 minute
+  max: 10, // limit each IP to 10 requests per minute
+  message: { error: 'Trop de requêtes. Veuillez réessayer dans une minute.' },
+  standardHeaders: true,
+  legacyHeaders: false
 });
-app.use(limiter);
+app.use('/api', limiter);
 
 // Routes
 app.use('/api/analyze', analyzeRoutes);
 
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ status: 'ok' });
+  res.json({ status: 'ok', timestamp: new Date().toISOString() });
+});
+
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({ error: 'Route non trouvée' });
 });
 
 // Error handling middleware
 app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).json({ error: 'Something went wrong!' });
+  console.error('Server error:', err.stack);
+  res.status(500).json({ error: 'Une erreur interne est survenue' });
 });
 
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`🚀 Serein backend running on port ${PORT}`);
 });
