@@ -1,0 +1,15 @@
+# Netlify deployment configuration
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# Redirect all routes to index.html for SPA
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Environment variables (set VITE_API_URL in Netlify dashboard)
+[build.environment]
+  NODE_VERSION = "20"
