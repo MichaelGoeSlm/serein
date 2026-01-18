@@ -3,9 +3,17 @@ import './ResultCard.css';
 function ResultCard({ result }) {
   if (!result) return null;
 
-  const { analysis, url, title, type } = result;
+  const { analysis, url, title, type, imageCount } = result;
   const { confidence_score, verdict, summary, red_flags, reassurance } = analysis;
   const isImage = type === 'image';
+
+  const getImageTitle = () => {
+    if (!isImage) return title || 'Page analysée';
+    if (imageCount && imageCount > 1) {
+      return `📷 ${imageCount} images analysées`;
+    }
+    return '📷 Image analysée';
+  };
 
   const getVerdictConfig = (verdict) => {
     switch (verdict) {
@@ -41,9 +49,7 @@ function ResultCard({ result }) {
   return (
     <div className="result-card">
       <div className="result-header">
-        <h2 className="result-title">
-          {isImage ? '📷 Image analysée' : (title || 'Page analysée')}
-        </h2>
+        <h2 className="result-title">{getImageTitle()}</h2>
         {url && <p className="result-url">{url}</p>}
       </div>
 
