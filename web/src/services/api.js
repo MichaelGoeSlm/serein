@@ -1,11 +1,10 @@
 import axios from 'axios';
 
-// Use environment variable for production, fallback to localhost for dev
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+const API_URL = "https://serein-backend.onrender.com";
 
 export async function analyzeUrl(url) {
   try {
-    const response = await axios.post(`${API_BASE_URL}/api/analyze`, { url }, {
+    const response = await axios.post(`${API_URL}/api/analyze`, { url }, {
       headers: {
         'Content-Type': 'application/json'
       },
