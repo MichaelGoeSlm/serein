@@ -57,4 +57,58 @@ router.post('/', async (req, res) => {
   }
 });
 
+// Image analysis route
+router.post('/image', async (req, res) => {
+  try {
+    const { image, mediaType } = req.body;
+
+    // Validate image presence
+    if (!image) {
+      return res.status(400).json({
+        error: 'Image requise. Veuillez fournir une image en base64.'
+      });
+    }
+
+    // Validate base64 format (remove data URL prefix if present)
+    let imageBase64 = image;
+    let detectedMediaType = mediaType || 'image/png';
+
+    if (image.startsWith('data:')) {
+      const matches = image.match(/^data:([^;]+);base64,(.+)$/);
+      if (matches) {
+        detectedMediaType = matches[1];
+        imageBase64 = matches[2];
+      }
+    }
+
+    // Validate media type
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
+    if (!allowedTypes.includes(detectedMediaType)) {
+      return res.status(400).json({
+        error: 'Format d\'image non supporté. Utilisez PNG, JPEG, GIF ou WebP.'
+      });
+    }
+
+    // Analyze the image with Claude
+    const analysis = await analyzer.analyzeImage(imageBase64, detectedMediaType);
+
+    res.json({
+      success: true,
+      type: 'image',
+      analysis
+    });
+
+  } catch (error) {
+    console.error('Image analysis error:', error.message);
+
+    const errorMessage = error.message || 'Échec de l\'analyse de l\'image';
+    const statusCode = error.statusCode || 500;
+
+    res.status(statusCode).json({
+      success: false,
+      error: errorMessage
+    });
+  }
+});
+
 module.exports = router;

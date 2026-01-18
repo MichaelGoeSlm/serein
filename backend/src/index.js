@@ -15,7 +15,7 @@ app.use(cors({
   methods: ['GET', 'POST'],
   allowedHeaders: ['Content-Type']
 }));
-app.use(express.json());
+app.use(express.json({ limit: '10mb' })); // Increased limit for base64 images
 
 // Rate limiting: 10 requests per minute per IP
 const limiter = rateLimit({

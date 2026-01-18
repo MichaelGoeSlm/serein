@@ -27,3 +27,25 @@ export async function analyzeUrl(url) {
     }
   }
 }
+
+export async function analyzeImage(imageBase64) {
+  try {
+    const response = await axios.post(`${API_URL}/api/analyze/image`, { image: imageBase64 }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: 90000 // 90 seconds timeout for image analysis
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data?.error || 'Une erreur est survenue lors de l\'analyse de l\'image';
+      throw new Error(message);
+    } else if (error.request) {
+      throw new Error('Impossible de contacter le serveur. Vérifiez que le backend est démarré.');
+    } else {
+      throw new Error('Erreur lors de la préparation de la requête.');
+    }
+  }
+}
