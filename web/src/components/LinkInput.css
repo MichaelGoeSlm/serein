@@ -85,8 +85,115 @@
   }
 }
 
+/* Separator */
+.separator {
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.separator::before,
+.separator::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(to right, transparent, #d5e1e8, transparent);
+}
+
+.separator span {
+  padding: 0 16px;
+  color: #95a5a6;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+/* Image Upload Section */
+.image-upload-section {
+  width: 100%;
+}
+
+.upload-button {
+  width: 100%;
+  padding: 20px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  background: white;
+  color: #5d6d7e;
+  border: 2px dashed #bdc3c7;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.upload-button:hover:not(:disabled) {
+  border-color: #7fb3d5;
+  background: #f8fbfd;
+  color: #5da0c7;
+}
+
+.upload-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-icon {
+  font-size: 20px;
+}
+
+/* Image Preview */
+.image-preview-container {
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 4px 20px rgba(107, 140, 179, 0.15);
+}
+
+.image-preview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 12px;
+  margin-bottom: 16px;
+}
+
+.image-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.image-actions .analyze-button {
+  flex: 1;
+}
+
+.remove-button {
+  padding: 16px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #f8f9fa;
+  color: #7f8c8d;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-button:hover:not(:disabled) {
+  background: #fee;
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.remove-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
 .input-hint {
-  margin-top: 12px;
+  margin-top: 16px;
   text-align: center;
   color: #7f8c8d;
   font-size: 14px;
@@ -105,5 +212,18 @@
   .analyze-button {
     width: 100%;
     padding: 14px 24px;
+  }
+
+  .upload-button {
+    padding: 16px 20px;
+    font-size: 15px;
+  }
+
+  .image-actions {
+    flex-direction: column;
+  }
+
+  .remove-button {
+    width: 100%;
   }
 }

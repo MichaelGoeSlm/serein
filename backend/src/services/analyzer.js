@@ -98,4 +98,105 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
   }
 }
 
-module.exports = { analyze };
+async function analyzeImage(imageBase64, mediaType = 'image/png') {
+  // Check for API key
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error('Clé API Anthropic non configurée. Contactez l\'administrateur.');
+  }
+
+  const client = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY
+  });
+
+  try {
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      messages: [
+        {
+          role: 'user',
+          content: [
+            {
+              type: 'image',
+              source: {
+                type: 'base64',
+                media_type: mediaType,
+                data: imageBase64
+              }
+            },
+            {
+              type: 'text',
+              text: `Analyse cette image (capture d'écran, message, publication, etc.) et fournis ton évaluation en JSON uniquement.
+
+Examine attentivement :
+- Le contenu textuel visible
+- Les éléments visuels (logos, images, mise en page)
+- Les signes de manipulation ou de faux
+- Les techniques de persuasion ou d'arnaque
+
+Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
+{
+  "confidence_score": <nombre entre 0 et 100>,
+  "verdict": "<fiable|prudence|suspect>",
+  "summary": "<résumé en 2-3 phrases>",
+  "red_flags": ["<signal 1>", "<signal 2>"],
+  "reassurance": "<message bienveillant>"
+}`
+            }
+          ]
+        }
+      ]
+    });
+
+    const responseText = message.content[0].text.trim();
+
+    // Parse JSON response
+    let analysis;
+    try {
+      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        analysis = JSON.parse(jsonMatch[0]);
+      } else {
+        throw new Error('No JSON found in response');
+      }
+    } catch (parseError) {
+      console.error('Failed to parse Claude response:', responseText);
+      analysis = {
+        confidence_score: 50,
+        verdict: 'prudence',
+        summary: 'L\'analyse de l\'image n\'a pas pu être complétée correctement.',
+        red_flags: ['Analyse automatique incomplète'],
+        reassurance: 'En cas de doute, vérifiez les informations auprès de sources officielles.'
+      };
+    }
+
+    // Validate and sanitize the response
+    return {
+      confidence_score: Math.min(100, Math.max(0, parseInt(analysis.confidence_score) || 50)),
+      verdict: ['fiable', 'prudence', 'suspect'].includes(analysis.verdict) ? analysis.verdict : 'prudence',
+      summary: String(analysis.summary || 'Analyse non disponible'),
+      red_flags: Array.isArray(analysis.red_flags) ? analysis.red_flags.map(String) : [],
+      reassurance: String(analysis.reassurance || 'Restez vigilant et vérifiez les informations importantes.')
+    };
+
+  } catch (error) {
+    console.error('Anthropic API error:', error);
+
+    if (error.status === 401) {
+      throw new Error('Clé API invalide. Contactez l\'administrateur.');
+    }
+
+    if (error.status === 429) {
+      throw new Error('Trop de requêtes vers l\'API. Veuillez réessayer dans quelques instants.');
+    }
+
+    if (error.status === 500 || error.status === 503) {
+      throw new Error('Le service d\'analyse est temporairement indisponible. Réessayez plus tard.');
+    }
+
+    throw new Error('Échec de l\'analyse de l\'image. Veuillez réessayer.');
+  }
+}
+
+module.exports = { analyze, analyzeImage };

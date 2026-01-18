@@ -3,8 +3,9 @@ import './ResultCard.css';
 function ResultCard({ result }) {
   if (!result) return null;
 
-  const { analysis, url, title } = result;
+  const { analysis, url, title, type } = result;
   const { confidence_score, verdict, summary, red_flags, reassurance } = analysis;
+  const isImage = type === 'image';
 
   const getVerdictConfig = (verdict) => {
     switch (verdict) {
@@ -40,8 +41,10 @@ function ResultCard({ result }) {
   return (
     <div className="result-card">
       <div className="result-header">
-        <h2 className="result-title">{title || 'Page analysée'}</h2>
-        <p className="result-url">{url}</p>
+        <h2 className="result-title">
+          {isImage ? '📷 Image analysée' : (title || 'Page analysée')}
+        </h2>
+        {url && <p className="result-url">{url}</p>}
       </div>
 
       <div className={`verdict-badge ${verdictConfig.className}`}>
