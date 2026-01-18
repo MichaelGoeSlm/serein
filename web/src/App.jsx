@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import LinkInput from './components/LinkInput';
 import ResultCard from './components/ResultCard';
-import { analyzeUrl, analyzeImage } from './services/api';
+import { analyzeUrl, analyzeImages } from './services/api';
 import './App.css';
 
 function App() {
@@ -9,12 +9,14 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [analysisType, setAnalysisType] = useState(null); // 'url' or 'image'
+  const [imageCount, setImageCount] = useState(0);
 
   const handleAnalyzeUrl = async (url) => {
     setLoading(true);
     setError(null);
     setResult(null);
     setAnalysisType('url');
+    setImageCount(0);
 
     try {
       const data = await analyzeUrl(url);
@@ -26,17 +28,18 @@ function App() {
     }
   };
 
-  const handleAnalyzeImage = async (imageBase64) => {
+  const handleAnalyzeImages = async (imagesBase64Array) => {
     setLoading(true);
     setError(null);
     setResult(null);
     setAnalysisType('image');
+    setImageCount(imagesBase64Array.length);
 
     try {
-      const data = await analyzeImage(imageBase64);
+      const data = await analyzeImages(imagesBase64Array);
       setResult(data);
     } catch (err) {
-      setError(err.message || 'Une erreur est survenue lors de l\'analyse de l\'image');
+      setError(err.message || 'Une erreur est survenue lors de l\'analyse des images');
     } finally {
       setLoading(false);
     }
@@ -55,7 +58,7 @@ function App() {
       <main className="main">
         <LinkInput
           onAnalyzeUrl={handleAnalyzeUrl}
-          onAnalyzeImage={handleAnalyzeImage}
+          onAnalyzeImages={handleAnalyzeImages}
           isLoading={loading}
         />
 
@@ -75,7 +78,7 @@ function App() {
             <p className="loading-text">Analyse en cours...</p>
             <p className="loading-subtext">
               {analysisType === 'image'
-                ? 'Nous examinons le contenu de l\'image'
+                ? `Nous examinons ${imageCount > 1 ? `les ${imageCount} images` : 'l\'image'}`
                 : 'Nous examinons le contenu de la page'}
             </p>
           </div>

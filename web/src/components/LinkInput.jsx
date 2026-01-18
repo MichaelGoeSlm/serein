@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react';
 import './LinkInput.css';
 
-function LinkInput({ onAnalyzeUrl, onAnalyzeImage, isLoading }) {
+const MAX_IMAGES = 5;
+const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+
+function LinkInput({ onAnalyzeUrl, onAnalyzeImages, isLoading }) {
   const [url, setUrl] = useState('');
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [imagePreview, setImagePreview] = useState(null);
+  const [selectedImages, setSelectedImages] = useState([]);
   const fileInputRef = useRef(null);
 
   const handleSubmitUrl = (e) => {
@@ -15,42 +17,67 @@ function LinkInput({ onAnalyzeUrl, onAnalyzeImage, isLoading }) {
   };
 
   const handleImageSelect = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      // Check file size (max 5MB)
-      if (file.size > 5 * 1024 * 1024) {
-        alert('Image trop volumineuse. Maximum 5 Mo.');
-        return;
-      }
+    const files = Array.from(e.target.files);
 
-      // Check file type
+    if (files.length === 0) return;
+
+    // Check total count
+    if (selectedImages.length + files.length > MAX_IMAGES) {
+      alert(`Maximum ${MAX_IMAGES} images autorisées.`);
+      return;
+    }
+
+    // Process each file
+    const validFiles = [];
+    for (const file of files) {
+      if (file.size > MAX_FILE_SIZE) {
+        alert(`"${file.name}" est trop volumineuse. Maximum 5 Mo par image.`);
+        continue;
+      }
       if (!file.type.startsWith('image/')) {
-        alert('Veuillez sélectionner une image.');
-        return;
+        alert(`"${file.name}" n'est pas une image valide.`);
+        continue;
       }
+      validFiles.push(file);
+    }
 
-      setSelectedImage(file);
-
-      // Create preview
+    // Read files and create previews
+    validFiles.forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target.result);
+        setSelectedImages(prev => {
+          if (prev.length >= MAX_IMAGES) return prev;
+          return [...prev, {
+            id: Date.now() + Math.random(),
+            name: file.name,
+            preview: e.target.result
+          }];
+        });
       };
       reader.readAsDataURL(file);
-    }
-  };
+    });
 
-  const handleAnalyzeImage = () => {
-    if (imagePreview && !isLoading) {
-      onAnalyzeImage(imagePreview);
-    }
-  };
-
-  const handleRemoveImage = () => {
-    setSelectedImage(null);
-    setImagePreview(null);
+    // Reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
+    }
+  };
+
+  const handleRemoveImage = (id) => {
+    setSelectedImages(prev => prev.filter(img => img.id !== id));
+  };
+
+  const handleClearAll = () => {
+    setSelectedImages([]);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
+
+  const handleAnalyzeImages = () => {
+    if (selectedImages.length > 0 && !isLoading) {
+      const imagesBase64 = selectedImages.map(img => img.preview);
+      onAnalyzeImages(imagesBase64);
     }
   };
 
@@ -100,11 +127,12 @@ function LinkInput({ onAnalyzeUrl, onAnalyzeImage, isLoading }) {
           ref={fileInputRef}
           onChange={handleImageSelect}
           accept="image/png,image/jpeg,image/gif,image/webp"
+          multiple
           style={{ display: 'none' }}
-          disabled={isLoading}
+          disabled={isLoading || selectedImages.length >= MAX_IMAGES}
         />
 
-        {!imagePreview ? (
+        {selectedImages.length === 0 ? (
           <button
             type="button"
             onClick={triggerFileInput}
@@ -112,15 +140,44 @@ function LinkInput({ onAnalyzeUrl, onAnalyzeImage, isLoading }) {
             className="upload-button"
           >
             <span className="upload-icon">📷</span>
-            Analyser une image / capture d'écran
+            Analyser des images / captures d'écran
           </button>
         ) : (
-          <div className="image-preview-container">
-            <img src={imagePreview} alt="Aperçu" className="image-preview" />
+          <div className="images-preview-container">
+            <div className="images-grid">
+              {selectedImages.map((img) => (
+                <div key={img.id} className="image-thumb">
+                  <img src={img.preview} alt={img.name} />
+                  <button
+                    type="button"
+                    className="remove-thumb"
+                    onClick={() => handleRemoveImage(img.id)}
+                    disabled={isLoading}
+                    title="Supprimer"
+                  >
+                    ×
+                  </button>
+                </div>
+              ))}
+              {selectedImages.length < MAX_IMAGES && (
+                <button
+                  type="button"
+                  className="add-more-button"
+                  onClick={triggerFileInput}
+                  disabled={isLoading}
+                >
+                  <span>+</span>
+                  <small>Ajouter</small>
+                </button>
+              )}
+            </div>
+            <p className="images-count">
+              {selectedImages.length} / {MAX_IMAGES} image{selectedImages.length > 1 ? 's' : ''}
+            </p>
             <div className="image-actions">
               <button
                 type="button"
-                onClick={handleAnalyzeImage}
+                onClick={handleAnalyzeImages}
                 disabled={isLoading}
                 className="analyze-button"
               >
@@ -130,16 +187,16 @@ function LinkInput({ onAnalyzeUrl, onAnalyzeImage, isLoading }) {
                     Analyse...
                   </span>
                 ) : (
-                  'Analyser cette image'
+                  `Analyser ${selectedImages.length > 1 ? 'ces images' : 'cette image'}`
                 )}
               </button>
               <button
                 type="button"
-                onClick={handleRemoveImage}
+                onClick={handleClearAll}
                 disabled={isLoading}
                 className="remove-button"
               >
-                Supprimer
+                Tout supprimer
               </button>
             </div>
           </div>
@@ -147,7 +204,7 @@ function LinkInput({ onAnalyzeUrl, onAnalyzeImage, isLoading }) {
       </div>
 
       <p className="input-hint">
-        Analysez un lien ou une capture d'écran pour vérifier sa fiabilité
+        Analysez un lien ou jusqu'à {MAX_IMAGES} images pour vérifier leur fiabilité
       </p>
     </div>
   );

@@ -98,10 +98,20 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
   }
 }
 
-async function analyzeImage(imageBase64, mediaType = 'image/png') {
+async function analyzeImages(images) {
+  // images is an array of { data: base64, mediaType: string }
+
   // Check for API key
   if (!process.env.ANTHROPIC_API_KEY) {
     throw new Error('Clé API Anthropic non configurée. Contactez l\'administrateur.');
+  }
+
+  if (!images || images.length === 0) {
+    throw new Error('Aucune image fournie.');
+  }
+
+  if (images.length > 5) {
+    throw new Error('Maximum 5 images autorisées.');
   }
 
   const client = new Anthropic({
@@ -109,31 +119,37 @@ async function analyzeImage(imageBase64, mediaType = 'image/png') {
   });
 
   try {
-    const message = await client.messages.create({
-      model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
-      system: SYSTEM_PROMPT,
-      messages: [
-        {
-          role: 'user',
-          content: [
-            {
-              type: 'image',
-              source: {
-                type: 'base64',
-                media_type: mediaType,
-                data: imageBase64
-              }
-            },
-            {
-              type: 'text',
-              text: `Analyse cette image (capture d'écran, message, publication, etc.) et fournis ton évaluation en JSON uniquement.
+    // Build content array with all images
+    const content = [];
+
+    // Add all images first
+    images.forEach((img, index) => {
+      content.push({
+        type: 'image',
+        source: {
+          type: 'base64',
+          media_type: img.mediaType || 'image/png',
+          data: img.data
+        }
+      });
+    });
+
+    // Add the text prompt at the end
+    const imageCount = images.length;
+    const promptText = imageCount === 1
+      ? `Analyse cette image (capture d'écran, message, publication, etc.) et fournis ton évaluation en JSON uniquement.`
+      : `Analyse ces ${imageCount} images comme un ensemble cohérent (captures d'écran, messages, publications, etc.) et fournis ton évaluation globale en JSON uniquement.`;
+
+    content.push({
+      type: 'text',
+      text: `${promptText}
 
 Examine attentivement :
 - Le contenu textuel visible
 - Les éléments visuels (logos, images, mise en page)
 - Les signes de manipulation ou de faux
 - Les techniques de persuasion ou d'arnaque
+${imageCount > 1 ? '- Les liens et cohérence entre les différentes images' : ''}
 
 Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
 {
@@ -143,8 +159,16 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
   "red_flags": ["<signal 1>", "<signal 2>"],
   "reassurance": "<message bienveillant>"
 }`
-            }
-          ]
+    });
+
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 1024,
+      system: SYSTEM_PROMPT,
+      messages: [
+        {
+          role: 'user',
+          content: content
         }
       ]
     });
@@ -165,7 +189,7 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
       analysis = {
         confidence_score: 50,
         verdict: 'prudence',
-        summary: 'L\'analyse de l\'image n\'a pas pu être complétée correctement.',
+        summary: 'L\'analyse des images n\'a pas pu être complétée correctement.',
         red_flags: ['Analyse automatique incomplète'],
         reassurance: 'En cas de doute, vérifiez les informations auprès de sources officielles.'
       };
@@ -195,8 +219,8 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
       throw new Error('Le service d\'analyse est temporairement indisponible. Réessayez plus tard.');
     }
 
-    throw new Error('Échec de l\'analyse de l\'image. Veuillez réessayer.');
+    throw new Error('Échec de l\'analyse des images. Veuillez réessayer.');
   }
 }
 
-module.exports = { analyze, analyzeImage };
+module.exports = { analyze, analyzeImages };

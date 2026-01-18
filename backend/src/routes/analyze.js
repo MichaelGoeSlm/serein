@@ -57,51 +57,69 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Image analysis route
+// Image analysis route (supports multiple images)
 router.post('/image', async (req, res) => {
   try {
-    const { image, mediaType } = req.body;
+    const { images } = req.body;
 
-    // Validate image presence
-    if (!image) {
+    // Validate images presence
+    if (!images || !Array.isArray(images) || images.length === 0) {
       return res.status(400).json({
-        error: 'Image requise. Veuillez fournir une image en base64.'
+        error: 'Images requises. Veuillez fournir un tableau d\'images en base64.'
       });
     }
 
-    // Validate base64 format (remove data URL prefix if present)
-    let imageBase64 = image;
-    let detectedMediaType = mediaType || 'image/png';
-
-    if (image.startsWith('data:')) {
-      const matches = image.match(/^data:([^;]+);base64,(.+)$/);
-      if (matches) {
-        detectedMediaType = matches[1];
-        imageBase64 = matches[2];
-      }
+    // Validate max images
+    if (images.length > 5) {
+      return res.status(400).json({
+        error: 'Maximum 5 images autorisées.'
+      });
     }
 
-    // Validate media type
     const allowedTypes = ['image/png', 'image/jpeg', 'image/gif', 'image/webp'];
-    if (!allowedTypes.includes(detectedMediaType)) {
-      return res.status(400).json({
-        error: 'Format d\'image non supporté. Utilisez PNG, JPEG, GIF ou WebP.'
+    const processedImages = [];
+
+    // Process each image
+    for (let i = 0; i < images.length; i++) {
+      let imageData = images[i];
+      let mediaType = 'image/png';
+
+      // Handle data URL format
+      if (typeof imageData === 'string' && imageData.startsWith('data:')) {
+        const matches = imageData.match(/^data:([^;]+);base64,(.+)$/);
+        if (matches) {
+          mediaType = matches[1];
+          imageData = matches[2];
+        }
+      }
+
+      // Validate media type
+      if (!allowedTypes.includes(mediaType)) {
+        return res.status(400).json({
+          error: `Image ${i + 1}: Format non supporté. Utilisez PNG, JPEG, GIF ou WebP.`
+        });
+      }
+
+      processedImages.push({
+        data: imageData,
+        mediaType: mediaType
       });
     }
 
-    // Analyze the image with Claude
-    const analysis = await analyzer.analyzeImage(imageBase64, detectedMediaType);
+    // Analyze all images with Claude
+    const analysis = await analyzer.analyzeImages(processedImages);
 
     res.json({
       success: true,
       type: 'image',
+      imageCount: processedImages.length,
       analysis
     });
 
   } catch (error) {
     console.error('Image analysis error:', error.message);
 
-    const errorMessage = error.message || 'Échec de l\'analyse de l\'image';
+    const errorMessage = error.message || 'Échec de l\'analyse des images';
     const statusCode = error.statusCode || 500;
 
     res.status(statusCode).json({
