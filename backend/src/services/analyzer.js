@@ -2,6 +2,14 @@ const Anthropic = require('@anthropic-ai/sdk');
 
 const SYSTEM_PROMPT = `Tu es Serein, un assistant bienveillant qui analyse des contenus web et emails pour aider les utilisateurs à détecter la manipulation, la désinformation, et les arnaques.
 
+=== RECHERCHE WEB ===
+
+AVANT d'analyser, utilise la recherche web pour :
+- Vérifier si l'événement mentionné existe dans des sources fiables
+- Confirmer que l'entreprise/site web est légitime
+- Chercher des signalements d'arnaque liés à ce contenu
+Base ton analyse sur les résultats de recherche ET le contenu soumis.
+
 === RÈGLES CRITIQUES ===
 
 1. DATES ET ÉVÉNEMENTS RÉCENTS :
@@ -51,6 +59,66 @@ Réponds UNIQUEMENT en JSON valide :
 - Un article de presse récent est probablement vrai même si tu ne connais pas l'événement
 - Sois bienveillant et aide l'utilisateur à se sentir en sécurité`;
 
+// Web search tool configuration
+const WEB_SEARCH_TOOL = {
+  type: "web_search_20250305",
+  name: "web_search",
+  max_uses: 3
+};
+
+// Helper function to extract JSON from response with multiple content blocks
+function extractJsonFromResponse(response) {
+  // Find the last text block containing JSON
+  let jsonText = null;
+
+  for (let i = response.content.length - 1; i >= 0; i--) {
+    const block = response.content[i];
+    if (block.type === 'text' && block.text) {
+      const jsonMatch = block.text.match(/\{[\s\S]*\}/);
+      if (jsonMatch) {
+        jsonText = jsonMatch[0];
+        break;
+      }
+    }
+  }
+
+  if (!jsonText) {
+    throw new Error('No JSON found in response');
+  }
+
+  return JSON.parse(jsonText);
+}
+
+// Helper function to sanitize analysis result
+function sanitizeAnalysis(analysis) {
+  return {
+    confidence_score: Math.min(100, Math.max(0, parseInt(analysis.confidence_score) || 50)),
+    verdict: ['fiable', 'prudence', 'suspect'].includes(analysis.verdict) ? analysis.verdict : 'prudence',
+    summary: String(analysis.summary || 'Analyse non disponible'),
+    red_flags: Array.isArray(analysis.red_flags) ? analysis.red_flags.map(String) : [],
+    reassurance: String(analysis.reassurance || 'Restez vigilant et vérifiez les informations importantes.')
+  };
+}
+
+// Helper function to handle API errors
+function handleApiError(error) {
+  console.error('Anthropic API error:', error);
+
+  if (error.status === 401) {
+    throw new Error('Clé API invalide. Contactez l\'administrateur.');
+  }
+
+  if (error.status === 429) {
+    throw new Error('Trop de requêtes vers l\'API. Veuillez réessayer dans quelques instants.');
+  }
+
+  if (error.status === 500 || error.status === 503) {
+    throw new Error('Le service d\'analyse est temporairement indisponible. Réessayez plus tard.');
+  }
+
+  throw new Error('Échec de l\'analyse. Veuillez réessayer.');
+}
+
 async function analyze(scrapedContent) {
   // Check for API key
   if (!process.env.ANTHROPIC_API_KEY) {
@@ -62,7 +130,7 @@ async function analyze(scrapedContent) {
   });
 
   try {
-    const userPrompt = `Analyse cette page web et fournis ton évaluation en JSON uniquement (pas de texte avant ou après le JSON).
+    const userPrompt = `Analyse cette page web. Utilise d'abord la recherche web pour vérifier la légitimité du site et du contenu.
 
 URL: ${scrapedContent.url}
 Titre: ${scrapedContent.title}
@@ -74,42 +142,34 @@ ${scrapedContent.headings.length > 0 ? scrapedContent.headings.join('\n') : 'Auc
 Contenu principal:
 ${scrapedContent.content || 'Contenu non disponible'}
 
-Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
+Après ta recherche, réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
 {
   "confidence_score": <nombre entre 0 et 100>,
   "verdict": "<fiable|prudence|suspect>",
-  "summary": "<résumé en 2-3 phrases>",
+  "summary": "<résumé en 2-3 phrases mentionnant ce que tu as trouvé en recherche>",
   "red_flags": ["<signal 1>", "<signal 2>"],
   "reassurance": "<message bienveillant>"
 }`;
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
+      max_tokens: 2048,
+      system: SYSTEM_PROMPT,
+      tools: [WEB_SEARCH_TOOL],
       messages: [
         {
           role: 'user',
           content: userPrompt
         }
-      ],
-      system: SYSTEM_PROMPT
+      ]
     });
 
-    const responseText = message.content[0].text.trim();
-
-    // Parse JSON response
+    // Extract JSON from potentially multi-block response
     let analysis;
     try {
-      // Try to extract JSON from the response (in case there's extra text)
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        analysis = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error('No JSON found in response');
-      }
+      analysis = extractJsonFromResponse(message);
     } catch (parseError) {
-      console.error('Failed to parse Claude response:', responseText);
-      // Return a fallback response
+      console.error('Failed to parse Claude response:', message.content);
       analysis = {
         confidence_score: 50,
         verdict: 'prudence',
@@ -119,31 +179,10 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
       };
     }
 
-    // Validate and sanitize the response
-    return {
-      confidence_score: Math.min(100, Math.max(0, parseInt(analysis.confidence_score) || 50)),
-      verdict: ['fiable', 'prudence', 'suspect'].includes(analysis.verdict) ? analysis.verdict : 'prudence',
-      summary: String(analysis.summary || 'Analyse non disponible'),
-      red_flags: Array.isArray(analysis.red_flags) ? analysis.red_flags.map(String) : [],
-      reassurance: String(analysis.reassurance || 'Restez vigilant et vérifiez les informations importantes.')
-    };
+    return sanitizeAnalysis(analysis);
 
   } catch (error) {
-    console.error('Anthropic API error:', error);
-
-    if (error.status === 401) {
-      throw new Error('Clé API invalide. Contactez l\'administrateur.');
-    }
-
-    if (error.status === 429) {
-      throw new Error('Trop de requêtes vers l\'API. Veuillez réessayer dans quelques instants.');
-    }
-
-    if (error.status === 500 || error.status === 503) {
-      throw new Error('Le service d\'analyse est temporairement indisponible. Réessayez plus tard.');
-    }
-
-    throw new Error('Échec de l\'analyse du contenu. Veuillez réessayer.');
+    handleApiError(error);
   }
 }
 
@@ -186,12 +225,17 @@ async function analyzeImages(images) {
     // Add the text prompt at the end
     const imageCount = images.length;
     const promptText = imageCount === 1
-      ? `Analyse cette image (capture d'écran, message, publication, etc.) et fournis ton évaluation en JSON uniquement.`
-      : `Analyse ces ${imageCount} images comme un ensemble cohérent (captures d'écran, messages, publications, etc.) et fournis ton évaluation globale en JSON uniquement.`;
+      ? `Analyse cette image (capture d'écran, message, publication, email, etc.).`
+      : `Analyse ces ${imageCount} images comme un ensemble cohérent (captures d'écran, messages, publications, emails, etc.).`;
 
     content.push({
       type: 'text',
       text: `${promptText}
+
+IMPORTANT: Utilise d'abord la recherche web pour :
+- Vérifier si l'entreprise/marque visible est légitime
+- Chercher des signalements d'arnaque similaires
+- Confirmer l'authenticité des informations visibles
 
 Examine attentivement :
 - Le contenu textuel visible
@@ -200,11 +244,11 @@ Examine attentivement :
 - Les techniques de persuasion ou d'arnaque
 ${imageCount > 1 ? '- Les liens et cohérence entre les différentes images' : ''}
 
-Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
+Après ta recherche, réponds UNIQUEMENT avec un objet JSON valide:
 {
   "confidence_score": <nombre entre 0 et 100>,
   "verdict": "<fiable|prudence|suspect>",
-  "summary": "<résumé en 2-3 phrases>",
+  "summary": "<résumé en 2-3 phrases mentionnant ce que tu as trouvé en recherche>",
   "red_flags": ["<signal 1>", "<signal 2>"],
   "reassurance": "<message bienveillant>"
 }`
@@ -212,8 +256,9 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
 
     const message = await client.messages.create({
       model: 'claude-sonnet-4-20250514',
-      max_tokens: 1024,
+      max_tokens: 2048,
       system: SYSTEM_PROMPT,
+      tools: [WEB_SEARCH_TOOL],
       messages: [
         {
           role: 'user',
@@ -222,19 +267,12 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
       ]
     });
 
-    const responseText = message.content[0].text.trim();
-
-    // Parse JSON response
+    // Extract JSON from potentially multi-block response
     let analysis;
     try {
-      const jsonMatch = responseText.match(/\{[\s\S]*\}/);
-      if (jsonMatch) {
-        analysis = JSON.parse(jsonMatch[0]);
-      } else {
-        throw new Error('No JSON found in response');
-      }
+      analysis = extractJsonFromResponse(message);
     } catch (parseError) {
-      console.error('Failed to parse Claude response:', responseText);
+      console.error('Failed to parse Claude response:', message.content);
       analysis = {
         confidence_score: 50,
         verdict: 'prudence',
@@ -244,31 +282,10 @@ Réponds UNIQUEMENT avec un objet JSON valide dans ce format exact:
       };
     }
 
-    // Validate and sanitize the response
-    return {
-      confidence_score: Math.min(100, Math.max(0, parseInt(analysis.confidence_score) || 50)),
-      verdict: ['fiable', 'prudence', 'suspect'].includes(analysis.verdict) ? analysis.verdict : 'prudence',
-      summary: String(analysis.summary || 'Analyse non disponible'),
-      red_flags: Array.isArray(analysis.red_flags) ? analysis.red_flags.map(String) : [],
-      reassurance: String(analysis.reassurance || 'Restez vigilant et vérifiez les informations importantes.')
-    };
+    return sanitizeAnalysis(analysis);
 
   } catch (error) {
-    console.error('Anthropic API error:', error);
-
-    if (error.status === 401) {
-      throw new Error('Clé API invalide. Contactez l\'administrateur.');
-    }
-
-    if (error.status === 429) {
-      throw new Error('Trop de requêtes vers l\'API. Veuillez réessayer dans quelques instants.');
-    }
-
-    if (error.status === 500 || error.status === 503) {
-      throw new Error('Le service d\'analyse est temporairement indisponible. Réessayez plus tard.');
-    }
-
-    throw new Error('Échec de l\'analyse des images. Veuillez réessayer.');
+    handleApiError(error);
   }
 }
 
