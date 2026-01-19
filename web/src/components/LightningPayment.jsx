@@ -8,7 +8,7 @@ function LightningPayment({ invoice, onPaymentConfirmed }) {
   const [checking, setChecking] = useState(false);
   const [paid, setPaid] = useState(false);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://serein-backend.onrender.com';
 
   // Check payment status every 3 seconds
   useEffect(() => {
