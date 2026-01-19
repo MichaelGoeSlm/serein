@@ -1,0 +1,81 @@
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: white;
+  border-bottom: 1px solid #e5e7eb;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.navbar-logo .logo-icon {
+  font-size: 28px;
+}
+
+.navbar-logo .logo-text {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1e3a5f;
+}
+
+.navbar-account {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.navbar-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #e5e7eb;
+  transition: border-color 0.2s ease;
+}
+
+.navbar-avatar:hover {
+  border-color: #2563eb;
+}
+
+.navbar-avatar-placeholder {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: #f3f4f6;
+  border: 2px solid #e5e7eb;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  transition: border-color 0.2s ease;
+}
+
+.navbar-avatar-placeholder:hover {
+  border-color: #2563eb;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .navbar {
+    padding: 12px 16px;
+  }
+
+  .navbar-logo .logo-text {
+    font-size: 20px;
+  }
+
+  .navbar-avatar,
+  .navbar-avatar-placeholder {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -3,6 +3,13 @@ import {
   getDoc,
   setDoc,
   updateDoc,
+  collection,
+  addDoc,
+  query,
+  where,
+  orderBy,
+  getDocs,
+  increment,
   serverTimestamp
 } from 'firebase/firestore';
 import { db } from './config';
@@ -83,6 +90,104 @@ export async function markOnboardingComplete(userId) {
     });
   } catch (error) {
     console.error('Error marking onboarding complete:', error);
+    throw error;
+  }
+}
+
+/**
+ * Save an analysis to Firestore
+ */
+export async function saveAnalysis(userId, analysis) {
+  try {
+    const analysesRef = collection(db, 'analyses');
+    const analysisData = {
+      userId,
+      type: analysis.type,
+      input: analysis.input || '',
+      verdict: analysis.verdict,
+      confidence: analysis.confidence || 0,
+      summary: analysis.summary || '',
+      redFlags: analysis.redFlags || [],
+      createdAt: serverTimestamp()
+    };
+
+    const docRef = await addDoc(analysesRef, analysisData);
+    return { id: docRef.id, ...analysisData };
+  } catch (error) {
+    console.error('Error saving analysis:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get all analyses for a user, sorted by date (newest first)
+ */
+export async function getAnalyses(userId) {
+  try {
+    const analysesRef = collection(db, 'analyses');
+    const q = query(
+      analysesRef,
+      where('userId', '==', userId),
+      orderBy('createdAt', 'desc')
+    );
+
+    const querySnapshot = await getDocs(q);
+    const analyses = [];
+    querySnapshot.forEach((doc) => {
+      analyses.push({ id: doc.id, ...doc.data() });
+    });
+
+    return analyses;
+  } catch (error) {
+    console.error('Error getting analyses:', error);
+    throw error;
+  }
+}
+
+/**
+ * Increment the analyses used counter for a user
+ */
+export async function incrementAnalysesUsed(userId) {
+  try {
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      'subscription.analysesUsed': increment(1)
+    });
+  } catch (error) {
+    console.error('Error incrementing analyses used:', error);
+    throw error;
+  }
+}
+
+/**
+ * Get the number of analyses used by a user
+ */
+export async function getAnalysesCount(userId) {
+  try {
+    const profile = await getUserProfile(userId);
+    return profile?.subscription?.analysesUsed || 0;
+  } catch (error) {
+    console.error('Error getting analyses count:', error);
+    throw error;
+  }
+}
+
+/**
+ * Activate premium subscription for a user
+ */
+export async function activatePremium(userId) {
+  try {
+    const userRef = doc(db, 'users', userId);
+    const now = new Date();
+    const oneYearLater = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate());
+
+    await updateDoc(userRef, {
+      'subscription.status': 'active',
+      'subscription.startDate': now.toISOString(),
+      'subscription.endDate': oneYearLater.toISOString()
+    });
+  } catch (error) {
+    console.error('Error activating premium:', error);
     throw error;
   }
 }

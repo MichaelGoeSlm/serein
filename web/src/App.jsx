@@ -6,6 +6,8 @@ import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import OnboardingPage from './pages/OnboardingPage';
 import AppPage from './pages/AppPage';
+import AccountPage from './pages/AccountPage';
+import PaymentPage from './pages/PaymentPage';
 import './App.css';
 
 function App() {
@@ -29,6 +31,22 @@ function App() {
               element={
                 <ProtectedRoute>
                   <AppPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/account"
+              element={
+                <ProtectedRoute>
+                  <AccountPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/payment"
+              element={
+                <ProtectedRoute>
+                  <PaymentPage />
                 </ProtectedRoute>
               }
             />

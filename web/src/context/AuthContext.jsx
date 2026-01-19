@@ -88,6 +88,15 @@ export function AuthProvider({ children }) {
     }
   };
 
+  // Compute subscription status
+  const subscription = userProfile?.subscription || {};
+  const isPremium = subscription.status === 'active' &&
+    subscription.endDate &&
+    new Date(subscription.endDate) > new Date();
+  const analysesUsed = subscription.analysesUsed || 0;
+  const analysesRemaining = isPremium ? Infinity : Math.max(0, 3 - analysesUsed);
+  const canAnalyze = isPremium || analysesUsed < 3;
+
   const value = {
     user,
     userProfile,
@@ -95,7 +104,12 @@ export function AuthProvider({ children }) {
     signIn,
     signOut,
     refreshUserProfile,
-    isAuthenticated: !!user
+    isAuthenticated: !!user,
+    // Subscription helpers
+    isPremium,
+    analysesUsed,
+    analysesRemaining,
+    canAnalyze
   };
 
   return (

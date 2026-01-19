@@ -1,0 +1,142 @@
+.paywall-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 24px;
+  animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.paywall-modal {
+  background: white;
+  border-radius: 24px;
+  padding: 40px 32px;
+  max-width: 420px;
+  width: 100%;
+  text-align: center;
+  animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.paywall-icon {
+  font-size: 64px;
+  margin-bottom: 24px;
+}
+
+.paywall-title {
+  font-size: 24px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.paywall-subtitle {
+  font-size: 18px;
+  color: #4b5563;
+  margin-bottom: 32px;
+  line-height: 1.5;
+}
+
+.paywall-price {
+  background: #f8f9fa;
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.price-amount {
+  font-size: 32px;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.price-period {
+  font-size: 18px;
+  color: #6b7280;
+  margin-left: 8px;
+}
+
+.paywall-button {
+  width: 100%;
+  padding: 18px 24px;
+  font-size: 18px;
+  font-weight: 600;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  margin-bottom: 12px;
+}
+
+.paywall-button.primary {
+  background: linear-gradient(135deg, #f59e0b, #d97706);
+  color: white;
+}
+
+.paywall-button.primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.4);
+}
+
+.paywall-button.secondary {
+  background: transparent;
+  color: #6b7280;
+  border: 2px solid #e5e7eb;
+}
+
+.paywall-button.secondary:hover {
+  background: #f3f4f6;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  .paywall-modal {
+    padding: 32px 24px;
+  }
+
+  .paywall-title {
+    font-size: 20px;
+  }
+
+  .paywall-subtitle {
+    font-size: 16px;
+  }
+
+  .price-amount {
+    font-size: 28px;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .paywall-overlay,
+  .paywall-modal {
+    animation: none;
+  }
+
+  .paywall-button {
+    transition: none;
+  }
+}
