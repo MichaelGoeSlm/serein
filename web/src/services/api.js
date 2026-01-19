@@ -49,3 +49,25 @@ export async function analyzeImages(imagesBase64Array) {
     }
   }
 }
+
+export async function analyzeText(text) {
+  try {
+    const response = await axios.post(`${API_URL}/api/analyze/text`, { text }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: 120000 // 120 seconds timeout for text analysis with web search
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data?.error || 'Une erreur est survenue lors de l\'analyse du texte';
+      throw new Error(message);
+    } else if (error.request) {
+      throw new Error('Impossible de contacter le serveur. Vérifiez que le backend est démarré.');
+    } else {
+      throw new Error('Erreur lors de la préparation de la requête.');
+    }
+  }
+}

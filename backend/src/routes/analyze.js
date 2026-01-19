@@ -129,4 +129,46 @@ router.post('/image', async (req, res) => {
   }
 });
 
+// Text analysis route
+router.post('/text', async (req, res) => {
+  try {
+    const { text } = req.body;
+
+    // Validate text presence
+    if (!text || typeof text !== 'string' || text.trim().length === 0) {
+      return res.status(400).json({
+        error: 'Texte requis. Veuillez fournir un texte à analyser.'
+      });
+    }
+
+    // Validate text length
+    if (text.length > 10000) {
+      return res.status(400).json({
+        error: 'Le texte est trop long. Maximum 10 000 caractères.'
+      });
+    }
+
+    // Analyze with Claude
+    const analysis = await analyzer.analyzeText(text);
+
+    res.json({
+      success: true,
+      type: 'text',
+      textLength: text.length,
+      analysis
+    });
+
+  } catch (error) {
+    console.error('Text analysis error:', error.message);
+
+    const errorMessage = error.message || 'Échec de l\'analyse du texte';
+    const statusCode = error.statusCode || 500;
+
+    res.status(statusCode).json({
+      success: false,
+      error: errorMessage
+    });
+  }
+});
+
 module.exports = router;

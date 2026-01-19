@@ -53,6 +53,19 @@ Réponds UNIQUEMENT en JSON valide :
   "reassurance": "(message bienveillant et rassurant)"
 }
 
+=== POUR LES EMAILS ===
+
+Vérifie particulièrement :
+- L'expéditeur correspond-il au domaine de l'entreprise ?
+- Y a-t-il des demandes de données personnelles ou bancaires ?
+- Le ton est-il menaçant ou urgent ?
+
+Utilise ces formulations adaptées dans tes réponses :
+- Si expéditeur suspect : "L'expéditeur ne semble pas correspondre à l'entreprise mentionnée"
+- Si promesse financière : "Ce message contient des promesses financières qui semblent irréalistes"
+- Si demande de données : "Attention : ne communiquez jamais vos identifiants par email"
+- Si légitime : "Cet email semble provenir d'une source légitime"
+
 === IMPORTANT ===
 - En cas de doute, privilégie "fiable" ou "prudence" plutôt que "suspect"
 - Un email d'entreprise avec domaine cohérent est probablement légitime
@@ -289,4 +302,79 @@ Après ta recherche, réponds UNIQUEMENT avec un objet JSON valide:
   }
 }
 
-module.exports = { analyze, analyzeImages };
+async function analyzeText(text) {
+  // Check for API key
+  if (!process.env.ANTHROPIC_API_KEY) {
+    throw new Error('Clé API Anthropic non configurée. Contactez l\'administrateur.');
+  }
+
+  if (!text || text.trim().length === 0) {
+    throw new Error('Aucun texte fourni.');
+  }
+
+  if (text.length > 10000) {
+    throw new Error('Le texte est trop long. Maximum 10 000 caractères.');
+  }
+
+  const client = new Anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY
+  });
+
+  try {
+    const userPrompt = `Analyse ce texte (email, message, ou contenu suspect). Utilise d'abord la recherche web pour vérifier la légitimité des informations mentionnées.
+
+TEXTE À ANALYSER:
+---
+${text}
+---
+
+IMPORTANT: Utilise la recherche web pour :
+- Vérifier si l'entreprise/expéditeur mentionné existe et est légitime
+- Chercher des signalements d'arnaque similaires
+- Confirmer l'authenticité des informations (numéros, adresses, offres)
+
+Après ta recherche, réponds UNIQUEMENT avec un objet JSON valide:
+{
+  "confidence_score": <nombre entre 0 et 100>,
+  "verdict": "<fiable|prudence|suspect>",
+  "summary": "<résumé en 2-3 phrases mentionnant ce que tu as trouvé en recherche>",
+  "red_flags": ["<signal 1>", "<signal 2>"],
+  "reassurance": "<message bienveillant>"
+}`;
+
+    const message = await client.messages.create({
+      model: 'claude-sonnet-4-20250514',
+      max_tokens: 2048,
+      system: SYSTEM_PROMPT,
+      tools: [WEB_SEARCH_TOOL],
+      messages: [
+        {
+          role: 'user',
+          content: userPrompt
+        }
+      ]
+    });
+
+    // Extract JSON from potentially multi-block response
+    let analysis;
+    try {
+      analysis = extractJsonFromResponse(message);
+    } catch (parseError) {
+      console.error('Failed to parse Claude response:', message.content);
+      analysis = {
+        confidence_score: 50,
+        verdict: 'prudence',
+        summary: 'L\'analyse du texte n\'a pas pu être complétée correctement.',
+        red_flags: ['Analyse automatique incomplète'],
+        reassurance: 'En cas de doute, vérifiez les informations auprès de sources officielles.'
+      };
+    }
+
+    return sanitizeAnalysis(analysis);
+
+  } catch (error) {
+    handleApiError(error);
+  }
+}
+
+module.exports = { analyze, analyzeImages, analyzeText };
