@@ -14,6 +14,11 @@ function AccountPage() {
   const [loadingAnalyses, setLoadingAnalyses] = useState(true);
 
   useEffect(() => {
+    // Refresh user profile on mount to get latest data
+    refreshUserProfile();
+  }, []);
+
+  useEffect(() => {
     const fetchAnalyses = async () => {
       if (user) {
         try {
