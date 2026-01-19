@@ -4,6 +4,21 @@ const translations = {
     appName: "Serein",
     tagline: "Analysez vos liens, images et textes en toute sérénité",
 
+    // Navigation
+    nav: {
+      myAccount: "Mon compte",
+      verifyContent: "Vérifier un contenu"
+    },
+
+    // History details
+    history: {
+      viewDetails: "Détails de l'analyse",
+      analysisDate: "Date de l'analyse",
+      contentType: "Type de contenu",
+      analyzedContent: "Contenu analysé",
+      closeDetails: "Fermer"
+    },
+
     // Landing page
     landing: {
       heroTitle: "Protégez-vous des arnaques en ligne",
@@ -204,6 +219,21 @@ const translations = {
     appName: "Serein",
     tagline: "Analyze your links, images, and texts with peace of mind",
 
+    // Navigation
+    nav: {
+      myAccount: "My account",
+      verifyContent: "Verify content"
+    },
+
+    // History details
+    history: {
+      viewDetails: "Analysis details",
+      analysisDate: "Analysis date",
+      contentType: "Content type",
+      analyzedContent: "Analyzed content",
+      closeDetails: "Close"
+    },
+
     // Landing page
     landing: {
       heroTitle: "Protect yourself from online scams",
@@ -403,6 +433,21 @@ const translations = {
     // Header
     appName: "Serein",
     tagline: "Analiza tus enlaces, imágenes y textos con tranquilidad",
+
+    // Navigation
+    nav: {
+      myAccount: "Mi cuenta",
+      verifyContent: "Verificar contenido"
+    },
+
+    // History details
+    history: {
+      viewDetails: "Detalles del análisis",
+      analysisDate: "Fecha del análisis",
+      contentType: "Tipo de contenido",
+      analyzedContent: "Contenido analizado",
+      closeDetails: "Cerrar"
+    },
 
     // Landing page
     landing: {
