@@ -37,23 +37,22 @@ const translations = {
 
     // Onboarding
     onboarding: {
-      step1Title: "Choisissez votre langue",
-      step1Description: "Serein s'adapte à votre langue préférée.",
-      step2Title: "Comment ça marche",
-      step2Description: "Serein analyse vos contenus pour détecter les arnaques.",
-      feature1Title: "Analysez des liens",
-      feature1Description: "Collez l'URL d'un site ou d'un article suspect.",
-      feature2Title: "Analysez des images",
-      feature2Description: "Importez des captures d'écran de messages suspects.",
-      feature3Title: "Analysez des textes",
-      feature3Description: "Copiez-collez le contenu d'un email douteux.",
-      step3Title: "Vous êtes prêt !",
-      step3Description: "Commencez à utiliser Serein en toute sérénité.",
-      freeAnalyses: "Vous avez 3 analyses gratuites",
-      upgradeNote: "Passez à l'illimité pour 29€/an",
-      back: "Retour",
+      step1Title: "Serein analyse vos contenus",
+      step1Text: "Collez un lien, une image ou un texte suspect. Notre IA verifie s'il s'agit d'une arnaque ou d'un contenu trompeur.",
+
+      step2Title: "Votre vie privee est protegee",
+      step2List1: "Pas de publicite",
+      step2List2: "Pas de revente de donnees",
+      step2List3: "Pas de jugement",
+      step2Text: "Serein est la pour vous aider, pas pour vous surveiller.",
+
+      step3Title: "C'est tres simple",
+      step3Item1: "Copiez un lien suspect ou prenez une capture d'ecran",
+      step3Item2: "Collez-le dans Serein",
+      step3Item3: "Lisez le verdict en quelques secondes",
+
       next: "Suivant",
-      start: "Commencer"
+      start: "Commencer a utiliser Serein"
     },
 
     // Tabs
@@ -185,23 +184,22 @@ const translations = {
 
     // Onboarding
     onboarding: {
-      step1Title: "Choose your language",
-      step1Description: "Serein adapts to your preferred language.",
-      step2Title: "How it works",
-      step2Description: "Serein analyzes your content to detect scams.",
-      feature1Title: "Analyze links",
-      feature1Description: "Paste the URL of a suspicious site or article.",
-      feature2Title: "Analyze images",
-      feature2Description: "Upload screenshots of suspicious messages.",
-      feature3Title: "Analyze texts",
-      feature3Description: "Copy and paste the content of a suspicious email.",
-      step3Title: "You're ready!",
-      step3Description: "Start using Serein with peace of mind.",
-      freeAnalyses: "You have 3 free analyses",
-      upgradeNote: "Upgrade to unlimited for 29 EUR/year",
-      back: "Back",
+      step1Title: "Serein analyzes your content",
+      step1Text: "Paste a suspicious link, image, or text. Our AI checks if it's a scam or misleading content.",
+
+      step2Title: "Your privacy is protected",
+      step2List1: "No ads",
+      step2List2: "No data resale",
+      step2List3: "No judgment",
+      step2Text: "Serein is here to help you, not to monitor you.",
+
+      step3Title: "It's very simple",
+      step3Item1: "Copy a suspicious link or take a screenshot",
+      step3Item2: "Paste it into Serein",
+      step3Item3: "Read the verdict in seconds",
+
       next: "Next",
-      start: "Get started"
+      start: "Start using Serein"
     },
 
     // Tabs
@@ -333,23 +331,22 @@ const translations = {
 
     // Onboarding
     onboarding: {
-      step1Title: "Elige tu idioma",
-      step1Description: "Serein se adapta a tu idioma preferido.",
-      step2Title: "Cómo funciona",
-      step2Description: "Serein analiza tus contenidos para detectar estafas.",
-      feature1Title: "Analiza enlaces",
-      feature1Description: "Pega la URL de un sitio o artículo sospechoso.",
-      feature2Title: "Analiza imágenes",
-      feature2Description: "Sube capturas de pantalla de mensajes sospechosos.",
-      feature3Title: "Analiza textos",
-      feature3Description: "Copia y pega el contenido de un email sospechoso.",
-      step3Title: "¡Estás listo!",
-      step3Description: "Empieza a usar Serein con tranquilidad.",
-      freeAnalyses: "Tienes 3 análisis gratis",
-      upgradeNote: "Pasa a ilimitado por 29 EUR/año",
-      back: "Atrás",
+      step1Title: "Serein analiza tu contenido",
+      step1Text: "Pega un enlace, imagen o texto sospechoso. Nuestra IA verifica si es una estafa o contenido enganoso.",
+
+      step2Title: "Tu privacidad esta protegida",
+      step2List1: "Sin publicidad",
+      step2List2: "Sin venta de datos",
+      step2List3: "Sin juicios",
+      step2Text: "Serein esta aqui para ayudarte, no para vigilarte.",
+
+      step3Title: "Es muy simple",
+      step3Item1: "Copia un enlace sospechoso o haz una captura de pantalla",
+      step3Item2: "Pegalo en Serein",
+      step3Item3: "Lee el veredicto en segundos",
+
       next: "Siguiente",
-      start: "Empezar"
+      start: "Empezar a usar Serein"
     },
 
     // Tabs

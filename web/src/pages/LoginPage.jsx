@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
@@ -7,38 +7,32 @@ import './LoginPage.css';
 
 function LoginPage() {
   const { t } = useLanguage();
-  const { signIn, user } = useAuth();
+  const { signIn, user, userProfile } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
   // Redirect if already logged in
-  if (user) {
-    const onboardingCompleted = localStorage.getItem(`serein_onboarding_${user.uid}`);
-    if (onboardingCompleted) {
-      navigate('/app', { replace: true });
-    } else {
-      navigate('/onboarding', { replace: true });
+  useEffect(() => {
+    if (user && userProfile) {
+      if (userProfile.onboardingCompleted) {
+        navigate('/app', { replace: true });
+      } else {
+        navigate('/onboarding', { replace: true });
+      }
     }
-  }
+  }, [user, userProfile, navigate]);
 
   const handleGoogleLogin = async () => {
     setLoading(true);
     setError(null);
 
     try {
-      const user = await signIn();
-      // Check if onboarding is completed
-      const onboardingCompleted = localStorage.getItem(`serein_onboarding_${user.uid}`);
-      if (onboardingCompleted) {
-        navigate('/app');
-      } else {
-        navigate('/onboarding');
-      }
+      await signIn();
+      // Navigation will happen via the useEffect when userProfile loads
     } catch (err) {
       console.error('Login error:', err);
       setError(t('login.error'));
-    } finally {
       setLoading(false);
     }
   };
