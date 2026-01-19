@@ -29,8 +29,22 @@
 
 .navbar-account {
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
+  text-decoration: none;
+  gap: 4px;
+}
+
+.navbar-account-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  transition: color 0.2s ease;
+}
+
+.navbar-account:hover .navbar-account-text {
+  color: #2563eb;
 }
 
 .navbar-avatar {

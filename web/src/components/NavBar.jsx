@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { useLanguage } from '../i18n/LanguageContext';
 import './NavBar.css';
 
 function NavBar() {
   const { user } = useAuth();
+  const { t } = useLanguage();
 
   return (
     <nav className="navbar">
@@ -25,6 +27,7 @@ function NavBar() {
             <span>👤</span>
           </div>
         )}
+        <span className="navbar-account-text">{t('nav.myAccount')}</span>
       </Link>
     </nav>
   );

@@ -12,6 +12,7 @@ function AccountPage() {
   const navigate = useNavigate();
   const [analyses, setAnalyses] = useState([]);
   const [loadingAnalyses, setLoadingAnalyses] = useState(true);
+  const [selectedAnalysis, setSelectedAnalysis] = useState(null);
 
   // Debug logs
   console.log('🔍 AccountPage - isPremium:', isPremium);
@@ -104,11 +105,46 @@ function AccountPage() {
 
   const premiumEndDate = getEndDateFormatted();
 
+  const formatFullDate = (timestamp) => {
+    if (!timestamp) return '';
+    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    return date.toLocaleDateString(language, {
+      weekday: 'long',
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  };
+
+  const getTypeLabel = (type) => {
+    switch (type) {
+      case 'link': return t('tabLink');
+      case 'image': return t('tabImage');
+      case 'text': return t('tabText');
+      default: return type;
+    }
+  };
+
+  const getVerdictLabel = (verdict) => {
+    return t(`verdict.${verdict}`) || verdict;
+  };
+
   return (
     <div className="account-page">
       <NavBar />
 
       <div className="account-content">
+        {/* Verify Content Button */}
+        <button
+          className="verify-content-button"
+          onClick={() => navigate('/app')}
+        >
+          <span className="verify-icon">🛡️</span>
+          {t('nav.verifyContent')}
+        </button>
+
         <h1 className="account-title">{t('account.title')}</h1>
 
         {/* Profile Section */}
@@ -200,7 +236,11 @@ function AccountPage() {
               <p className="history-empty">{t('account.noHistory')}</p>
             ) : (
               analyses.map((analysis) => (
-                <div key={analysis.id} className="history-item">
+                <div
+                  key={analysis.id}
+                  className="history-item history-item-clickable"
+                  onClick={() => setSelectedAnalysis(analysis)}
+                >
                   <span className="history-type">{getTypeIcon(analysis.type)}</span>
                   <div className="history-details">
                     <p className="history-input">
@@ -212,6 +252,7 @@ function AccountPage() {
                   <span className={`history-verdict ${getVerdictClass(analysis.verdict)}`}>
                     {t(`verdict.${analysis.verdict}`)}
                   </span>
+                  <span className="history-arrow">›</span>
                 </div>
               ))
             )}
@@ -225,6 +266,93 @@ function AccountPage() {
           </button>
         </section>
       </div>
+
+      {/* Analysis Details Modal */}
+      {selectedAnalysis && (
+        <div className="analysis-modal-overlay" onClick={() => setSelectedAnalysis(null)}>
+          <div className="analysis-modal" onClick={(e) => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{t('history.viewDetails')}</h2>
+              <button className="modal-close" onClick={() => setSelectedAnalysis(null)}>✕</button>
+            </div>
+
+            <div className="modal-content">
+              {/* Date */}
+              <div className="modal-section">
+                <label>{t('history.analysisDate')}</label>
+                <p>{formatFullDate(selectedAnalysis.createdAt)}</p>
+              </div>
+
+              {/* Type */}
+              <div className="modal-section">
+                <label>{t('history.contentType')}</label>
+                <p>{getTypeIcon(selectedAnalysis.type)} {getTypeLabel(selectedAnalysis.type)}</p>
+              </div>
+
+              {/* Analyzed content */}
+              <div className="modal-section">
+                <label>{t('history.analyzedContent')}</label>
+                {selectedAnalysis.type === 'image' ? (
+                  <div className="modal-image-preview">
+                    {selectedAnalysis.input?.startsWith('data:') ? (
+                      <img src={selectedAnalysis.input} alt="Analyzed" />
+                    ) : (
+                      <p className="modal-text-content">{selectedAnalysis.input}</p>
+                    )}
+                  </div>
+                ) : (
+                  <p className="modal-text-content">{selectedAnalysis.input}</p>
+                )}
+              </div>
+
+              {/* Verdict */}
+              <div className="modal-section">
+                <label>{t('trustLevel')}</label>
+                <div className={`modal-verdict ${getVerdictClass(selectedAnalysis.verdict)}`}>
+                  {getVerdictLabel(selectedAnalysis.verdict)}
+                  {selectedAnalysis.confidence && (
+                    <span className="modal-confidence"> ({selectedAnalysis.confidence}%)</span>
+                  )}
+                </div>
+              </div>
+
+              {/* Summary */}
+              {selectedAnalysis.summary && (
+                <div className="modal-section">
+                  <label>{t('summary')}</label>
+                  <p>{selectedAnalysis.summary}</p>
+                </div>
+              )}
+
+              {/* Red flags */}
+              {selectedAnalysis.redFlags && selectedAnalysis.redFlags.length > 0 && (
+                <div className="modal-section">
+                  <label>{t('redFlags')}</label>
+                  <ul className="modal-red-flags">
+                    {selectedAnalysis.redFlags.map((flag, index) => (
+                      <li key={index}>⚠️ {flag}</li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
+              {/* Reassurance */}
+              {selectedAnalysis.reassurance && (
+                <div className="modal-section">
+                  <label>{t('reassurance')}</label>
+                  <p className="modal-reassurance">{selectedAnalysis.reassurance}</p>
+                </div>
+              )}
+            </div>
+
+            <div className="modal-footer">
+              <button className="modal-close-btn" onClick={() => setSelectedAnalysis(null)}>
+                {t('history.closeDetails')}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
