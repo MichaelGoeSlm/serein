@@ -2,22 +2,29 @@ const express = require('express');
 const router = express.Router();
 const scraper = require('../services/scraper');
 const analyzer = require('../services/analyzer');
+const { getError } = require('../utils/errors');
+
+// Helper to get valid language
+function getValidLang(lang) {
+  return ['fr', 'en', 'es'].includes(lang) ? lang : 'fr';
+}
 
 router.post('/', async (req, res) => {
-  try {
-    const { url } = req.body;
+  const { url, lang } = req.body;
+  const validLang = getValidLang(lang);
 
+  try {
     // Validate URL presence
     if (!url) {
       return res.status(400).json({
-        error: 'URL requise. Veuillez fournir une URL à analyser.'
+        error: getError('invalidUrl', validLang)
       });
     }
 
     // Validate URL format: must start with http:// or https://
     if (!url.startsWith('http://') && !url.startsWith('https://')) {
       return res.status(400).json({
-        error: 'URL invalide. L\'URL doit commencer par http:// ou https://'
+        error: getError('invalidUrl', validLang)
       });
     }
 
@@ -26,7 +33,7 @@ router.post('/', async (req, res) => {
       new URL(url);
     } catch {
       return res.status(400).json({
-        error: 'Format d\'URL invalide. Veuillez vérifier l\'URL.'
+        error: getError('invalidUrl', validLang)
       });
     }
 
@@ -34,7 +41,7 @@ router.post('/', async (req, res) => {
     const scrapedContent = await scraper.scrape(url);
 
     // Analyze with Claude
-    const analysis = await analyzer.analyze(scrapedContent);
+    const analysis = await analyzer.analyze(scrapedContent, validLang);
 
     res.json({
       success: true,
@@ -46,8 +53,7 @@ router.post('/', async (req, res) => {
   } catch (error) {
     console.error('Analysis error:', error.message);
 
-    // Return appropriate error message
-    const errorMessage = error.message || 'Échec de l\'analyse de l\'URL';
+    const errorMessage = error.message || getError('analysisFailed', validLang);
     const statusCode = error.statusCode || 500;
 
     res.status(statusCode).json({
@@ -59,20 +65,21 @@ router.post('/', async (req, res) => {
 
 // Image analysis route (supports multiple images)
 router.post('/image', async (req, res) => {
-  try {
-    const { images } = req.body;
+  const { images, lang } = req.body;
+  const validLang = getValidLang(lang);
 
+  try {
     // Validate images presence
     if (!images || !Array.isArray(images) || images.length === 0) {
       return res.status(400).json({
-        error: 'Images requises. Veuillez fournir un tableau d\'images en base64.'
+        error: getError('noImages', validLang)
       });
     }
 
     // Validate max images
     if (images.length > 5) {
       return res.status(400).json({
-        error: 'Maximum 5 images autorisées.'
+        error: getError('tooManyImages', validLang)
       });
     }
 
@@ -95,8 +102,13 @@ router.post('/image', async (req, res) => {
 
       // Validate media type
       if (!allowedTypes.includes(mediaType)) {
+        const errorMsg = {
+          fr: `Image ${i + 1}: Format non supporté. Utilisez PNG, JPEG, GIF ou WebP.`,
+          en: `Image ${i + 1}: Unsupported format. Use PNG, JPEG, GIF or WebP.`,
+          es: `Imagen ${i + 1}: Formato no soportado. Usa PNG, JPEG, GIF o WebP.`
+        };
         return res.status(400).json({
-          error: `Image ${i + 1}: Format non supporté. Utilisez PNG, JPEG, GIF ou WebP.`
+          error: errorMsg[validLang]
         });
       }
 
@@ -107,7 +119,7 @@ router.post('/image', async (req, res) => {
     }
 
     // Analyze all images with Claude
-    const analysis = await analyzer.analyzeImages(processedImages);
+    const analysis = await analyzer.analyzeImages(processedImages, validLang);
 
     res.json({
       success: true,
@@ -119,7 +131,7 @@ router.post('/image', async (req, res) => {
   } catch (error) {
     console.error('Image analysis error:', error.message);
 
-    const errorMessage = error.message || 'Échec de l\'analyse des images';
+    const errorMessage = error.message || getError('analysisFailed', validLang);
     const statusCode = error.statusCode || 500;
 
     res.status(statusCode).json({
@@ -131,25 +143,26 @@ router.post('/image', async (req, res) => {
 
 // Text analysis route
 router.post('/text', async (req, res) => {
-  try {
-    const { text } = req.body;
+  const { text, lang } = req.body;
+  const validLang = getValidLang(lang);
 
+  try {
     // Validate text presence
     if (!text || typeof text !== 'string' || text.trim().length === 0) {
       return res.status(400).json({
-        error: 'Texte requis. Veuillez fournir un texte à analyser.'
+        error: getError('noText', validLang)
       });
     }
 
     // Validate text length
     if (text.length > 10000) {
       return res.status(400).json({
-        error: 'Le texte est trop long. Maximum 10 000 caractères.'
+        error: getError('textTooLong', validLang)
       });
     }
 
     // Analyze with Claude
-    const analysis = await analyzer.analyzeText(text);
+    const analysis = await analyzer.analyzeText(text, validLang);
 
     res.json({
       success: true,
@@ -161,7 +174,7 @@ router.post('/text', async (req, res) => {
   } catch (error) {
     console.error('Text analysis error:', error.message);
 
-    const errorMessage = error.message || 'Échec de l\'analyse du texte';
+    const errorMessage = error.message || getError('analysisFailed', validLang);
     const statusCode = error.statusCode || 500;
 
     res.status(statusCode).json({

@@ -28,6 +28,12 @@ body {
   margin-bottom: 40px;
 }
 
+.header-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
 .logo {
   display: flex;
   align-items: center;

@@ -2,39 +2,35 @@ import axios from 'axios';
 
 const API_URL = "https://serein-backend.onrender.com";
 
-export async function analyzeUrl(url) {
+export async function analyzeUrl(url, lang = 'fr') {
   try {
-    const response = await axios.post(`${API_URL}/api/analyze`, { url }, {
+    const response = await axios.post(`${API_URL}/api/analyze`, { url, lang }, {
       headers: {
         'Content-Type': 'application/json'
       },
-      timeout: 60000 // 60 seconds timeout for analysis
+      timeout: 60000
     });
 
     return response.data;
   } catch (error) {
-    // Handle axios errors
     if (error.response) {
-      // Server responded with error status
       const message = error.response.data?.error || 'Une erreur est survenue lors de l\'analyse';
       throw new Error(message);
     } else if (error.request) {
-      // Request made but no response received
       throw new Error('Impossible de contacter le serveur. Vérifiez que le backend est démarré.');
     } else {
-      // Error setting up request
       throw new Error('Erreur lors de la préparation de la requête.');
     }
   }
 }
 
-export async function analyzeImages(imagesBase64Array) {
+export async function analyzeImages(imagesBase64Array, lang = 'fr') {
   try {
-    const response = await axios.post(`${API_URL}/api/analyze/image`, { images: imagesBase64Array }, {
+    const response = await axios.post(`${API_URL}/api/analyze/image`, { images: imagesBase64Array, lang }, {
       headers: {
         'Content-Type': 'application/json'
       },
-      timeout: 120000 // 120 seconds timeout for multiple image analysis
+      timeout: 120000
     });
 
     return response.data;
@@ -50,13 +46,13 @@ export async function analyzeImages(imagesBase64Array) {
   }
 }
 
-export async function analyzeText(text) {
+export async function analyzeText(text, lang = 'fr') {
   try {
-    const response = await axios.post(`${API_URL}/api/analyze/text`, { text }, {
+    const response = await axios.post(`${API_URL}/api/analyze/text`, { text, lang }, {
       headers: {
         'Content-Type': 'application/json'
       },
-      timeout: 120000 // 120 seconds timeout for text analysis with web search
+      timeout: 120000
     });
 
     return response.data;

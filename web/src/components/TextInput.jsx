@@ -1,9 +1,11 @@
 import { useState } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
 import './TextInput.css';
 
 const MAX_CHARS = 10000;
 
 function TextInput({ onAnalyzeText, isLoading }) {
+  const { t } = useLanguage();
   const [text, setText] = useState('');
 
   const handleSubmit = (e) => {
@@ -23,13 +25,13 @@ function TextInput({ onAnalyzeText, isLoading }) {
           <textarea
             value={text}
             onChange={(e) => setText(e.target.value)}
-            placeholder="Collez ici le texte d'un email ou d'un message suspect..."
+            placeholder={t('textPlaceholder')}
             disabled={isLoading}
             className="text-area"
             rows={8}
           />
           <div className={`char-counter ${isOverLimit ? 'over-limit' : ''}`}>
-            {charCount.toLocaleString('fr-FR')} / {MAX_CHARS.toLocaleString('fr-FR')} caractères
+            {charCount.toLocaleString()} / {MAX_CHARS.toLocaleString()} {t('characters')}
           </div>
         </div>
         <button
@@ -40,17 +42,15 @@ function TextInput({ onAnalyzeText, isLoading }) {
           {isLoading ? (
             <span className="loading-text">
               <span className="spinner"></span>
-              Analyse...
+              {t('analyzing')}
             </span>
           ) : (
-            'Analyser ce texte'
+            t('analyzeText')
           )}
         </button>
       </form>
       {isOverLimit && (
-        <p className="error-hint">
-          Le texte est trop long. Veuillez le réduire à {MAX_CHARS.toLocaleString('fr-FR')} caractères maximum.
-        </p>
+        <p className="error-hint">{t('textTooLong')}</p>
       )}
     </div>
   );

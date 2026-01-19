@@ -1,43 +1,52 @@
+import { useLanguage } from '../i18n/LanguageContext';
 import './ResultCard.css';
 
 function ResultCard({ result }) {
+  const { t } = useLanguage();
+
   if (!result) return null;
 
-  const { analysis, url, title, type, imageCount } = result;
+  const { analysis, url, title, type, imageCount, textLength } = result;
   const { confidence_score, verdict, summary, red_flags, reassurance } = analysis;
   const isImage = type === 'image';
+  const isText = type === 'text';
 
-  const getImageTitle = () => {
-    if (!isImage) return title || 'Page analysée';
-    if (imageCount && imageCount > 1) {
-      return `📷 ${imageCount} images analysées`;
+  const getTitle = () => {
+    if (isImage) {
+      if (imageCount && imageCount > 1) {
+        return `📷 ${imageCount} ${t('imageLimit')}`;
+      }
+      return `📷 ${t('tabImage')}`;
     }
-    return '📷 Image analysée';
+    if (isText) {
+      return `📝 ${t('tabText')} (${textLength} ${t('characters')})`;
+    }
+    return title || url || t('summary');
   };
 
-  const getVerdictConfig = (verdict) => {
-    switch (verdict) {
+  const getVerdictConfig = (v) => {
+    switch (v) {
       case 'fiable':
         return {
-          label: 'Fiable',
+          label: t('verdict.fiable'),
           className: 'verdict-safe',
           icon: '✓'
         };
       case 'prudence':
         return {
-          label: 'Prudence',
+          label: t('verdict.prudence'),
           className: 'verdict-caution',
           icon: '⚠'
         };
       case 'suspect':
         return {
-          label: 'Suspect',
+          label: t('verdict.suspect'),
           className: 'verdict-danger',
           icon: '✗'
         };
       default:
         return {
-          label: 'Inconnu',
+          label: t('verdict.prudence'),
           className: 'verdict-caution',
           icon: '?'
         };
@@ -49,7 +58,7 @@ function ResultCard({ result }) {
   return (
     <div className="result-card">
       <div className="result-header">
-        <h2 className="result-title">{getImageTitle()}</h2>
+        <h2 className="result-title">{getTitle()}</h2>
         {url && <p className="result-url">{url}</p>}
       </div>
 
@@ -60,7 +69,7 @@ function ResultCard({ result }) {
 
       <div className="confidence-section">
         <div className="confidence-header">
-          <span>Niveau de confiance</span>
+          <span>{t('trustLevel')}</span>
           <span className="confidence-value">{confidence_score}%</span>
         </div>
         <div className="confidence-bar">
@@ -72,13 +81,13 @@ function ResultCard({ result }) {
       </div>
 
       <div className="summary-section">
-        <h3>Résumé</h3>
+        <h3>{t('summary')}</h3>
         <p>{summary}</p>
       </div>
 
       {red_flags && red_flags.length > 0 && (
         <div className="red-flags-section">
-          <h3>Signaux d'alerte</h3>
+          <h3>{t('redFlags')}</h3>
           <ul className="red-flags-list">
             {red_flags.map((flag, index) => (
               <li key={index} className="red-flag-item">

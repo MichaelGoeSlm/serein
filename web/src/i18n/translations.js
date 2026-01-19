@@ -1,0 +1,198 @@
+const translations = {
+  fr: {
+    // Header
+    appName: "Serein",
+    tagline: "Analysez vos liens, images et textes en toute sérénité",
+
+    // Tabs
+    tabLink: "Lien",
+    tabImage: "Image",
+    tabText: "Texte",
+
+    // Link input
+    linkPlaceholder: "Collez votre lien ici (ex: https://exemple.com)",
+    linkHint: "Collez l'URL d'une page web, d'un article ou d'un site suspect",
+    analyzeLink: "Analyser ce lien",
+
+    // Image input
+    imageButton: "Cliquez pour sélectionner des images",
+    imageDragHint: "ou glissez-déposez vos fichiers ici",
+    imageFormats: "Formats acceptés : PNG, JPEG, GIF, WebP (max 5 Mo par image)",
+    imageLimit: "images",
+    addMore: "Ajouter",
+    analyzeImage: "Analyser cette image",
+    analyzeImages: "Analyser ces images",
+    removeAll: "Tout supprimer",
+    maxImagesAlert: "Maximum 5 images autorisées.",
+    imageTooLarge: "est trop volumineuse. Maximum 5 Mo par image.",
+    invalidImage: "n'est pas une image valide.",
+
+    // Text input
+    textPlaceholder: "Collez ici le texte d'un email ou d'un message suspect...",
+    analyzeText: "Analyser ce texte",
+    characters: "caractères",
+    textTooLong: "Le texte est trop long. Veuillez le réduire à 10 000 caractères maximum.",
+
+    // Loading
+    analyzing: "Analyse...",
+    analyzingInProgress: "Analyse en cours...",
+    examiningContent: "Nous examinons le contenu de la page",
+    examiningImage: "Nous examinons l'image",
+    examiningImages: "Nous examinons les {count} images",
+    examiningText: "Nous examinons le texte",
+
+    // Results
+    trustLevel: "Niveau de confiance",
+    summary: "Résumé",
+    redFlags: "Signaux d'alerte",
+    reassurance: "Notre conseil",
+    verdict: {
+      fiable: "Fiable",
+      prudence: "Prudence",
+      suspect: "Suspect"
+    },
+
+    // Errors
+    oops: "Oups !",
+    errorServer: "Impossible de contacter le serveur. Vérifiez que le backend est démarré.",
+    errorAnalysis: "Une erreur est survenue lors de l'analyse",
+    errorRequest: "Erreur lors de la préparation de la requête.",
+
+    // Footer
+    poweredBy: "Propulsé par Claude AI",
+    madeWith: "Fait avec",
+    forYourPeace: "pour votre sérénité"
+  },
+
+  en: {
+    // Header
+    appName: "Serein",
+    tagline: "Analyze your links, images, and texts with peace of mind",
+
+    // Tabs
+    tabLink: "Link",
+    tabImage: "Image",
+    tabText: "Text",
+
+    // Link input
+    linkPlaceholder: "Paste your link here (e.g., https://example.com)",
+    linkHint: "Paste the URL of a web page, article, or suspicious site",
+    analyzeLink: "Analyze this link",
+
+    // Image input
+    imageButton: "Click to select images",
+    imageDragHint: "or drag and drop your files here",
+    imageFormats: "Accepted formats: PNG, JPEG, GIF, WebP (max 5 MB per image)",
+    imageLimit: "images",
+    addMore: "Add",
+    analyzeImage: "Analyze this image",
+    analyzeImages: "Analyze these images",
+    removeAll: "Remove all",
+    maxImagesAlert: "Maximum 5 images allowed.",
+    imageTooLarge: "is too large. Maximum 5 MB per image.",
+    invalidImage: "is not a valid image.",
+
+    // Text input
+    textPlaceholder: "Paste here the text from a suspicious email or message...",
+    analyzeText: "Analyze this text",
+    characters: "characters",
+    textTooLong: "The text is too long. Please reduce it to 10,000 characters maximum.",
+
+    // Loading
+    analyzing: "Analyzing...",
+    analyzingInProgress: "Analysis in progress...",
+    examiningContent: "We are examining the page content",
+    examiningImage: "We are examining the image",
+    examiningImages: "We are examining the {count} images",
+    examiningText: "We are examining the text",
+
+    // Results
+    trustLevel: "Trust level",
+    summary: "Summary",
+    redFlags: "Red flags",
+    reassurance: "Our advice",
+    verdict: {
+      fiable: "Reliable",
+      prudence: "Caution",
+      suspect: "Suspect"
+    },
+
+    // Errors
+    oops: "Oops!",
+    errorServer: "Unable to contact the server. Make sure the backend is running.",
+    errorAnalysis: "An error occurred during analysis",
+    errorRequest: "Error preparing the request.",
+
+    // Footer
+    poweredBy: "Powered by Claude AI",
+    madeWith: "Made with",
+    forYourPeace: "for your peace of mind"
+  },
+
+  es: {
+    // Header
+    appName: "Serein",
+    tagline: "Analiza tus enlaces, imágenes y textos con tranquilidad",
+
+    // Tabs
+    tabLink: "Enlace",
+    tabImage: "Imagen",
+    tabText: "Texto",
+
+    // Link input
+    linkPlaceholder: "Pega tu enlace aquí (ej: https://ejemplo.com)",
+    linkHint: "Pega la URL de una página web, artículo o sitio sospechoso",
+    analyzeLink: "Analizar este enlace",
+
+    // Image input
+    imageButton: "Haz clic para seleccionar imágenes",
+    imageDragHint: "o arrastra y suelta tus archivos aquí",
+    imageFormats: "Formatos aceptados: PNG, JPEG, GIF, WebP (máx. 5 MB por imagen)",
+    imageLimit: "imágenes",
+    addMore: "Añadir",
+    analyzeImage: "Analizar esta imagen",
+    analyzeImages: "Analizar estas imágenes",
+    removeAll: "Eliminar todo",
+    maxImagesAlert: "Máximo 5 imágenes permitidas.",
+    imageTooLarge: "es demasiado grande. Máximo 5 MB por imagen.",
+    invalidImage: "no es una imagen válida.",
+
+    // Text input
+    textPlaceholder: "Pega aquí el texto de un email o mensaje sospechoso...",
+    analyzeText: "Analizar este texto",
+    characters: "caracteres",
+    textTooLong: "El texto es demasiado largo. Por favor, redúcelo a 10.000 caracteres máximo.",
+
+    // Loading
+    analyzing: "Analizando...",
+    analyzingInProgress: "Análisis en curso...",
+    examiningContent: "Estamos examinando el contenido de la página",
+    examiningImage: "Estamos examinando la imagen",
+    examiningImages: "Estamos examinando las {count} imágenes",
+    examiningText: "Estamos examinando el texto",
+
+    // Results
+    trustLevel: "Nivel de confianza",
+    summary: "Resumen",
+    redFlags: "Señales de alerta",
+    reassurance: "Nuestro consejo",
+    verdict: {
+      fiable: "Fiable",
+      prudence: "Precaución",
+      suspect: "Sospechoso"
+    },
+
+    // Errors
+    oops: "¡Ups!",
+    errorServer: "No se puede contactar el servidor. Verifica que el backend esté ejecutándose.",
+    errorAnalysis: "Ocurrió un error durante el análisis",
+    errorRequest: "Error al preparar la solicitud.",
+
+    // Footer
+    poweredBy: "Desarrollado con Claude AI",
+    madeWith: "Hecho con",
+    forYourPeace: "para tu tranquilidad"
+  }
+};
+
+export default translations;

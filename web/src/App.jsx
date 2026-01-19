@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useLanguage } from './i18n/LanguageContext';
+import LanguageSelector from './components/LanguageSelector';
 import LinkInput from './components/LinkInput';
 import ImageInput from './components/ImageInput';
 import TextInput from './components/TextInput';
@@ -7,12 +9,13 @@ import { analyzeUrl, analyzeImages, analyzeText } from './services/api';
 import './App.css';
 
 function App() {
+  const { t, language } = useLanguage();
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [analysisType, setAnalysisType] = useState(null);
   const [imageCount, setImageCount] = useState(0);
-  const [activeMode, setActiveMode] = useState('link'); // 'link', 'image', 'text'
+  const [activeMode, setActiveMode] = useState('link');
 
   const handleAnalyzeUrl = async (url) => {
     setLoading(true);
@@ -22,10 +25,10 @@ function App() {
     setImageCount(0);
 
     try {
-      const data = await analyzeUrl(url);
+      const data = await analyzeUrl(url, language);
       setResult(data);
     } catch (err) {
-      setError(err.message || 'Une erreur est survenue lors de l\'analyse');
+      setError(err.message || t('errorAnalysis'));
     } finally {
       setLoading(false);
     }
@@ -39,10 +42,10 @@ function App() {
     setImageCount(imagesBase64Array.length);
 
     try {
-      const data = await analyzeImages(imagesBase64Array);
+      const data = await analyzeImages(imagesBase64Array, language);
       setResult(data);
     } catch (err) {
-      setError(err.message || 'Une erreur est survenue lors de l\'analyse des images');
+      setError(err.message || t('errorAnalysis'));
     } finally {
       setLoading(false);
     }
@@ -56,10 +59,10 @@ function App() {
     setImageCount(0);
 
     try {
-      const data = await analyzeText(text);
+      const data = await analyzeText(text, language);
       setResult(data);
     } catch (err) {
-      setError(err.message || 'Une erreur est survenue lors de l\'analyse du texte');
+      setError(err.message || t('errorAnalysis'));
     } finally {
       setLoading(false);
     }
@@ -74,26 +77,30 @@ function App() {
   const getLoadingText = () => {
     switch (analysisType) {
       case 'image':
-        return imageCount > 1 ? `les ${imageCount} images` : 'l\'image';
+        return imageCount > 1
+          ? t('examiningImages').replace('{count}', imageCount)
+          : t('examiningImage');
       case 'text':
-        return 'le texte';
+        return t('examiningText');
       default:
-        return 'le contenu de la page';
+        return t('examiningContent');
     }
   };
 
   return (
     <div className="app">
       <header className="header">
+        <div className="header-top">
+          <LanguageSelector />
+        </div>
         <div className="logo">
           <span className="logo-icon">🛡️</span>
-          <h1>Serein</h1>
+          <h1>{t('appName')}</h1>
         </div>
-        <p className="tagline">Analysez vos liens, images et textes en toute sérénité</p>
+        <p className="tagline">{t('tagline')}</p>
       </header>
 
       <main className="main">
-        {/* Mode Tabs */}
         <div className="mode-tabs">
           <button
             className={`mode-tab ${activeMode === 'link' ? 'active' : ''}`}
@@ -101,7 +108,7 @@ function App() {
             disabled={loading}
           >
             <span className="tab-icon">🔗</span>
-            <span className="tab-label">Lien</span>
+            <span className="tab-label">{t('tabLink')}</span>
           </button>
           <button
             className={`mode-tab ${activeMode === 'image' ? 'active' : ''}`}
@@ -109,7 +116,7 @@ function App() {
             disabled={loading}
           >
             <span className="tab-icon">📷</span>
-            <span className="tab-label">Image</span>
+            <span className="tab-label">{t('tabImage')}</span>
           </button>
           <button
             className={`mode-tab ${activeMode === 'text' ? 'active' : ''}`}
@@ -117,29 +124,19 @@ function App() {
             disabled={loading}
           >
             <span className="tab-icon">📝</span>
-            <span className="tab-label">Texte</span>
+            <span className="tab-label">{t('tabText')}</span>
           </button>
         </div>
 
-        {/* Active Mode Input */}
         <div className="input-section">
           {activeMode === 'link' && (
-            <LinkInput
-              onAnalyzeUrl={handleAnalyzeUrl}
-              isLoading={loading}
-            />
+            <LinkInput onAnalyzeUrl={handleAnalyzeUrl} isLoading={loading} />
           )}
           {activeMode === 'image' && (
-            <ImageInput
-              onAnalyzeImages={handleAnalyzeImages}
-              isLoading={loading}
-            />
+            <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
           )}
           {activeMode === 'text' && (
-            <TextInput
-              onAnalyzeText={handleAnalyzeText}
-              isLoading={loading}
-            />
+            <TextInput onAnalyzeText={handleAnalyzeText} isLoading={loading} />
           )}
         </div>
 
@@ -147,7 +144,7 @@ function App() {
           <div className="error-message">
             <span className="error-icon">⚠️</span>
             <div className="error-content">
-              <strong>Oups !</strong>
+              <strong>{t('oops')}</strong>
               <p>{error}</p>
             </div>
           </div>
@@ -156,10 +153,8 @@ function App() {
         {loading && (
           <div className="loading-card">
             <div className="loading-spinner"></div>
-            <p className="loading-text">Analyse en cours...</p>
-            <p className="loading-subtext">
-              Nous examinons {getLoadingText()}
-            </p>
+            <p className="loading-text">{t('analyzingInProgress')}</p>
+            <p className="loading-subtext">{getLoadingText()}</p>
           </div>
         )}
 
@@ -167,7 +162,9 @@ function App() {
       </main>
 
       <footer className="footer">
-        <p>Propulsé par Claude AI • Fait avec 💙 pour votre sérénité</p>
+        <p>
+          {t('poweredBy')} • {t('madeWith')} 💙 {t('forYourPeace')}
+        </p>
       </footer>
     </div>
   );
