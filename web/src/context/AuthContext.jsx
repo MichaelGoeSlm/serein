@@ -26,6 +26,8 @@ export function AuthProvider({ children }) {
 
     try {
       let profile = await getUserProfile(firebaseUser.uid);
+      console.log('🔍 getUserProfile returned:', profile);
+      console.log('🔍 Subscription from Firestore:', profile?.subscription);
 
       if (!profile) {
         // Create new profile if doesn't exist
@@ -105,6 +107,12 @@ export function AuthProvider({ children }) {
   const analysesUsed = subscription.analysesUsed || 0;
   const analysesRemaining = isPremium ? Infinity : Math.max(0, 3 - analysesUsed);
   const canAnalyze = isPremium || analysesUsed < 3;
+
+  // Debug logs
+  console.log('🔍 AuthContext - subscription.status:', subscription.status);
+  console.log('🔍 AuthContext - subscription.endDate:', subscription.endDate);
+  console.log('🔍 AuthContext - parsed endDate:', endDate);
+  console.log('🔍 AuthContext - isPremium:', isPremium);
 
   const value = {
     user,
