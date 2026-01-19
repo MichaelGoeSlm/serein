@@ -27,15 +27,12 @@ const translations = {
 
     // Login page
     login: {
-      title: "Connexion",
-      subtitle: "Connectez-vous pour commencer à analyser",
+      title: "Connectez-vous a Serein",
       googleButton: "Continuer avec Google",
-      or: "ou",
-      magicLinkInfo: "Connexion par Magic Link bientôt disponible",
-      benefitsTitle: "En vous connectant, vous bénéficiez de :",
-      benefit1: "3 analyses gratuites",
-      benefit2: "Historique de vos analyses",
-      benefit3: "Accès sur tous vos appareils"
+      securityNote: "Connexion securisee. Nous n'accedons jamais a vos emails.",
+      backToHome: "Retour a l'accueil",
+      loading: "Connexion...",
+      error: "Une erreur est survenue. Veuillez reessayer."
     },
 
     // Onboarding
@@ -178,15 +175,12 @@ const translations = {
 
     // Login page
     login: {
-      title: "Sign in",
-      subtitle: "Sign in to start analyzing",
+      title: "Sign in to Serein",
       googleButton: "Continue with Google",
-      or: "or",
-      magicLinkInfo: "Magic Link sign-in coming soon",
-      benefitsTitle: "By signing in, you get:",
-      benefit1: "3 free analyses",
-      benefit2: "Your analysis history",
-      benefit3: "Access on all your devices"
+      securityNote: "Secure login. We never access your emails.",
+      backToHome: "Back to home",
+      loading: "Signing in...",
+      error: "An error occurred. Please try again."
     },
 
     // Onboarding
@@ -329,15 +323,12 @@ const translations = {
 
     // Login page
     login: {
-      title: "Iniciar sesión",
-      subtitle: "Inicia sesión para empezar a analizar",
+      title: "Inicia sesion en Serein",
       googleButton: "Continuar con Google",
-      or: "o",
-      magicLinkInfo: "Inicio de sesión con Magic Link próximamente",
-      benefitsTitle: "Al iniciar sesión, obtienes:",
-      benefit1: "3 análisis gratis",
-      benefit2: "Tu historial de análisis",
-      benefit3: "Acceso en todos tus dispositivos"
+      securityNote: "Inicio de sesion seguro. Nunca accedemos a tus correos.",
+      backToHome: "Volver al inicio",
+      loading: "Iniciando sesion...",
+      error: "Ha ocurrido un error. Por favor, intentalo de nuevo."
     },
 
     // Onboarding
