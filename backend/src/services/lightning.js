@@ -1,19 +1,32 @@
 const axios = require('axios');
 
 const OPENNODE_API_KEY = process.env.OPENNODE_API_KEY;
-const OPENNODE_API_URL = 'https://api.opennode.com/v1';
 
-// Convertir EUR en sats (approximatif, OpenNode gère la conversion)
 async function createInvoice(amountEuros, description, orderId) {
+  // Si pas de clé API, utiliser le mode mock pour tester
+  if (!OPENNODE_API_KEY || OPENNODE_API_KEY === 'your_opennode_api_key') {
+    console.log('OpenNode: Mode mock activé (pas de clé API)');
+    return {
+      invoiceId: 'mock_' + Date.now(),
+      paymentRequest: 'lnbc290n1mock_invoice_for_testing_only',
+      amountSats: 50000,
+      amountFiat: amountEuros,
+      expiresAt: new Date(Date.now() + 3600000).toISOString(),
+      status: 'unpaid',
+      mock: true
+    };
+  }
+
   try {
+    console.log('OpenNode: Creating invoice for', amountEuros, 'EUR');
+
     const response = await axios.post(
-      `${OPENNODE_API_URL}/charges`,
+      'https://api.opennode.com/v1/charges',
       {
         amount: amountEuros,
         currency: 'EUR',
         description: description || 'Serein Premium - 1 an',
-        order_id: orderId,
-        callback_url: process.env.BACKEND_URL + '/api/payment/webhook'
+        order_id: orderId || 'order_' + Date.now()
       },
       {
         headers: {
@@ -23,7 +36,9 @@ async function createInvoice(amountEuros, description, orderId) {
       }
     );
 
+    console.log('OpenNode: Invoice created successfully');
     const charge = response.data.data;
+
     return {
       invoiceId: charge.id,
       paymentRequest: charge.lightning_invoice.payreq,
@@ -34,14 +49,30 @@ async function createInvoice(amountEuros, description, orderId) {
     };
   } catch (error) {
     console.error('OpenNode createInvoice error:', error.response?.data || error.message);
-    throw new Error('Failed to create Lightning invoice');
+    throw new Error('Failed to create Lightning invoice: ' + (error.response?.data?.message || error.message));
   }
 }
 
 async function checkInvoice(invoiceId) {
+  // Mode mock
+  if (invoiceId.startsWith('mock_')) {
+    console.log('OpenNode: Mode mock - simulating paid invoice');
+    return {
+      invoiceId: invoiceId,
+      status: 'paid',
+      paid: true,
+      amountSats: 50000,
+      paidAt: new Date().toISOString()
+    };
+  }
+
+  if (!OPENNODE_API_KEY || OPENNODE_API_KEY === 'your_opennode_api_key') {
+    return { invoiceId, status: 'unpaid', paid: false };
+  }
+
   try {
     const response = await axios.get(
-      `${OPENNODE_API_URL}/charge/${invoiceId}`,
+      `https://api.opennode.com/v1/charge/${invoiceId}`,
       {
         headers: {
           'Authorization': OPENNODE_API_KEY
@@ -52,7 +83,7 @@ async function checkInvoice(invoiceId) {
     const charge = response.data.data;
     return {
       invoiceId: charge.id,
-      status: charge.status, // 'unpaid', 'processing', 'paid', 'expired'
+      status: charge.status,
       paid: charge.status === 'paid',
       amountSats: charge.amount,
       paidAt: charge.status === 'paid' ? charge.created_at : null
