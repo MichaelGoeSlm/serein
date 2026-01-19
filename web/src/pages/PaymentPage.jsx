@@ -50,13 +50,16 @@ function PaymentPage() {
 
   const handlePaymentConfirmed = async (paymentData) => {
     try {
-      // Backend already activated premium, just refresh user profile
+      // Wait a bit to ensure backend has updated Firestore
+      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      // Refresh user profile to get updated premium status
       await refreshUserProfile();
 
       // Redirect to app after short delay
       setTimeout(() => {
         navigate('/app');
-      }, 2000);
+      }, 1500);
     } catch (error) {
       console.error('Error refreshing profile:', error);
     }
