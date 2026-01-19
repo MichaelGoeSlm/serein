@@ -48,8 +48,13 @@ async function createInvoice(amountEuros, description, orderId) {
       status: charge.status
     };
   } catch (error) {
-    console.error('OpenNode createInvoice error:', error.response?.data || error.message);
-    throw new Error('Failed to create Lightning invoice: ' + (error.response?.data?.message || error.message));
+    console.error('OpenNode createInvoice FULL error:', {
+      status: error.response?.status,
+      statusText: error.response?.statusText,
+      data: error.response?.data,
+      message: error.message
+    });
+    throw new Error('Failed to create Lightning invoice: ' + JSON.stringify(error.response?.data || error.message));
   }
 }
 
