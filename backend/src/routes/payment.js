@@ -1,91 +1,132 @@
 const express = require('express');
 const router = express.Router();
-const lightning = require('../services/lightning');
+const { createInvoice, checkInvoice } = require('../services/lightning');
+const admin = require('firebase-admin');
 
-// Store pending payments (in production, use a database)
-const pendingPayments = new Map();
+// Initialise Firebase Admin si pas déjà fait
+if (!admin.apps.length) {
+  admin.initializeApp({
+    credential: admin.credential.cert({
+      projectId: process.env.FIREBASE_PROJECT_ID,
+      clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+      privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n')
+    })
+  });
+}
 
-/**
- * POST /api/payment/create-invoice
- * Create a new Lightning invoice for premium subscription
- */
+const db = admin.firestore();
+
+// Créer une facture
 router.post('/create-invoice', async (req, res) => {
   try {
     const { userId, email } = req.body;
 
     if (!userId) {
-      return res.status(400).json({ error: 'userId is required' });
+      return res.status(400).json({ error: 'userId required' });
     }
 
-    // Create invoice for 29 EUR
-    const invoice = await lightning.createInvoice(29, `Serein Premium - ${email || userId}`);
+    const invoice = await createInvoice(29, `Serein Premium - ${email}`, userId);
 
-    // Store the pending payment
-    pendingPayments.set(invoice.invoiceId, {
+    // Sauvegarder la facture dans Firestore
+    await db.collection('payments').doc(invoice.invoiceId).set({
       userId,
       email,
-      ...invoice
-    });
-
-    res.json({
-      invoiceId: invoice.invoiceId,
-      paymentRequest: invoice.paymentRequest,
+      amount: 29,
+      currency: 'EUR',
       amountSats: invoice.amountSats,
-      amountEuros: invoice.amountEuros,
+      paymentRequest: invoice.paymentRequest,
+      status: 'pending',
+      createdAt: new Date(),
       expiresAt: invoice.expiresAt
     });
+
+    res.json(invoice);
   } catch (error) {
-    console.error('Error creating invoice:', error);
+    console.error('Create invoice error:', error);
     res.status(500).json({ error: 'Failed to create invoice' });
   }
 });
 
-/**
- * GET /api/payment/check/:invoiceId
- * Check if an invoice has been paid
- */
-router.get('/check/:invoiceId', async (req, res) => {
+// Vérifier le statut du paiement
+router.get('/check-payment/:invoiceId', async (req, res) => {
   try {
     const { invoiceId } = req.params;
 
-    const status = await lightning.checkInvoice(invoiceId);
+    const result = await checkInvoice(invoiceId);
 
-    // Get pending payment info
-    const payment = pendingPayments.get(invoiceId);
+    if (result.paid) {
+      // Mettre à jour le paiement
+      const paymentRef = db.collection('payments').doc(invoiceId);
+      const paymentDoc = await paymentRef.get();
 
-    if (status.paid && payment) {
-      // Payment confirmed - return user info for frontend to update Firestore
-      res.json({
-        paid: true,
-        userId: payment.userId,
-        settledAt: status.settledAt
-      });
+      if (paymentDoc.exists) {
+        const payment = paymentDoc.data();
 
-      // Clean up
-      pendingPayments.delete(invoiceId);
-    } else {
-      res.json({
-        paid: false,
-        invoiceId
-      });
+        // Mettre à jour le statut du paiement
+        await paymentRef.update({
+          status: 'paid',
+          paidAt: new Date()
+        });
+
+        // Activer l'abonnement premium
+        const userRef = db.collection('users').doc(payment.userId);
+        const now = new Date();
+        const oneYearLater = new Date(now);
+        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+        await userRef.update({
+          'subscription.status': 'active',
+          'subscription.startDate': now,
+          'subscription.endDate': oneYearLater,
+          'subscription.paymentMethod': 'lightning',
+          'subscription.paymentId': invoiceId
+        });
+      }
     }
+
+    res.json(result);
   } catch (error) {
-    console.error('Error checking invoice:', error);
-    res.status(500).json({ error: 'Failed to check invoice' });
+    console.error('Check payment error:', error);
+    res.status(500).json({ error: 'Failed to check payment' });
   }
 });
 
-/**
- * GET /api/payment/rate
- * Get current EUR to sats conversion rate
- */
-router.get('/rate', async (req, res) => {
+// Webhook OpenNode (pour confirmation automatique)
+router.post('/webhook', async (req, res) => {
   try {
-    const rate = await lightning.getEurToSatsRate();
-    res.json({ rate, currency: 'EUR' });
+    const { id, status } = req.body;
+
+    if (status === 'paid') {
+      const paymentRef = db.collection('payments').doc(id);
+      const paymentDoc = await paymentRef.get();
+
+      if (paymentDoc.exists) {
+        const payment = paymentDoc.data();
+
+        await paymentRef.update({
+          status: 'paid',
+          paidAt: new Date()
+        });
+
+        const userRef = db.collection('users').doc(payment.userId);
+        const now = new Date();
+        const oneYearLater = new Date(now);
+        oneYearLater.setFullYear(oneYearLater.getFullYear() + 1);
+
+        await userRef.update({
+          'subscription.status': 'active',
+          'subscription.startDate': now,
+          'subscription.endDate': oneYearLater,
+          'subscription.paymentMethod': 'lightning',
+          'subscription.paymentId': id
+        });
+      }
+    }
+
+    res.status(200).send('OK');
   } catch (error) {
-    console.error('Error getting rate:', error);
-    res.status(500).json({ error: 'Failed to get rate' });
+    console.error('Webhook error:', error);
+    res.status(500).send('Error');
   }
 });
 
