@@ -13,7 +13,7 @@ function PaymentPage() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+  const API_URL = import.meta.env.VITE_API_URL || 'https://serein-backend.onrender.com';
 
   useEffect(() => {
     const createInvoice = async () => {

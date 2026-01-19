@@ -3,42 +3,43 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
-const analyzeRoutes = require('./routes/analyze');
-const paymentRoutes = require('./routes/payment');
 
 const app = express();
-const PORT = process.env.PORT || 3001;
 
-// Security middleware
+// Trust proxy pour Render
+app.set('trust proxy', 1);
+
+// Middlewares
 app.use(helmet());
 app.use(cors({
   origin: ['https://magnificent-beijinho-f18e1c.netlify.app', 'http://localhost:5173'],
   methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type']
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
-app.use(express.json({ limit: '10mb' })); // Increased limit for base64 images
+app.use(express.json({ limit: '10mb' }));
 
-// Rate limiting: 10 requests per minute per IP
+// Rate limiting
 const limiter = rateLimit({
-  windowMs: 60 * 1000, // 1 minute
-  max: 10, // limit each IP to 10 requests per minute
-  message: { error: 'Trop de requêtes. Veuillez réessayer dans une minute.' },
-  standardHeaders: true,
-  legacyHeaders: false
+  windowMs: 60 * 1000,
+  max: 30
 });
-app.use('/api', limiter);
+app.use(limiter);
 
 // Routes
+const analyzeRoutes = require('./routes/analyze');
+const paymentRoutes = require('./routes/payment');
+
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/payment', paymentRoutes);
 
-// Health check
-app.get('/health', (req, res) => {
+// Route de test
+app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 // 404 handler
 app.use((req, res) => {
+  console.log('404 - Route not found:', req.method, req.url);
   res.status(404).json({ error: 'Route non trouvée' });
 });
 
@@ -48,6 +49,7 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Une erreur interne est survenue' });
 });
 
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`🚀 Serein backend running on port ${PORT}`);
 });
