@@ -1,0 +1,262 @@
+/* App Page - Authenticated app styles */
+
+.app-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 32px 24px;
+  max-width: 640px;
+  margin: 0 auto;
+  background-color: #f5f5f5;
+}
+
+/* Header */
+.header {
+  text-align: center;
+  margin-bottom: 32px;
+}
+
+.header-top {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 16px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.logo-icon {
+  font-size: 40px;
+}
+
+.logo h1 {
+  font-size: 36px;
+  font-weight: 700;
+  color: #1e3a5f;
+  letter-spacing: -0.5px;
+}
+
+.tagline {
+  font-size: 18px;
+  color: #4b5563;
+  font-weight: 400;
+}
+
+/* Main */
+.main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Mode Tabs */
+.mode-tabs {
+  display: flex;
+  gap: 8px;
+  background: white;
+  padding: 8px;
+  border-radius: 16px;
+  border: 2px solid #d1d5db;
+}
+
+.mode-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 16px 12px;
+  min-height: 80px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: #4b5563;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.mode-tab:hover:not(:disabled):not(.active) {
+  background: #f3f4f6;
+  color: #1e3a5f;
+}
+
+.mode-tab.active {
+  background-color: #2563eb;
+  color: white;
+  border-color: #2563eb;
+}
+
+.mode-tab:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.tab-icon {
+  font-size: 28px;
+}
+
+.tab-label {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+/* Input Section */
+.input-section {
+  width: 100%;
+}
+
+.instruction {
+  text-align: center;
+  color: #4b5563;
+  font-size: 18px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
+/* Error Message */
+.error-message {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  background-color: #fef2f2;
+  border: 2px solid #ef4444;
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.error-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.error-content {
+  flex: 1;
+}
+
+.error-content strong {
+  display: block;
+  color: #dc2626;
+  font-size: 20px;
+  margin-bottom: 8px;
+}
+
+.error-content p {
+  color: #991b1b;
+  font-size: 18px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Result view */
+.result-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.new-analysis-btn {
+  margin-top: 16px;
+}
+
+/* Footer */
+.footer {
+  text-align: center;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.footer p {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .app-page {
+    padding: 20px 16px;
+  }
+
+  .logo h1 {
+    font-size: 28px;
+  }
+
+  .logo-icon {
+    font-size: 32px;
+  }
+
+  .tagline {
+    font-size: 16px;
+  }
+
+  .header {
+    margin-bottom: 24px;
+  }
+
+  .mode-tabs {
+    gap: 6px;
+  }
+
+  .mode-tab {
+    padding: 12px 8px;
+    min-height: 70px;
+  }
+
+  .tab-icon {
+    font-size: 24px;
+  }
+
+  .tab-label {
+    font-size: 14px;
+  }
+
+  .instruction {
+    font-size: 16px;
+  }
+
+  .error-content strong {
+    font-size: 18px;
+  }
+
+  .error-content p {
+    font-size: 16px;
+  }
+
+  .footer {
+    margin-top: 32px;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .logo h1 {
+    color: #000;
+  }
+
+  .mode-tab {
+    border: 2px solid #000;
+  }
+
+  .mode-tab.active {
+    background: #000;
+    color: #fff;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .mode-tab {
+    transition: none;
+  }
+}
