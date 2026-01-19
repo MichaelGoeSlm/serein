@@ -13,8 +13,14 @@ function AccountPage() {
   const [analyses, setAnalyses] = useState([]);
   const [loadingAnalyses, setLoadingAnalyses] = useState(true);
 
+  // Debug logs
+  console.log('🔍 AccountPage - isPremium:', isPremium);
+  console.log('🔍 AccountPage - userProfile:', userProfile);
+  console.log('🔍 AccountPage - subscription:', userProfile?.subscription);
+
   useEffect(() => {
     // Refresh user profile on mount to get latest data
+    console.log('🔍 AccountPage - refreshing user profile on mount');
     refreshUserProfile();
   }, []);
 
