@@ -4,6 +4,61 @@ const translations = {
     appName: "Serein",
     tagline: "Analysez vos liens, images et textes en toute sérénité",
 
+    // Landing page
+    landing: {
+      heroTitle: "Protégez-vous des arnaques en ligne",
+      heroSubtitle: "Une intelligence artificielle bienveillante qui analyse vos liens, emails et images pour détecter les contenus trompeurs.",
+      cta: "Commencer gratuitement",
+      howItWorks: "Comment ça marche",
+      step1: "Collez un lien ou une image",
+      step2: "Notre IA analyse le contenu",
+      step3: "Recevez un verdict clair",
+      whySerein: "Pourquoi Serein ?",
+      benefit1: "Pas de publicité",
+      benefit2: "Pas de tracking",
+      benefit3: "Vos données restent privées",
+      benefit4: "Conçu pour être simple",
+      pricingTitle: "Un prix simple et transparent",
+      pricingFree: "3 analyses gratuites pour essayer",
+      pricingPaid: "Puis 29 € / an pour un accès illimité",
+      pricingNote: "Pas d'engagement. Pas de surprise.",
+      footer: "Fait avec ❤️ pour votre tranquillité"
+    },
+
+    // Login page
+    login: {
+      title: "Connexion",
+      subtitle: "Connectez-vous pour commencer à analyser",
+      googleButton: "Continuer avec Google",
+      or: "ou",
+      magicLinkInfo: "Connexion par Magic Link bientôt disponible",
+      benefitsTitle: "En vous connectant, vous bénéficiez de :",
+      benefit1: "3 analyses gratuites",
+      benefit2: "Historique de vos analyses",
+      benefit3: "Accès sur tous vos appareils"
+    },
+
+    // Onboarding
+    onboarding: {
+      step1Title: "Choisissez votre langue",
+      step1Description: "Serein s'adapte à votre langue préférée.",
+      step2Title: "Comment ça marche",
+      step2Description: "Serein analyse vos contenus pour détecter les arnaques.",
+      feature1Title: "Analysez des liens",
+      feature1Description: "Collez l'URL d'un site ou d'un article suspect.",
+      feature2Title: "Analysez des images",
+      feature2Description: "Importez des captures d'écran de messages suspects.",
+      feature3Title: "Analysez des textes",
+      feature3Description: "Copiez-collez le contenu d'un email douteux.",
+      step3Title: "Vous êtes prêt !",
+      step3Description: "Commencez à utiliser Serein en toute sérénité.",
+      freeAnalyses: "Vous avez 3 analyses gratuites",
+      upgradeNote: "Passez à l'illimité pour 29€/an",
+      back: "Retour",
+      next: "Suivant",
+      start: "Commencer"
+    },
+
     // Tabs
     tabLink: "Lien",
     tabImage: "Image",
@@ -100,6 +155,61 @@ const translations = {
     appName: "Serein",
     tagline: "Analyze your links, images, and texts with peace of mind",
 
+    // Landing page
+    landing: {
+      heroTitle: "Protect yourself from online scams",
+      heroSubtitle: "A friendly AI that analyzes your links, emails, and images to detect misleading content.",
+      cta: "Start for free",
+      howItWorks: "How it works",
+      step1: "Paste a link or image",
+      step2: "Our AI analyzes the content",
+      step3: "Get a clear verdict",
+      whySerein: "Why Serein?",
+      benefit1: "No ads",
+      benefit2: "No tracking",
+      benefit3: "Your data stays private",
+      benefit4: "Designed to be simple",
+      pricingTitle: "Simple and transparent pricing",
+      pricingFree: "3 free analyses to try",
+      pricingPaid: "Then 29 EUR/year for unlimited access",
+      pricingNote: "No commitment. No surprises.",
+      footer: "Made with ❤️ for your peace of mind"
+    },
+
+    // Login page
+    login: {
+      title: "Sign in",
+      subtitle: "Sign in to start analyzing",
+      googleButton: "Continue with Google",
+      or: "or",
+      magicLinkInfo: "Magic Link sign-in coming soon",
+      benefitsTitle: "By signing in, you get:",
+      benefit1: "3 free analyses",
+      benefit2: "Your analysis history",
+      benefit3: "Access on all your devices"
+    },
+
+    // Onboarding
+    onboarding: {
+      step1Title: "Choose your language",
+      step1Description: "Serein adapts to your preferred language.",
+      step2Title: "How it works",
+      step2Description: "Serein analyzes your content to detect scams.",
+      feature1Title: "Analyze links",
+      feature1Description: "Paste the URL of a suspicious site or article.",
+      feature2Title: "Analyze images",
+      feature2Description: "Upload screenshots of suspicious messages.",
+      feature3Title: "Analyze texts",
+      feature3Description: "Copy and paste the content of a suspicious email.",
+      step3Title: "You're ready!",
+      step3Description: "Start using Serein with peace of mind.",
+      freeAnalyses: "You have 3 free analyses",
+      upgradeNote: "Upgrade to unlimited for 29 EUR/year",
+      back: "Back",
+      next: "Next",
+      start: "Get started"
+    },
+
     // Tabs
     tabLink: "Link",
     tabImage: "Image",
@@ -195,6 +305,61 @@ const translations = {
     // Header
     appName: "Serein",
     tagline: "Analiza tus enlaces, imágenes y textos con tranquilidad",
+
+    // Landing page
+    landing: {
+      heroTitle: "Protégete de las estafas en línea",
+      heroSubtitle: "Una inteligencia artificial amigable que analiza tus enlaces, correos e imágenes para detectar contenido engañoso.",
+      cta: "Empezar gratis",
+      howItWorks: "Cómo funciona",
+      step1: "Pega un enlace o imagen",
+      step2: "Nuestra IA analiza el contenido",
+      step3: "Recibe un veredicto claro",
+      whySerein: "¿Por qué Serein?",
+      benefit1: "Sin publicidad",
+      benefit2: "Sin rastreo",
+      benefit3: "Tus datos permanecen privados",
+      benefit4: "Diseñado para ser simple",
+      pricingTitle: "Precio simple y transparente",
+      pricingFree: "3 análisis gratis para probar",
+      pricingPaid: "Luego 29 EUR / año para acceso ilimitado",
+      pricingNote: "Sin compromiso. Sin sorpresas.",
+      footer: "Hecho con ❤️ para tu tranquilidad"
+    },
+
+    // Login page
+    login: {
+      title: "Iniciar sesión",
+      subtitle: "Inicia sesión para empezar a analizar",
+      googleButton: "Continuar con Google",
+      or: "o",
+      magicLinkInfo: "Inicio de sesión con Magic Link próximamente",
+      benefitsTitle: "Al iniciar sesión, obtienes:",
+      benefit1: "3 análisis gratis",
+      benefit2: "Tu historial de análisis",
+      benefit3: "Acceso en todos tus dispositivos"
+    },
+
+    // Onboarding
+    onboarding: {
+      step1Title: "Elige tu idioma",
+      step1Description: "Serein se adapta a tu idioma preferido.",
+      step2Title: "Cómo funciona",
+      step2Description: "Serein analiza tus contenidos para detectar estafas.",
+      feature1Title: "Analiza enlaces",
+      feature1Description: "Pega la URL de un sitio o artículo sospechoso.",
+      feature2Title: "Analiza imágenes",
+      feature2Description: "Sube capturas de pantalla de mensajes sospechosos.",
+      feature3Title: "Analiza textos",
+      feature3Description: "Copia y pega el contenido de un email sospechoso.",
+      step3Title: "¡Estás listo!",
+      step3Description: "Empieza a usar Serein con tranquilidad.",
+      freeAnalyses: "Tienes 3 análisis gratis",
+      upgradeNote: "Pasa a ilimitado por 29 EUR/año",
+      back: "Atrás",
+      next: "Siguiente",
+      start: "Empezar"
+    },
 
     // Tabs
     tabLink: "Enlace",
