@@ -1,0 +1,267 @@
+/* Email Instructions Modal */
+.email-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 16px;
+  animation: fadeIn 0.2s ease;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.email-modal {
+  background: white;
+  border-radius: 24px;
+  max-width: 500px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.email-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px 28px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.email-modal-header h2 {
+  font-size: 22px;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin: 0;
+}
+
+.email-modal-close {
+  width: 40px;
+  height: 40px;
+  border: none;
+  background: #f3f4f6;
+  border-radius: 50%;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.email-modal-close:hover {
+  background: #e5e7eb;
+}
+
+.email-modal-content {
+  padding: 28px;
+}
+
+/* Steps */
+.email-step {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.email-step:last-of-type {
+  margin-bottom: 0;
+}
+
+.email-step-number {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.email-step-content {
+  flex: 1;
+}
+
+.email-step-content h3 {
+  font-size: 18px;
+  font-weight: 600;
+  color: #1a1a1a;
+  margin: 0 0 8px 0;
+}
+
+.email-step-content p {
+  font-size: 16px;
+  color: #4b5563;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.email-step-icon {
+  font-size: 48px;
+  text-align: center;
+  margin-top: 12px;
+  opacity: 0.8;
+}
+
+/* Important notice */
+.email-important {
+  display: flex;
+  gap: 14px;
+  background: #fef3c7;
+  border-radius: 16px;
+  padding: 18px 20px;
+  margin-top: 24px;
+  border-left: 4px solid #f59e0b;
+}
+
+.email-important-icon {
+  font-size: 28px;
+  flex-shrink: 0;
+}
+
+.email-important-content h4 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #92400e;
+  margin: 0 0 6px 0;
+}
+
+.email-important-content p {
+  font-size: 15px;
+  color: #92400e;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Footer */
+.email-modal-footer {
+  display: flex;
+  gap: 12px;
+  padding: 20px 28px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.email-btn-cancel {
+  flex: 1;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: #374151;
+  background: #f3f4f6;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.email-btn-cancel:hover {
+  background: #e5e7eb;
+}
+
+.email-btn-confirm {
+  flex: 2;
+  padding: 16px 20px;
+  font-size: 16px;
+  font-weight: 600;
+  color: white;
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.email-btn-confirm:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.4);
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .email-modal {
+    border-radius: 20px;
+  }
+
+  .email-modal-header {
+    padding: 20px;
+  }
+
+  .email-modal-header h2 {
+    font-size: 20px;
+  }
+
+  .email-modal-content {
+    padding: 20px;
+  }
+
+  .email-step {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .email-step-number {
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    font-size: 18px;
+  }
+
+  .email-step-icon {
+    font-size: 40px;
+  }
+
+  .email-modal-footer {
+    flex-direction: column;
+    padding: 16px 20px;
+  }
+
+  .email-btn-cancel,
+  .email-btn-confirm {
+    flex: none;
+    width: 100%;
+  }
+
+  .email-btn-confirm {
+    order: -1;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .email-modal-overlay,
+  .email-modal,
+  .email-btn-confirm,
+  .email-btn-cancel {
+    animation: none;
+    transition: none;
+  }
+}
