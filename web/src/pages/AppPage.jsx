@@ -10,6 +10,7 @@ import ResultCard from '../components/ResultCard';
 import ProgressIndicator from '../components/ProgressIndicator';
 import HelpMessage from '../components/HelpMessage';
 import PaywallModal from '../components/PaywallModal';
+import EmailInstructionsModal from '../components/EmailInstructionsModal';
 import { analyzeUrl, analyzeImages, analyzeText } from '../services/api';
 import './AppPage.css';
 
@@ -24,6 +25,8 @@ function AppPage() {
   const [activeMode, setActiveMode] = useState('link');
   const [showResult, setShowResult] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
+  const [showEmailModal, setShowEmailModal] = useState(false);
+  const [previousMode, setPreviousMode] = useState('link');
 
   const saveAnalysisToFirestore = async (data, input, type) => {
     if (!user) return;
@@ -128,11 +131,33 @@ function AppPage() {
 
   const handleModeChange = (mode) => {
     if (loading) return;
+
+    // Special handling for email tab
+    if (mode === 'email') {
+      setPreviousMode(activeMode);
+      setShowEmailModal(true);
+      return;
+    }
+
     setActiveMode(mode);
     setResult(null);
     setError(null);
     setShowHelp(false);
     setShowResult(false);
+  };
+
+  const handleEmailModalConfirm = () => {
+    // Switch to image tab after user understands
+    setActiveMode('image');
+    setResult(null);
+    setError(null);
+    setShowHelp(false);
+    setShowResult(false);
+  };
+
+  const handleEmailModalClose = () => {
+    setShowEmailModal(false);
+    // Stay on previous mode (don't switch to email)
   };
 
   const handleNewAnalysis = () => {
@@ -193,6 +218,14 @@ function AppPage() {
             <span className="tab-icon">📝</span>
             <span className="tab-label">{t('tabText')}</span>
           </button>
+          <button
+            className="mode-tab"
+            onClick={() => handleModeChange('email')}
+            disabled={loading}
+          >
+            <span className="tab-icon">📧</span>
+            <span className="tab-label">{t('email.tabName')}</span>
+          </button>
         </div>
 
         {/* Loading State */}
@@ -249,6 +282,14 @@ function AppPage() {
       {/* Paywall Modal */}
       {showPaywall && (
         <PaywallModal onClose={() => setShowPaywall(false)} />
+      )}
+
+      {/* Email Instructions Modal */}
+      {showEmailModal && (
+        <EmailInstructionsModal
+          onClose={handleEmailModalClose}
+          onConfirm={handleEmailModalConfirm}
+        />
       )}
     </div>
   );

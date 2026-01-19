@@ -19,6 +19,20 @@ const translations = {
       closeDetails: "Fermer"
     },
 
+    // Email instructions
+    email: {
+      tabName: "Email",
+      modalTitle: "Comment analyser un email suspect ?",
+      step1Title: "Capture d'écran du haut de l'email",
+      step1Text: "Ouvrez l'email suspect et cliquez sur les détails de l'expéditeur pour voir l'adresse email complète. Faites une capture d'écran montrant : le nom de l'expéditeur, l'adresse email, la date et l'objet.",
+      step2Title: "Capture d'écran du corps du mail",
+      step2Text: "Faites une seconde capture d'écran du contenu de l'email. Incluez les liens et boutons visibles.",
+      important: "Important",
+      importantText: "Les DEUX captures sont nécessaires pour une analyse complète. L'adresse de l'expéditeur nous permet de vérifier si l'email est légitime.",
+      understoodButton: "J'ai compris, analyser mes images",
+      cancelButton: "Annuler"
+    },
+
     // Landing page
     landing: {
       heroTitle: "Protégez-vous des arnaques en ligne",
@@ -234,6 +248,20 @@ const translations = {
       closeDetails: "Close"
     },
 
+    // Email instructions
+    email: {
+      tabName: "Email",
+      modalTitle: "How to analyze a suspicious email?",
+      step1Title: "Screenshot of the email header",
+      step1Text: "Open the suspicious email and click on the sender details to see the full email address. Take a screenshot showing: the sender's name, email address, date and subject.",
+      step2Title: "Screenshot of the email body",
+      step2Text: "Take a second screenshot of the email content. Include visible links and buttons.",
+      important: "Important",
+      importantText: "BOTH screenshots are needed for a complete analysis. The sender's address allows us to verify if the email is legitimate.",
+      understoodButton: "Got it, analyze my images",
+      cancelButton: "Cancel"
+    },
+
     // Landing page
     landing: {
       heroTitle: "Protect yourself from online scams",
@@ -447,6 +475,20 @@ const translations = {
       contentType: "Tipo de contenido",
       analyzedContent: "Contenido analizado",
       closeDetails: "Cerrar"
+    },
+
+    // Email instructions
+    email: {
+      tabName: "Email",
+      modalTitle: "¿Cómo analizar un email sospechoso?",
+      step1Title: "Captura de pantalla del encabezado del email",
+      step1Text: "Abre el email sospechoso y haz clic en los detalles del remitente para ver la dirección de email completa. Haz una captura de pantalla mostrando: el nombre del remitente, la dirección de email, la fecha y el asunto.",
+      step2Title: "Captura de pantalla del cuerpo del email",
+      step2Text: "Haz una segunda captura de pantalla del contenido del email. Incluye los enlaces y botones visibles.",
+      important: "Importante",
+      importantText: "Las DOS capturas son necesarias para un análisis completo. La dirección del remitente nos permite verificar si el email es legítimo.",
+      understoodButton: "Entendido, analizar mis imágenes",
+      cancelButton: "Cancelar"
     },
 
     // Landing page
