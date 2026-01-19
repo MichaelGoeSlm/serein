@@ -1,0 +1,258 @@
+.image-input {
+  width: 100%;
+}
+
+.upload-button {
+  width: 100%;
+  padding: 32px 24px;
+  font-size: 18px;
+  font-weight: 500;
+  background: white;
+  color: #5d6d7e;
+  border: 2px dashed #bdc3c7;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.upload-button:hover:not(:disabled) {
+  border-color: #7fb3d5;
+  background: #f8fbfd;
+  color: #5da0c7;
+}
+
+.upload-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.upload-icon {
+  font-size: 40px;
+  margin-bottom: 8px;
+}
+
+.upload-text {
+  font-size: 18px;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.upload-hint {
+  font-size: 14px;
+  color: #95a5a6;
+}
+
+/* Multiple Images Preview */
+.images-preview-container {
+  background: white;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(107, 140, 179, 0.15);
+}
+
+.images-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.image-thumb {
+  position: relative;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 2px solid #e0e0e0;
+}
+
+.image-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-thumb {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: rgba(231, 76, 60, 0.9);
+  color: white;
+  border: none;
+  font-size: 18px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease;
+}
+
+.remove-thumb:hover:not(:disabled) {
+  transform: scale(1.1);
+  background: #c0392b;
+}
+
+.remove-thumb:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-more-button {
+  aspect-ratio: 1;
+  border: 2px dashed #bdc3c7;
+  border-radius: 12px;
+  background: #f8fbfd;
+  color: #7fb3d5;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: all 0.2s ease;
+  min-height: 100px;
+}
+
+.add-more-button:hover:not(:disabled) {
+  border-color: #7fb3d5;
+  background: #eef6fb;
+}
+
+.add-more-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.add-more-button span {
+  font-size: 32px;
+  font-weight: 300;
+  line-height: 1;
+}
+
+.add-more-button small {
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.images-count {
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 14px;
+  margin-bottom: 16px;
+}
+
+.image-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.image-actions .analyze-button {
+  flex: 1;
+  padding: 18px 32px;
+  font-size: 18px;
+  font-weight: 600;
+  background: linear-gradient(135deg, #7fb3d5 0%, #5da0c7 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+}
+
+.image-actions .analyze-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(93, 160, 199, 0.4);
+}
+
+.image-actions .analyze-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.loading-text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.spinner {
+  width: 20px;
+  height: 20px;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-top-color: white;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.remove-button {
+  padding: 18px 24px;
+  font-size: 16px;
+  font-weight: 500;
+  background: #f8f9fa;
+  color: #7f8c8d;
+  border: 1px solid #e0e0e0;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.remove-button:hover:not(:disabled) {
+  background: #fee;
+  border-color: #e74c3c;
+  color: #e74c3c;
+}
+
+.remove-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.input-hint {
+  margin-top: 16px;
+  text-align: center;
+  color: #7f8c8d;
+  font-size: 14px;
+}
+
+@media (max-width: 600px) {
+  .upload-button {
+    padding: 24px 20px;
+  }
+
+  .upload-icon {
+    font-size: 32px;
+  }
+
+  .upload-text {
+    font-size: 16px;
+  }
+
+  .image-actions {
+    flex-direction: column;
+  }
+
+  .image-actions .analyze-button {
+    padding: 16px 24px;
+    font-size: 16px;
+  }
+
+  .remove-button {
+    width: 100%;
+  }
+}

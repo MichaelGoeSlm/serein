@@ -1,40 +1,59 @@
-.link-input {
+.text-input {
   width: 100%;
 }
 
-.input-container {
+.textarea-container {
   background: white;
-  padding: 8px;
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(107, 140, 179, 0.15);
   border: 2px solid transparent;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  overflow: hidden;
 }
 
-.input-container:focus-within {
+.textarea-container:focus-within {
   border-color: #7fb3d5;
   box-shadow: 0 4px 25px rgba(107, 140, 179, 0.25);
 }
 
-.url-input {
+.text-area {
   width: 100%;
-  padding: 18px 20px;
+  padding: 20px;
   font-size: 18px;
+  font-family: inherit;
   border: none;
   background: transparent;
   color: #2c3e50;
   outline: none;
+  resize: vertical;
+  min-height: 180px;
+  line-height: 1.6;
 }
 
-.url-input::placeholder {
+.text-area::placeholder {
   color: #95a5a6;
 }
 
-.url-input:disabled {
+.text-area:disabled {
   opacity: 0.7;
+  background: #f8f9fa;
 }
 
-.analyze-button {
+.char-counter {
+  padding: 10px 20px;
+  text-align: right;
+  font-size: 14px;
+  color: #7f8c8d;
+  background: #f8f9fa;
+  border-top: 1px solid #eee;
+}
+
+.char-counter.over-limit {
+  color: #e74c3c;
+  font-weight: 600;
+}
+
+.text-input .analyze-button {
   width: 100%;
   margin-top: 16px;
   padding: 18px 32px;
@@ -46,32 +65,31 @@
   border-radius: 12px;
   cursor: pointer;
   transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
-  white-space: nowrap;
 }
 
-.analyze-button:hover:not(:disabled) {
+.text-input .analyze-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(93, 160, 199, 0.4);
 }
 
-.analyze-button:active:not(:disabled) {
+.text-input .analyze-button:active:not(:disabled) {
   transform: translateY(0);
 }
 
-.analyze-button:disabled {
+.text-input .analyze-button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
   transform: none;
 }
 
-.loading-text {
+.text-input .loading-text {
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 10px;
 }
 
-.spinner {
+.text-input .spinner {
   width: 20px;
   height: 20px;
   border: 2px solid rgba(255, 255, 255, 0.3);
@@ -86,20 +104,22 @@
   }
 }
 
-.input-hint {
-  margin-top: 16px;
+.error-hint {
+  margin-top: 12px;
   text-align: center;
-  color: #7f8c8d;
+  color: #e74c3c;
   font-size: 14px;
+  font-weight: 500;
 }
 
 @media (max-width: 600px) {
-  .url-input {
+  .text-area {
     padding: 16px;
     font-size: 16px;
+    min-height: 150px;
   }
 
-  .analyze-button {
+  .text-input .analyze-button {
     padding: 16px 24px;
     font-size: 16px;
   }
