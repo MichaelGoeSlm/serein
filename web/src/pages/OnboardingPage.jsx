@@ -2,140 +2,106 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { markOnboardingComplete } from '../firebase/firestore';
 import './OnboardingPage.css';
 
 function OnboardingPage() {
-  const { t, language, setLanguage } = useLanguage();
-  const { user } = useAuth();
+  const { t } = useLanguage();
+  const { user, refreshUserProfile } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
-  const [selectedLanguage, setSelectedLanguage] = useState(language);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
-  const handleLanguageSelect = (lang) => {
-    setSelectedLanguage(lang);
-    setLanguage(lang);
-  };
-
-  const handleNext = () => {
+  const handleNext = async () => {
     if (step < 3) {
-      setStep(step + 1);
+      setIsTransitioning(true);
+      setTimeout(() => {
+        setStep(step + 1);
+        setIsTransitioning(false);
+      }, 200);
     } else {
-      // Save onboarding completed in localStorage
+      // Mark onboarding as complete in Firestore
       if (user) {
-        localStorage.setItem(`serein_onboarding_${user.uid}`, 'true');
+        try {
+          await markOnboardingComplete(user.uid);
+          await refreshUserProfile();
+        } catch (error) {
+          console.error('Error completing onboarding:', error);
+        }
       }
       navigate('/app');
     }
   };
 
-  const handleBack = () => {
-    if (step > 1) {
-      setStep(step - 1);
-    }
-  };
-
   return (
     <div className="onboarding-page">
-      <div className="onboarding-container">
-        {/* Progress indicator */}
-        <div className="onboarding-progress">
-          <div className={`progress-step ${step >= 1 ? 'active' : ''}`}>1</div>
-          <div className={`progress-line ${step >= 2 ? 'active' : ''}`}></div>
-          <div className={`progress-step ${step >= 2 ? 'active' : ''}`}>2</div>
-          <div className={`progress-line ${step >= 3 ? 'active' : ''}`}></div>
-          <div className={`progress-step ${step >= 3 ? 'active' : ''}`}>3</div>
-        </div>
-
-        {/* Step 1: Language Selection */}
+      <div className={`onboarding-content ${isTransitioning ? 'fade-out' : 'fade-in'}`}>
+        {/* Step 1: What Serein does */}
         {step === 1 && (
           <div className="onboarding-step">
-            <span className="step-emoji">🌍</span>
-            <h2>{t('onboarding.step1Title')}</h2>
-            <p className="step-description">{t('onboarding.step1Description')}</p>
-
-            <div className="language-options">
-              <button
-                className={`language-option ${selectedLanguage === 'fr' ? 'selected' : ''}`}
-                onClick={() => handleLanguageSelect('fr')}
-              >
-                <span className="lang-flag">🇫🇷</span>
-                <span className="lang-name">Francais</span>
-              </button>
-              <button
-                className={`language-option ${selectedLanguage === 'en' ? 'selected' : ''}`}
-                onClick={() => handleLanguageSelect('en')}
-              >
-                <span className="lang-flag">🇬🇧</span>
-                <span className="lang-name">English</span>
-              </button>
-              <button
-                className={`language-option ${selectedLanguage === 'es' ? 'selected' : ''}`}
-                onClick={() => handleLanguageSelect('es')}
-              >
-                <span className="lang-flag">🇪🇸</span>
-                <span className="lang-name">Espanol</span>
-              </button>
-            </div>
+            <div className="step-icon">🛡️</div>
+            <h1 className="step-title">{t('onboarding.step1Title')}</h1>
+            <p className="step-text">{t('onboarding.step1Text')}</p>
           </div>
         )}
 
-        {/* Step 2: How it works */}
+        {/* Step 2: Privacy */}
         {step === 2 && (
           <div className="onboarding-step">
-            <span className="step-emoji">🔍</span>
-            <h2>{t('onboarding.step2Title')}</h2>
-            <p className="step-description">{t('onboarding.step2Description')}</p>
-
-            <div className="feature-list">
-              <div className="feature-item">
-                <span className="feature-icon">🔗</span>
-                <div className="feature-text">
-                  <strong>{t('onboarding.feature1Title')}</strong>
-                  <p>{t('onboarding.feature1Description')}</p>
-                </div>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">📷</span>
-                <div className="feature-text">
-                  <strong>{t('onboarding.feature2Title')}</strong>
-                  <p>{t('onboarding.feature2Description')}</p>
-                </div>
-              </div>
-              <div className="feature-item">
-                <span className="feature-icon">📝</span>
-                <div className="feature-text">
-                  <strong>{t('onboarding.feature3Title')}</strong>
-                  <p>{t('onboarding.feature3Description')}</p>
-                </div>
-              </div>
-            </div>
+            <div className="step-icon">🔒</div>
+            <h1 className="step-title">{t('onboarding.step2Title')}</h1>
+            <ul className="privacy-list">
+              <li>
+                <span className="check-icon">✓</span>
+                {t('onboarding.step2List1')}
+              </li>
+              <li>
+                <span className="check-icon">✓</span>
+                {t('onboarding.step2List2')}
+              </li>
+              <li>
+                <span className="check-icon">✓</span>
+                {t('onboarding.step2List3')}
+              </li>
+            </ul>
+            <p className="step-text">{t('onboarding.step2Text')}</p>
           </div>
         )}
 
-        {/* Step 3: Ready to go */}
+        {/* Step 3: How to use */}
         {step === 3 && (
           <div className="onboarding-step">
-            <span className="step-emoji">✅</span>
-            <h2>{t('onboarding.step3Title')}</h2>
-            <p className="step-description">{t('onboarding.step3Description')}</p>
-
-            <div className="ready-box">
-              <p className="ready-text">{t('onboarding.freeAnalyses')}</p>
-              <p className="ready-note">{t('onboarding.upgradeNote')}</p>
+            <div className="step-icon">✨</div>
+            <h1 className="step-title">{t('onboarding.step3Title')}</h1>
+            <div className="how-to-list">
+              <div className="how-to-item">
+                <span className="step-number">1</span>
+                <p>{t('onboarding.step3Item1')}</p>
+              </div>
+              <div className="how-to-item">
+                <span className="step-number">2</span>
+                <p>{t('onboarding.step3Item2')}</p>
+              </div>
+              <div className="how-to-item">
+                <span className="step-number">3</span>
+                <p>{t('onboarding.step3Item3')}</p>
+              </div>
             </div>
           </div>
         )}
+      </div>
 
-        {/* Navigation buttons */}
-        <div className="onboarding-nav">
-          {step > 1 && (
-            <button className="nav-button secondary" onClick={handleBack}>
-              {t('onboarding.back')}
-            </button>
-          )}
-          <button className="nav-button primary" onClick={handleNext}>
-            {step === 3 ? t('onboarding.start') : t('onboarding.next')}
-          </button>
+      {/* Navigation */}
+      <div className="onboarding-footer">
+        <button className="onboarding-button" onClick={handleNext}>
+          {step === 3 ? t('onboarding.start') : t('onboarding.next')}
+        </button>
+
+        {/* Progress dots */}
+        <div className="progress-dots">
+          <span className={`dot ${step === 1 ? 'active' : ''}`}></span>
+          <span className={`dot ${step === 2 ? 'active' : ''}`}></span>
+          <span className={`dot ${step === 3 ? 'active' : ''}`}></span>
         </div>
       </div>
     </div>
