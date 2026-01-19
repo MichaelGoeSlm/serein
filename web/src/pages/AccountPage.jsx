@@ -84,13 +84,19 @@ function AccountPage() {
     }
   };
 
-  const premiumEndDate = userProfile?.subscription?.endDate
-    ? new Date(userProfile.subscription.endDate).toLocaleDateString(language, {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      })
-    : '';
+  // Handle Firestore Timestamp or Date string
+  const getEndDateFormatted = () => {
+    const endDate = userProfile?.subscription?.endDate;
+    if (!endDate) return '';
+    const date = endDate.toDate ? endDate.toDate() : new Date(endDate);
+    return date.toLocaleDateString(language, {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric'
+    });
+  };
+
+  const premiumEndDate = getEndDateFormatted();
 
   return (
     <div className="account-page">
@@ -165,7 +171,7 @@ function AccountPage() {
                   {t('account.freePlan')}
                 </div>
                 <p className="subscription-info">
-                  {analysesUsed}/3 {t('account.analysesUsed')}
+                  {t('account.analysesUsed').replace('{count}', `${analysesUsed}/3`)}
                 </p>
                 <button
                   className="upgrade-button"

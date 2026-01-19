@@ -90,9 +90,18 @@ export function AuthProvider({ children }) {
 
   // Compute subscription status
   const subscription = userProfile?.subscription || {};
+
+  // Handle Firestore Timestamp or Date string for endDate
+  const getEndDate = () => {
+    if (!subscription.endDate) return null;
+    if (subscription.endDate.toDate) return subscription.endDate.toDate();
+    return new Date(subscription.endDate);
+  };
+
+  const endDate = getEndDate();
   const isPremium = subscription.status === 'active' &&
-    subscription.endDate &&
-    new Date(subscription.endDate) > new Date();
+    endDate &&
+    endDate > new Date();
   const analysesUsed = subscription.analysesUsed || 0;
   const analysesRemaining = isPremium ? Infinity : Math.max(0, 3 - analysesUsed);
   const canAnalyze = isPremium || analysesUsed < 3;
