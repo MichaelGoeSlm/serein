@@ -1,3 +1,4 @@
+/* Base - Accessibilité seniors */
 * {
   box-sizing: border-box;
   margin: 0;
@@ -6,26 +7,127 @@
 
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
-  background: linear-gradient(180deg, #f0f7fc 0%, #e6f2f9 50%, #dceef7 100%);
+  background-color: #f5f5f5;
   min-height: 100vh;
-  color: #1a2a3a; /* Darker text for better contrast */
-  font-size: 18px; /* Base font size for seniors */
+  color: #1a1a1a;
+  font-size: 18px;
   line-height: 1.6;
 }
 
+/* Polices grandes et lisibles */
+p, span, label {
+  font-size: 18px;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: bold;
+}
+
+h2 {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Boutons - Grands et espacés */
+button {
+  font-size: 18px;
+  padding: 16px 32px;
+  min-height: 56px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 600;
+  border: none;
+  transition: all 0.2s ease;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+button:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Bouton principal */
+.btn-primary {
+  background-color: #2563eb;
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: #1d4ed8;
+}
+
+/* Bouton secondaire */
+.btn-secondary {
+  background-color: #f3f4f6;
+  color: #374151;
+  border: 2px solid #d1d5db;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background-color: #e5e7eb;
+}
+
+/* Card */
+.card {
+  background-color: #ffffff;
+  border: 2px solid #d1d5db;
+  padding: 24px;
+  border-radius: 16px;
+  margin: 16px 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+/* Inputs - Grands et clairs */
+input, textarea {
+  font-size: 18px;
+  padding: 16px;
+  border: 2px solid #6b7280;
+  border-radius: 12px;
+  width: 100%;
+  margin: 8px 0;
+  font-family: inherit;
+}
+
+input:focus, textarea:focus {
+  border-color: #2563eb;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+}
+
+input:disabled, textarea:disabled {
+  background-color: #f9fafb;
+  opacity: 0.7;
+}
+
+/* App Container */
 .app {
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  padding: 40px 24px;
-  max-width: 720px;
+  padding: 32px 24px;
+  max-width: 640px;
   margin: 0 auto;
 }
 
 /* Header */
 .header {
   text-align: center;
-  margin-bottom: 40px;
+  margin-bottom: 32px;
 }
 
 .header-top {
@@ -39,23 +141,23 @@ body {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .logo-icon {
-  font-size: 48px;
+  font-size: 40px;
 }
 
 .logo h1 {
-  font-size: 48px;
+  font-size: 36px;
   font-weight: 700;
-  color: #1a5276; /* Darker blue for better contrast */
-  letter-spacing: -1px;
+  color: #1e3a5f;
+  letter-spacing: -0.5px;
 }
 
 .tagline {
-  font-size: 20px;
-  color: #34495e; /* Darker for better readability */
+  font-size: 18px;
+  color: #4b5563;
   font-weight: 400;
 }
 
@@ -64,17 +166,17 @@ body {
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 28px;
+  gap: 24px;
 }
 
-/* Mode Tabs */
+/* Mode Tabs - Grands et clairs */
 .mode-tabs {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   background: white;
   padding: 8px;
   border-radius: 16px;
-  box-shadow: 0 4px 20px rgba(107, 140, 179, 0.15);
+  border: 2px solid #d1d5db;
 }
 
 .mode-tab {
@@ -85,24 +187,26 @@ body {
   justify-content: center;
   gap: 6px;
   padding: 16px 12px;
-  min-height: 70px; /* Minimum 50px height for seniors */
+  min-height: 80px;
   background: transparent;
   border: 2px solid transparent;
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
-  color: #5d6d7e;
+  color: #4b5563;
+  font-size: 16px;
+  font-weight: 600;
 }
 
-.mode-tab:hover:not(:disabled) {
-  background: #f0f7fc;
-  color: #2874a6;
+.mode-tab:hover:not(:disabled):not(.active) {
+  background: #f3f4f6;
+  color: #1e3a5f;
 }
 
 .mode-tab.active {
-  background: linear-gradient(135deg, #7fb3d5 0%, #5da0c7 100%);
+  background-color: #2563eb;
   color: white;
-  border-color: transparent;
+  border-color: #2563eb;
 }
 
 .mode-tab:disabled {
@@ -124,22 +228,26 @@ body {
   width: 100%;
 }
 
+/* Instruction simple */
+.instruction {
+  text-align: center;
+  color: #4b5563;
+  font-size: 18px;
+  margin-bottom: 16px;
+  padding: 12px;
+  background: #f9fafb;
+  border-radius: 12px;
+}
+
 /* Error Message */
 .error-message {
   display: flex;
   align-items: flex-start;
   gap: 16px;
-  background: linear-gradient(135deg, #fef5f5 0%, #fdeaea 100%);
-  border: 2px solid #e74c3c;
+  background-color: #fef2f2;
+  border: 2px solid #ef4444;
   border-radius: 16px;
-  padding: 24px;
-  animation: shake 0.5s ease-in-out;
-}
-
-@keyframes shake {
-  0%, 100% { transform: translateX(0); }
-  20%, 60% { transform: translateX(-5px); }
-  40%, 80% { transform: translateX(5px); }
+  padding: 20px;
 }
 
 .error-icon {
@@ -153,38 +261,32 @@ body {
 
 .error-content strong {
   display: block;
-  color: #c0392b;
+  color: #dc2626;
   font-size: 20px;
   margin-bottom: 8px;
 }
 
 .error-content p {
-  color: #922b21;
+  color: #991b1b;
   font-size: 18px;
   line-height: 1.5;
   margin: 0;
 }
 
-/* Loading Card */
+/* Loading Card - Remplacé par ProgressIndicator */
 .loading-card {
   background: white;
-  border-radius: 20px;
-  padding: 48px 32px;
+  border-radius: 16px;
+  padding: 40px 24px;
   text-align: center;
-  box-shadow: 0 4px 25px rgba(107, 140, 179, 0.15);
-  animation: pulse 2s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.01); }
+  border: 2px solid #d1d5db;
 }
 
 .loading-spinner {
-  width: 56px;
-  height: 56px;
-  border: 5px solid #e8f4fc;
-  border-top-color: #5da0c7;
+  width: 60px;
+  height: 60px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #2563eb;
   border-radius: 50%;
   margin: 0 auto 24px;
   animation: spin 1s linear infinite;
@@ -197,62 +299,78 @@ body {
 .loading-text {
   font-size: 24px;
   font-weight: 600;
-  color: #1a5276;
+  color: #1e3a5f;
   margin: 0 0 12px 0;
 }
 
 .loading-subtext {
   font-size: 18px;
-  color: #5d6d7e;
+  color: #4b5563;
   margin: 0;
+}
+
+/* Result view */
+.result-view {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.new-analysis-btn {
+  margin-top: 16px;
 }
 
 /* Footer */
 .footer {
   text-align: center;
-  margin-top: 48px;
-  padding-top: 24px;
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
 }
 
 .footer p {
-  font-size: 16px;
-  color: #7f8c8d;
+  font-size: 14px;
+  color: #6b7280;
 }
 
-/* Responsive - Mobile optimizations for seniors */
+/* Section spacing */
+.section {
+  margin-bottom: 32px;
+}
+
+/* Responsive - Mobile */
 @media (max-width: 600px) {
   body {
     font-size: 16px;
   }
 
   .app {
-    padding: 24px 16px;
+    padding: 20px 16px;
   }
 
   .logo h1 {
-    font-size: 36px;
+    font-size: 28px;
   }
 
   .logo-icon {
-    font-size: 36px;
+    font-size: 32px;
   }
 
   .tagline {
-    font-size: 18px;
+    font-size: 16px;
   }
 
   .header {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
   }
 
   .mode-tabs {
-    flex-direction: row;
-    gap: 8px;
+    gap: 6px;
   }
 
   .mode-tab {
-    padding: 14px 8px;
-    min-height: 60px;
+    padding: 12px 8px;
+    min-height: 70px;
   }
 
   .tab-icon {
@@ -263,13 +381,19 @@ body {
     font-size: 14px;
   }
 
+  button {
+    padding: 14px 24px;
+    min-height: 52px;
+    font-size: 16px;
+  }
+
   .loading-card {
-    padding: 32px 24px;
+    padding: 32px 20px;
   }
 
   .loading-spinner {
-    width: 48px;
-    height: 48px;
+    width: 50px;
+    height: 50px;
   }
 
   .loading-text {
@@ -291,23 +415,45 @@ body {
   .footer {
     margin-top: 32px;
   }
+
+  .instruction {
+    font-size: 16px;
+  }
 }
 
 /* High contrast mode support */
 @media (prefers-contrast: high) {
   body {
     color: #000;
+    background-color: #fff;
   }
 
   .logo h1 {
-    color: #003366;
+    color: #000;
   }
 
   .mode-tab {
-    border: 2px solid #333;
+    border: 2px solid #000;
   }
 
   .mode-tab.active {
-    background: #003366;
+    background: #000;
+    color: #fff;
+  }
+
+  .card {
+    border: 2px solid #000;
+  }
+
+  input, textarea {
+    border: 2px solid #000;
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
   }
 }

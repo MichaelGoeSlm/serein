@@ -61,7 +61,38 @@ const translations = {
     // Footer
     poweredBy: "Propulsé par Claude AI",
     madeWith: "Fait avec",
-    forYourPeace: "pour votre sérénité"
+    forYourPeace: "pour votre sérénité",
+
+    // Help messages
+    helpLinkFailed: "Ce lien ne peut pas être analysé. Essayez une capture d'écran à la place.",
+    helpTryScreenshot: "Astuce : Une capture d'écran fonctionne souvent mieux qu'un lien.",
+    helpCopyText: "Vous pouvez aussi copier-coller le texte directement.",
+    helpUnderstood: "Compris",
+
+    // History
+    historyTitle: "Vos dernières analyses",
+    historyEmpty: "Aucune analyse récente",
+    historyClear: "Effacer l'historique",
+    historyConfirmClear: "Voulez-vous vraiment effacer l'historique ?",
+    historyYes: "Oui, effacer",
+    historyNo: "Non, annuler",
+
+    // Progress
+    progressFetching: "Récupération du contenu...",
+    progressAnalyzing: "Analyse en cours...",
+    progressSearching: "Vérification en ligne...",
+    progressAlmostDone: "Presque terminé...",
+    pleaseWait: "Veuillez patienter",
+    analysisTime: "L'analyse prend généralement 10-20 secondes",
+
+    // Instructions
+    instructionLink: "Collez un lien et appuyez sur Analyser",
+    instructionImage: "Ajoutez une ou plusieurs images",
+    instructionText: "Collez le texte suspect ici",
+
+    // Actions
+    newAnalysis: "Nouvelle analyse",
+    viewDetails: "Voir les détails"
   },
 
   en: {
@@ -126,7 +157,38 @@ const translations = {
     // Footer
     poweredBy: "Powered by Claude AI",
     madeWith: "Made with",
-    forYourPeace: "for your peace of mind"
+    forYourPeace: "for your peace of mind",
+
+    // Help messages
+    helpLinkFailed: "This link cannot be analyzed. Try a screenshot instead.",
+    helpTryScreenshot: "Tip: A screenshot often works better than a link.",
+    helpCopyText: "You can also copy and paste the text directly.",
+    helpUnderstood: "Got it",
+
+    // History
+    historyTitle: "Your recent analyses",
+    historyEmpty: "No recent analyses",
+    historyClear: "Clear history",
+    historyConfirmClear: "Are you sure you want to clear the history?",
+    historyYes: "Yes, clear",
+    historyNo: "No, cancel",
+
+    // Progress
+    progressFetching: "Fetching content...",
+    progressAnalyzing: "Analyzing...",
+    progressSearching: "Checking online...",
+    progressAlmostDone: "Almost done...",
+    pleaseWait: "Please wait",
+    analysisTime: "Analysis usually takes 10-20 seconds",
+
+    // Instructions
+    instructionLink: "Paste a link and press Analyze",
+    instructionImage: "Add one or more images",
+    instructionText: "Paste the suspicious text here",
+
+    // Actions
+    newAnalysis: "New analysis",
+    viewDetails: "View details"
   },
 
   es: {
@@ -191,7 +253,38 @@ const translations = {
     // Footer
     poweredBy: "Desarrollado con Claude AI",
     madeWith: "Hecho con",
-    forYourPeace: "para tu tranquilidad"
+    forYourPeace: "para tu tranquilidad",
+
+    // Help messages
+    helpLinkFailed: "Este enlace no se puede analizar. Prueba con una captura de pantalla.",
+    helpTryScreenshot: "Consejo: Una captura de pantalla suele funcionar mejor que un enlace.",
+    helpCopyText: "También puedes copiar y pegar el texto directamente.",
+    helpUnderstood: "Entendido",
+
+    // History
+    historyTitle: "Tus análisis recientes",
+    historyEmpty: "Sin análisis recientes",
+    historyClear: "Borrar historial",
+    historyConfirmClear: "¿Estás seguro de que quieres borrar el historial?",
+    historyYes: "Sí, borrar",
+    historyNo: "No, cancelar",
+
+    // Progress
+    progressFetching: "Obteniendo contenido...",
+    progressAnalyzing: "Analizando...",
+    progressSearching: "Verificando en línea...",
+    progressAlmostDone: "Casi listo...",
+    pleaseWait: "Por favor espera",
+    analysisTime: "El análisis suele tardar 10-20 segundos",
+
+    // Instructions
+    instructionLink: "Pega un enlace y presiona Analizar",
+    instructionImage: "Añade una o más imágenes",
+    instructionText: "Pega el texto sospechoso aquí",
+
+    // Actions
+    newAnalysis: "Nuevo análisis",
+    viewDetails: "Ver detalles"
   }
 };
 

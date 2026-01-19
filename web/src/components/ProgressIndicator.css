@@ -1,0 +1,79 @@
+.progress-indicator {
+  text-align: center;
+  padding: 40px 24px;
+}
+
+.progress-spinner {
+  width: 64px;
+  height: 64px;
+  border: 5px solid #e5e7eb;
+  border-top-color: #2563eb;
+  border-radius: 50%;
+  margin: 0 auto 24px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.progress-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin-bottom: 24px;
+}
+
+.progress-bar-container {
+  width: 100%;
+  height: 12px;
+  background-color: #e5e7eb;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.progress-step {
+  font-size: 20px;
+  font-weight: 500;
+  color: #1e3a5f;
+  margin-bottom: 12px;
+}
+
+.progress-hint {
+  font-size: 16px;
+  color: #6b7280;
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .progress-indicator {
+    padding: 32px 20px;
+  }
+
+  .progress-spinner {
+    width: 56px;
+    height: 56px;
+  }
+
+  .progress-title {
+    font-size: 20px;
+  }
+
+  .progress-step {
+    font-size: 18px;
+  }
+
+  .progress-hint {
+    font-size: 14px;
+  }
+}

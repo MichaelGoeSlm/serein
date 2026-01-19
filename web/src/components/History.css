@@ -1,0 +1,187 @@
+.history {
+  margin-top: 32px;
+  padding-top: 24px;
+  border-top: 2px solid #e5e7eb;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.history-header h3 {
+  font-size: 20px;
+  font-weight: 600;
+  color: #1e3a5f;
+  margin: 0;
+}
+
+.history-clear-btn {
+  font-size: 14px;
+  padding: 8px 16px;
+  min-height: 40px;
+  background: transparent;
+  color: #6b7280;
+  border: 1px solid #d1d5db;
+}
+
+.history-clear-btn:hover {
+  background: #fef2f2;
+  color: #dc2626;
+  border-color: #dc2626;
+}
+
+.history-confirm {
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
+.history-confirm p {
+  font-size: 18px;
+  color: #991b1b;
+  margin-bottom: 16px;
+}
+
+.history-confirm-buttons {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+}
+
+.history-confirm-buttons button {
+  min-width: 120px;
+  padding: 12px 20px;
+  min-height: 48px;
+}
+
+.btn-danger {
+  background-color: #dc2626;
+  color: white;
+}
+
+.btn-danger:hover {
+  background-color: #b91c1c;
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.history-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 16px;
+  min-height: 64px;
+  background: white;
+  border: 2px solid #e5e7eb;
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.history-item:hover {
+  border-color: #2563eb;
+  background: #f8fafc;
+}
+
+.history-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+
+.history-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.history-preview {
+  font-size: 16px;
+  font-weight: 500;
+  color: #1e3a5f;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.history-date {
+  font-size: 14px;
+  color: #6b7280;
+}
+
+.history-verdict {
+  font-size: 14px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.history-verdict.verdict-safe {
+  background-color: #d1fae5;
+  color: #065f46;
+}
+
+.history-verdict.verdict-caution {
+  background-color: #fef3c7;
+  color: #92400e;
+}
+
+.history-verdict.verdict-danger {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+@media (max-width: 600px) {
+  .history-header {
+    flex-direction: column;
+    gap: 12px;
+    align-items: flex-start;
+  }
+
+  .history-clear-btn {
+    width: 100%;
+  }
+
+  .history-item {
+    padding: 12px;
+  }
+
+  .history-icon {
+    font-size: 20px;
+  }
+
+  .history-preview {
+    font-size: 14px;
+  }
+
+  .history-date {
+    font-size: 12px;
+  }
+
+  .history-verdict {
+    font-size: 12px;
+    padding: 4px 8px;
+  }
+
+  .history-confirm-buttons {
+    flex-direction: column;
+  }
+
+  .history-confirm-buttons button {
+    width: 100%;
+  }
+}
