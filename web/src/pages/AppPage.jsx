@@ -1,20 +1,21 @@
 import { useState } from 'react';
 import { useLanguage } from '../i18n/LanguageContext';
-import useHistory from '../hooks/useHistory';
-import LanguageSelector from '../components/LanguageSelector';
+import { useAuth } from '../context/AuthContext';
+import { saveAnalysis, incrementAnalysesUsed } from '../firebase/firestore';
+import NavBar from '../components/NavBar';
 import LinkInput from '../components/LinkInput';
 import ImageInput from '../components/ImageInput';
 import TextInput from '../components/TextInput';
 import ResultCard from '../components/ResultCard';
 import ProgressIndicator from '../components/ProgressIndicator';
 import HelpMessage from '../components/HelpMessage';
-import History from '../components/History';
+import PaywallModal from '../components/PaywallModal';
 import { analyzeUrl, analyzeImages, analyzeText } from '../services/api';
 import './AppPage.css';
 
 function AppPage() {
   const { t, language } = useLanguage();
-  const { history, addToHistory, clearHistory } = useHistory();
+  const { user, canAnalyze, analysesRemaining, isPremium, refreshUserProfile } = useAuth();
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -22,8 +23,38 @@ function AppPage() {
   const [showHelp, setShowHelp] = useState(false);
   const [activeMode, setActiveMode] = useState('link');
   const [showResult, setShowResult] = useState(false);
+  const [showPaywall, setShowPaywall] = useState(false);
+
+  const saveAnalysisToFirestore = async (data, input, type) => {
+    if (!user) return;
+
+    try {
+      await saveAnalysis(user.uid, {
+        type,
+        input: input?.substring(0, 200) || '',
+        verdict: data.analysis?.verdict,
+        confidence: data.analysis?.confidence,
+        summary: data.analysis?.summary,
+        redFlags: data.analysis?.redFlags || []
+      });
+
+      // Increment analyses used counter (only for free users)
+      if (!isPremium) {
+        await incrementAnalysesUsed(user.uid);
+        await refreshUserProfile();
+      }
+    } catch (error) {
+      console.error('Error saving analysis:', error);
+    }
+  };
 
   const handleAnalyzeUrl = async (url) => {
+    // Check if user can analyze
+    if (!canAnalyze) {
+      setShowPaywall(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
@@ -34,7 +65,7 @@ function AppPage() {
       const data = await analyzeUrl(url, language);
       setResult(data);
       setShowResult(true);
-      addToHistory(data);
+      await saveAnalysisToFirestore(data, url, 'link');
     } catch (err) {
       setError(err.message || t('errorAnalysis'));
       setShowHelp(true);
@@ -44,6 +75,12 @@ function AppPage() {
   };
 
   const handleAnalyzeImages = async (imagesBase64Array) => {
+    // Check if user can analyze
+    if (!canAnalyze) {
+      setShowPaywall(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
@@ -54,7 +91,7 @@ function AppPage() {
       const data = await analyzeImages(imagesBase64Array, language);
       setResult(data);
       setShowResult(true);
-      addToHistory(data);
+      await saveAnalysisToFirestore(data, `[${imagesBase64Array.length} image(s)]`, 'image');
     } catch (err) {
       setError(err.message || t('errorAnalysis'));
       setShowHelp(true);
@@ -64,6 +101,12 @@ function AppPage() {
   };
 
   const handleAnalyzeText = async (text) => {
+    // Check if user can analyze
+    if (!canAnalyze) {
+      setShowPaywall(true);
+      return;
+    }
+
     setLoading(true);
     setError(null);
     setResult(null);
@@ -74,7 +117,7 @@ function AppPage() {
       const data = await analyzeText(text, language);
       setResult(data);
       setShowResult(true);
-      addToHistory(data);
+      await saveAnalysisToFirestore(data, text, 'text');
     } catch (err) {
       setError(err.message || t('errorAnalysis'));
       setShowHelp(true);
@@ -99,20 +142,6 @@ function AppPage() {
     setShowResult(false);
   };
 
-  const handleSelectHistoryEntry = (entry) => {
-    setResult({
-      type: entry.type,
-      url: entry.url,
-      title: entry.title,
-      textLength: entry.textLength,
-      imageCount: entry.imageCount,
-      analysis: entry.analysis
-    });
-    setShowResult(true);
-    setError(null);
-    setShowHelp(false);
-  };
-
   const getInstruction = () => {
     switch (activeMode) {
       case 'image':
@@ -126,18 +155,18 @@ function AppPage() {
 
   return (
     <div className="app-page">
-      <header className="header">
-        <div className="header-top">
-          <LanguageSelector />
-        </div>
-        <div className="logo">
-          <span className="logo-icon">🛡️</span>
-          <h1>{t('appName')}</h1>
-        </div>
-        <p className="tagline">{t('tagline')}</p>
-      </header>
+      <NavBar />
 
       <main className="main">
+        {/* Analyses remaining indicator for free users */}
+        {!isPremium && (
+          <div className="analyses-remaining">
+            <span className="analyses-count">
+              {analysesRemaining}/3 {t('analysesRemaining') || 'analyses restantes'}
+            </span>
+          </div>
+        )}
+
         {/* Mode Tabs */}
         <div className="mode-tabs">
           <button
@@ -215,22 +244,12 @@ function AppPage() {
             )}
           </div>
         )}
-
-        {/* History - Only show when not loading and no result */}
-        {!loading && !showResult && (
-          <History
-            history={history}
-            onSelectEntry={handleSelectHistoryEntry}
-            onClear={clearHistory}
-          />
-        )}
       </main>
 
-      <footer className="footer">
-        <p>
-          {t('poweredBy')} • {t('madeWith')} 💙 {t('forYourPeace')}
-        </p>
-      </footer>
+      {/* Paywall Modal */}
+      {showPaywall && (
+        <PaywallModal onClose={() => setShowPaywall(false)} />
+      )}
     </div>
   );
 }

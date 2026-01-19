@@ -143,7 +143,60 @@ const translations = {
 
     // Actions
     newAnalysis: "Nouvelle analyse",
-    viewDetails: "Voir les détails"
+    viewDetails: "Voir les détails",
+
+    // Analyses remaining
+    analysesRemaining: "{count} analyses gratuites restantes",
+    analysesRemainingOne: "1 analyse gratuite restante",
+
+    // Account page
+    account: {
+      title: "Mon compte",
+      profile: "Profil",
+      subscription: "Abonnement",
+      history: "Historique",
+      logout: "Deconnexion",
+      logoutConfirm: "Voulez-vous vraiment vous deconnecter ?",
+      logoutYes: "Oui, deconnecter",
+      logoutNo: "Annuler",
+      freeUser: "Compte gratuit",
+      premiumUser: "Compte premium",
+      analysesUsed: "{count} analyses utilisees",
+      validUntil: "Valide jusqu'au {date}",
+      upgrade: "Passer a Premium",
+      noHistory: "Aucune analyse effectuee",
+      back: "Retour"
+    },
+
+    // Paywall
+    paywall: {
+      title: "Vos analyses gratuites sont epuisees",
+      subtitle: "Passez a Premium pour continuer a proteger vos proches",
+      price: "29 EUR",
+      period: "/ an",
+      payWith: "Payer avec Lightning",
+      later: "Plus tard"
+    },
+
+    // Payment
+    payment: {
+      title: "Paiement Premium",
+      subtitle: "Accedez a des analyses illimitees",
+      loading: "Chargement...",
+      error: "Erreur lors de la creation de la facture",
+      retry: "Reessayer",
+      scan: "Scannez ce QR code avec votre portefeuille Lightning",
+      copy: "Copier la facture",
+      copied: "Copie !",
+      waiting: "En attente du paiement...",
+      success: "Paiement recu !",
+      redirecting: "Redirection...",
+      info: "Inclus dans votre abonnement",
+      infoList1: "Analyses illimitees pendant 1 an",
+      infoList2: "Support prioritaire",
+      infoList3: "Aucune publicite",
+      back: "Retour"
+    }
   },
 
   en: {
@@ -290,7 +343,60 @@ const translations = {
 
     // Actions
     newAnalysis: "New analysis",
-    viewDetails: "View details"
+    viewDetails: "View details",
+
+    // Analyses remaining
+    analysesRemaining: "{count} free analyses remaining",
+    analysesRemainingOne: "1 free analysis remaining",
+
+    // Account page
+    account: {
+      title: "My account",
+      profile: "Profile",
+      subscription: "Subscription",
+      history: "History",
+      logout: "Sign out",
+      logoutConfirm: "Are you sure you want to sign out?",
+      logoutYes: "Yes, sign out",
+      logoutNo: "Cancel",
+      freeUser: "Free account",
+      premiumUser: "Premium account",
+      analysesUsed: "{count} analyses used",
+      validUntil: "Valid until {date}",
+      upgrade: "Upgrade to Premium",
+      noHistory: "No analyses yet",
+      back: "Back"
+    },
+
+    // Paywall
+    paywall: {
+      title: "Your free analyses are exhausted",
+      subtitle: "Upgrade to Premium to keep protecting your loved ones",
+      price: "29 EUR",
+      period: "/ year",
+      payWith: "Pay with Lightning",
+      later: "Later"
+    },
+
+    // Payment
+    payment: {
+      title: "Premium Payment",
+      subtitle: "Get unlimited analyses",
+      loading: "Loading...",
+      error: "Error creating invoice",
+      retry: "Retry",
+      scan: "Scan this QR code with your Lightning wallet",
+      copy: "Copy invoice",
+      copied: "Copied!",
+      waiting: "Waiting for payment...",
+      success: "Payment received!",
+      redirecting: "Redirecting...",
+      info: "Included in your subscription",
+      infoList1: "Unlimited analyses for 1 year",
+      infoList2: "Priority support",
+      infoList3: "No ads",
+      back: "Back"
+    }
   },
 
   es: {
@@ -437,7 +543,60 @@ const translations = {
 
     // Actions
     newAnalysis: "Nuevo análisis",
-    viewDetails: "Ver detalles"
+    viewDetails: "Ver detalles",
+
+    // Analyses remaining
+    analysesRemaining: "{count} analisis gratuitos restantes",
+    analysesRemainingOne: "1 analisis gratuito restante",
+
+    // Account page
+    account: {
+      title: "Mi cuenta",
+      profile: "Perfil",
+      subscription: "Suscripcion",
+      history: "Historial",
+      logout: "Cerrar sesion",
+      logoutConfirm: "Quieres cerrar sesion?",
+      logoutYes: "Si, cerrar sesion",
+      logoutNo: "Cancelar",
+      freeUser: "Cuenta gratuita",
+      premiumUser: "Cuenta premium",
+      analysesUsed: "{count} analisis realizados",
+      validUntil: "Valido hasta {date}",
+      upgrade: "Pasar a Premium",
+      noHistory: "Aun no hay analisis",
+      back: "Volver"
+    },
+
+    // Paywall
+    paywall: {
+      title: "Tus analisis gratuitos se han agotado",
+      subtitle: "Pasa a Premium para seguir protegiendo a los tuyos",
+      price: "29 EUR",
+      period: "/ año",
+      payWith: "Pagar con Lightning",
+      later: "Mas tarde"
+    },
+
+    // Payment
+    payment: {
+      title: "Pago Premium",
+      subtitle: "Accede a analisis ilimitados",
+      loading: "Cargando...",
+      error: "Error al crear la factura",
+      retry: "Reintentar",
+      scan: "Escanea este codigo QR con tu billetera Lightning",
+      copy: "Copiar factura",
+      copied: "Copiado!",
+      waiting: "Esperando el pago...",
+      success: "Pago recibido!",
+      redirecting: "Redirigiendo...",
+      info: "Incluido en tu suscripcion",
+      infoList1: "Analisis ilimitados durante 1 año",
+      infoList2: "Soporte prioritario",
+      infoList3: "Sin publicidad",
+      back: "Volver"
+    }
   }
 };
 

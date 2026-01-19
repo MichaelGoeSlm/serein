@@ -158,6 +158,24 @@
   margin: 0;
 }
 
+/* Analyses remaining indicator */
+.analyses-remaining {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border-radius: 12px;
+  font-size: 16px;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.analyses-remaining span:first-child {
+  font-size: 20px;
+}
+
 /* Result view */
 .result-view {
   display: flex;
