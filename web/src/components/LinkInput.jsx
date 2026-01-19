@@ -1,7 +1,9 @@
 import { useState } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
 import './LinkInput.css';
 
 function LinkInput({ onAnalyzeUrl, isLoading }) {
+  const { t } = useLanguage();
   const [url, setUrl] = useState('');
 
   const handleSubmit = (e) => {
@@ -19,7 +21,7 @@ function LinkInput({ onAnalyzeUrl, isLoading }) {
             type="text"
             value={url}
             onChange={(e) => setUrl(e.target.value)}
-            placeholder="Collez votre lien ici (ex: https://exemple.com)"
+            placeholder={t('linkPlaceholder')}
             disabled={isLoading}
             className="url-input"
           />
@@ -32,16 +34,14 @@ function LinkInput({ onAnalyzeUrl, isLoading }) {
           {isLoading ? (
             <span className="loading-text">
               <span className="spinner"></span>
-              Analyse...
+              {t('analyzing')}
             </span>
           ) : (
-            'Analyser ce lien'
+            t('analyzeLink')
           )}
         </button>
       </form>
-      <p className="input-hint">
-        Collez l'URL d'une page web, d'un article ou d'un site suspect
-      </p>
+      <p className="input-hint">{t('linkHint')}</p>
     </div>
   );
 }

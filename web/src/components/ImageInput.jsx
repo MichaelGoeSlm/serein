@@ -1,10 +1,12 @@
 import { useState, useRef } from 'react';
+import { useLanguage } from '../i18n/LanguageContext';
 import './ImageInput.css';
 
 const MAX_IMAGES = 5;
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 
 function ImageInput({ onAnalyzeImages, isLoading }) {
+  const { t } = useLanguage();
   const [selectedImages, setSelectedImages] = useState([]);
   const fileInputRef = useRef(null);
 
@@ -13,27 +15,24 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
 
     if (files.length === 0) return;
 
-    // Check total count
     if (selectedImages.length + files.length > MAX_IMAGES) {
-      alert(`Maximum ${MAX_IMAGES} images autorisées.`);
+      alert(t('maxImagesAlert'));
       return;
     }
 
-    // Process each file
     const validFiles = [];
     for (const file of files) {
       if (file.size > MAX_FILE_SIZE) {
-        alert(`"${file.name}" est trop volumineuse. Maximum 5 Mo par image.`);
+        alert(`"${file.name}" ${t('imageTooLarge')}`);
         continue;
       }
       if (!file.type.startsWith('image/')) {
-        alert(`"${file.name}" n'est pas une image valide.`);
+        alert(`"${file.name}" ${t('invalidImage')}`);
         continue;
       }
       validFiles.push(file);
     }
 
-    // Read files and create previews
     validFiles.forEach(file => {
       const reader = new FileReader();
       reader.onload = (e) => {
@@ -49,7 +48,6 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
       reader.readAsDataURL(file);
     });
 
-    // Reset input
     if (fileInputRef.current) {
       fileInputRef.current.value = '';
     }
@@ -97,8 +95,8 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
           className="upload-button"
         >
           <span className="upload-icon">📷</span>
-          <span className="upload-text">Cliquez pour sélectionner des images</span>
-          <span className="upload-hint">ou glissez-déposez vos fichiers ici</span>
+          <span className="upload-text">{t('imageButton')}</span>
+          <span className="upload-hint">{t('imageDragHint')}</span>
         </button>
       ) : (
         <div className="images-preview-container">
@@ -111,7 +109,7 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
                   className="remove-thumb"
                   onClick={() => handleRemoveImage(img.id)}
                   disabled={isLoading}
-                  title="Supprimer"
+                  title={t('removeAll')}
                 >
                   ×
                 </button>
@@ -125,12 +123,12 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
                 disabled={isLoading}
               >
                 <span>+</span>
-                <small>Ajouter</small>
+                <small>{t('addMore')}</small>
               </button>
             )}
           </div>
           <p className="images-count">
-            {selectedImages.length} / {MAX_IMAGES} image{selectedImages.length > 1 ? 's' : ''}
+            {selectedImages.length} / {MAX_IMAGES} {t('imageLimit')}
           </p>
           <div className="image-actions">
             <button
@@ -142,10 +140,10 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
               {isLoading ? (
                 <span className="loading-text">
                   <span className="spinner"></span>
-                  Analyse...
+                  {t('analyzing')}
                 </span>
               ) : (
-                `Analyser ${selectedImages.length > 1 ? 'ces images' : 'cette image'}`
+                selectedImages.length > 1 ? t('analyzeImages') : t('analyzeImage')
               )}
             </button>
             <button
@@ -154,15 +152,13 @@ function ImageInput({ onAnalyzeImages, isLoading }) {
               disabled={isLoading}
               className="remove-button"
             >
-              Tout supprimer
+              {t('removeAll')}
             </button>
           </div>
         </div>
       )}
 
-      <p className="input-hint">
-        Formats acceptés : PNG, JPEG, GIF, WebP (max 5 Mo par image)
-      </p>
+      <p className="input-hint">{t('imageFormats')}</p>
     </div>
   );
 }
