@@ -1,10 +1,12 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
+import { useAuth } from '../context/AuthContext';
 import './OnboardingPage.css';
 
 function OnboardingPage() {
   const { t, language, setLanguage } = useLanguage();
+  const { user } = useAuth();
   const navigate = useNavigate();
   const [step, setStep] = useState(1);
   const [selectedLanguage, setSelectedLanguage] = useState(language);
@@ -18,7 +20,10 @@ function OnboardingPage() {
     if (step < 3) {
       setStep(step + 1);
     } else {
-      // TODO: Save onboarding completed to Firestore
+      // Save onboarding completed in localStorage
+      if (user) {
+        localStorage.setItem(`serein_onboarding_${user.uid}`, 'true');
+      }
       navigate('/app');
     }
   };

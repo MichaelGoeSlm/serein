@@ -96,8 +96,45 @@
   transform: translateY(1px);
 }
 
+.google-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
 .google-icon {
   flex-shrink: 0;
+}
+
+.button-loading {
+  font-size: 18px;
+}
+
+.login-error {
+  background: #fef2f2;
+  border: 2px solid #ef4444;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 24px;
+  color: #dc2626;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.security-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 24px;
+  font-size: 16px;
+  color: #666;
+  text-align: center;
+}
+
+.lock-icon {
+  font-size: 18px;
 }
 
 .login-divider {
