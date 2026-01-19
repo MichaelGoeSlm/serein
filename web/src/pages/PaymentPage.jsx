@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { activatePremium } from '../firebase/firestore';
 import LightningPayment from '../components/LightningPayment';
 import './PaymentPage.css';
 
@@ -51,8 +50,7 @@ function PaymentPage() {
 
   const handlePaymentConfirmed = async (paymentData) => {
     try {
-      // Activate premium in Firestore
-      await activatePremium(user.uid);
+      // Backend already activated premium, just refresh user profile
       await refreshUserProfile();
 
       // Redirect to app after short delay
@@ -60,7 +58,7 @@ function PaymentPage() {
         navigate('/app');
       }, 2000);
     } catch (error) {
-      console.error('Error activating premium:', error);
+      console.error('Error refreshing profile:', error);
     }
   };
 

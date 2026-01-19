@@ -17,7 +17,7 @@ function LightningPayment({ invoice, onPaymentConfirmed }) {
     const checkPayment = async () => {
       setChecking(true);
       try {
-        const response = await fetch(`${API_URL}/api/payment/check/${invoice.invoiceId}`);
+        const response = await fetch(`${API_URL}/api/payment/check-payment/${invoice.invoiceId}`);
         const data = await response.json();
 
         if (data.paid) {
@@ -64,7 +64,7 @@ function LightningPayment({ invoice, onPaymentConfirmed }) {
     <div className="lightning-payment">
       <div className="payment-amount">
         <span className="amount-sats">{invoice.amountSats?.toLocaleString()} sats</span>
-        <span className="amount-euros">({invoice.amountEuros} EUR)</span>
+        <span className="amount-euros">({invoice.amountFiat || invoice.amountEuros} EUR)</span>
       </div>
 
       <div className="qr-container">
