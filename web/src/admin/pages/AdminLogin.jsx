@@ -17,15 +17,19 @@ function AdminLogin() {
     setError('');
     setLoading(true);
 
-    const result = adminLogin(email, password);
+    try {
+      const result = await adminLogin(email, password);
 
-    if (result.success) {
-      navigate('/admin/dashboard');
-    } else {
-      setError(result.error);
+      if (result.success) {
+        navigate('/admin/dashboard');
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('Erreur de connexion');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
