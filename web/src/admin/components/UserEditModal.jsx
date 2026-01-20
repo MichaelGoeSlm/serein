@@ -2,17 +2,52 @@ import { useState } from 'react';
 import { updateUserSubscription } from '../services/adminFirestore';
 import '../admin.css';
 
+// Helper function to parse date from various formats
+function parseDate(dateValue) {
+  if (!dateValue) return '';
+
+  try {
+    let date;
+
+    // Firestore Timestamp with toDate() method
+    if (dateValue.toDate && typeof dateValue.toDate === 'function') {
+      date = dateValue.toDate();
+    }
+    // Serialized Firestore Timestamp from API (has _seconds)
+    else if (dateValue._seconds) {
+      date = new Date(dateValue._seconds * 1000);
+    }
+    // ISO string or other date string
+    else if (typeof dateValue === 'string') {
+      date = new Date(dateValue);
+    }
+    // Already a Date object
+    else if (dateValue instanceof Date) {
+      date = dateValue;
+    }
+    // Object with seconds (another format)
+    else if (dateValue.seconds) {
+      date = new Date(dateValue.seconds * 1000);
+    }
+    else {
+      return '';
+    }
+
+    // Check if date is valid
+    if (isNaN(date.getTime())) {
+      return '';
+    }
+
+    return date.toISOString().split('T')[0];
+  } catch (error) {
+    console.error('Error parsing date:', error);
+    return '';
+  }
+}
+
 function UserEditModal({ user, onClose, onSave }) {
   const [status, setStatus] = useState(user?.subscription?.status || 'free');
-  const [endDate, setEndDate] = useState(() => {
-    if (user?.subscription?.endDate) {
-      const date = user.subscription.endDate.toDate
-        ? user.subscription.endDate.toDate()
-        : new Date(user.subscription.endDate);
-      return date.toISOString().split('T')[0];
-    }
-    return '';
-  });
+  const [endDate, setEndDate] = useState(() => parseDate(user?.subscription?.endDate));
   const [resetAnalyses, setResetAnalyses] = useState(false);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState(null);

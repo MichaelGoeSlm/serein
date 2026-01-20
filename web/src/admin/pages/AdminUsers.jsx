@@ -38,13 +38,34 @@ function AdminUsers() {
     navigate('/admin/login');
   };
 
+  // Helper to parse dates from various formats (API returns _seconds format)
+  const parseDate = (dateValue) => {
+    if (!dateValue) return null;
+    try {
+      if (dateValue.toDate && typeof dateValue.toDate === 'function') {
+        return dateValue.toDate();
+      }
+      if (dateValue._seconds) {
+        return new Date(dateValue._seconds * 1000);
+      }
+      if (dateValue.seconds) {
+        return new Date(dateValue.seconds * 1000);
+      }
+      if (typeof dateValue === 'string' || typeof dateValue === 'number') {
+        return new Date(dateValue);
+      }
+      return null;
+    } catch {
+      return null;
+    }
+  };
+
   const getSubscriptionStatus = (user) => {
     const subscription = user.subscription || {};
     if (subscription.status === 'active') {
-      const endDate = subscription.endDate;
+      const endDate = parseDate(subscription.endDate);
       if (endDate) {
-        const end = endDate.toDate ? endDate.toDate() : new Date(endDate);
-        if (end > new Date()) {
+        if (endDate > new Date()) {
           return 'premium';
         }
       } else {
@@ -55,8 +76,8 @@ function AdminUsers() {
   };
 
   const formatDate = (timestamp) => {
-    if (!timestamp) return '-';
-    const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+    const date = parseDate(timestamp);
+    if (!date || isNaN(date.getTime())) return '-';
     return date.toLocaleDateString('fr-FR', {
       day: '2-digit',
       month: '2-digit',
