@@ -21,6 +21,11 @@ export function ThemeProvider({ children }) {
     return stored === 'true';
   });
 
+  const [simpleMode, setSimpleMode] = useState(() => {
+    const stored = localStorage.getItem('serein_simpleMode');
+    return stored === 'true';
+  });
+
   // Apply theme to document
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
@@ -33,16 +38,25 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('serein_largeText', largeText.toString());
   }, [largeText]);
 
+  // Save simple mode to localStorage
+  useEffect(() => {
+    localStorage.setItem('serein_simpleMode', simpleMode.toString());
+  }, [simpleMode]);
+
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
   const toggleLargeText = () => setLargeText((prev) => !prev);
+  const toggleSimpleMode = () => setSimpleMode((prev) => !prev);
 
   const value = {
     darkMode,
     setDarkMode,
     largeText,
     setLargeText,
+    simpleMode,
+    setSimpleMode,
     toggleDarkMode,
-    toggleLargeText
+    toggleLargeText,
+    toggleSimpleMode
   };
 
   return (
