@@ -3,13 +3,15 @@
   justify-content: space-between;
   align-items: center;
   padding: var(--spacing-base) var(--spacing-lg);
-  background: var(--navbar-bg);
-  border-bottom: 1px solid var(--border-color);
+  background: var(--glass-bg);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--glass-border);
   position: sticky;
   top: 0;
   z-index: 100;
-  box-shadow: var(--navbar-shadow);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  transition: all var(--transition-normal);
 }
 
 .navbar-logo {
@@ -17,16 +19,25 @@
   align-items: center;
   gap: 10px;
   text-decoration: none;
+  transition: transform var(--transition-fast);
+}
+
+.navbar-logo:hover {
+  transform: scale(1.02);
 }
 
 .navbar-logo .logo-icon {
-  font-size: var(--font-size-2xl);
+  color: var(--accent-color);
+  filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.3));
 }
 
 .navbar-logo .logo-text {
   font-size: var(--font-size-xl);
   font-weight: 700;
-  color: var(--accent-color);
+  background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .navbar-right {
@@ -61,11 +72,14 @@
   border-radius: 50%;
   object-fit: cover;
   border: 2px solid var(--border-color);
-  transition: border-color 0.2s ease;
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
 .navbar-avatar:hover {
   border-color: var(--accent-color);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
 }
 
 .navbar-avatar-placeholder {
@@ -77,12 +91,15 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: var(--font-size-lg);
-  transition: border-color 0.2s ease, background-color 0.3s ease;
+  color: var(--text-muted);
+  transition: all var(--transition-fast);
+  box-shadow: var(--shadow-sm);
 }
 
 .navbar-avatar-placeholder:hover {
   border-color: var(--accent-color);
+  transform: scale(1.05);
+  box-shadow: var(--shadow-md);
 }
 
 /* Responsive */

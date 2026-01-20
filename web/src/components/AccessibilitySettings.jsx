@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import { Settings, Moon, Sun, Type, X } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import './AccessibilitySettings.css';
@@ -24,23 +25,32 @@ function AccessibilitySettings() {
   return (
     <div className="accessibility-container" ref={menuRef}>
       <button
-        className="accessibility-trigger"
+        className="accessibility-trigger icon-btn"
         onClick={() => setIsOpen(!isOpen)}
         aria-label={t('accessibility.settings')}
         aria-expanded={isOpen}
       >
-        <span className="accessibility-icon">⚙️</span>
+        <Settings size={20} />
       </button>
 
       {isOpen && (
         <div className="accessibility-menu">
+          <button
+            className="close-button"
+            onClick={() => setIsOpen(false)}
+            aria-label={t('accessibility.close')}
+          >
+            <X size={20} />
+            <span className="close-text">{t('accessibility.close')}</span>
+          </button>
+
           <div className="accessibility-header">
             {t('accessibility.settings')}
           </div>
 
           <div className="accessibility-option">
             <div className="option-info">
-              <span className="option-icon">🌙</span>
+              {darkMode ? <Sun size={20} className="option-icon" /> : <Moon size={20} className="option-icon" />}
               <span className="option-label">{t('accessibility.darkMode')}</span>
             </div>
             <button
@@ -57,7 +67,7 @@ function AccessibilitySettings() {
 
           <div className="accessibility-option">
             <div className="option-info">
-              <span className="option-icon">🔍</span>
+              <Type size={20} className="option-icon" />
               <span className="option-label">{t('accessibility.largeText')}</span>
             </div>
             <button

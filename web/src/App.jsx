@@ -15,6 +15,7 @@ import AdminLogin from './admin/pages/AdminLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminUsers from './admin/pages/AdminUsers';
 import './styles/themes.css';
+import './styles/modern.css';
 import './App.css';
 
 function App() {

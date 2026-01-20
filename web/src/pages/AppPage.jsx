@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { saveAnalysis, incrementAnalysesUsed } from '../firebase/firestore';
@@ -193,38 +194,38 @@ function AppPage() {
         )}
 
         {/* Mode Tabs */}
-        <div className="mode-tabs">
+        <div className="mode-tabs tabs-modern">
           <button
-            className={`mode-tab ${activeMode === 'link' ? 'active' : ''}`}
+            className={`tab-modern ${activeMode === 'link' ? 'active' : ''}`}
             onClick={() => handleModeChange('link')}
             disabled={loading}
           >
-            <span className="tab-icon">🔗</span>
-            <span className="tab-label">{t('tabLink')}</span>
+            <Link size={18} />
+            <span>{t('tabLink')}</span>
           </button>
           <button
-            className={`mode-tab ${activeMode === 'image' ? 'active' : ''}`}
+            className={`tab-modern ${activeMode === 'image' ? 'active' : ''}`}
             onClick={() => handleModeChange('image')}
             disabled={loading}
           >
-            <span className="tab-icon">📷</span>
-            <span className="tab-label">{t('tabImage')}</span>
+            <Camera size={18} />
+            <span>{t('tabImage')}</span>
           </button>
           <button
-            className={`mode-tab ${activeMode === 'text' ? 'active' : ''}`}
+            className={`tab-modern ${activeMode === 'text' ? 'active' : ''}`}
             onClick={() => handleModeChange('text')}
             disabled={loading}
           >
-            <span className="tab-icon">📝</span>
-            <span className="tab-label">{t('tabText')}</span>
+            <FileText size={18} />
+            <span>{t('tabText')}</span>
           </button>
           <button
-            className="mode-tab"
+            className="tab-modern"
             onClick={() => handleModeChange('email')}
             disabled={loading}
           >
-            <span className="tab-icon">📧</span>
-            <span className="tab-label">{t('email.tabName')}</span>
+            <Mail size={18} />
+            <span>{t('email.tabName')}</span>
           </button>
         </div>
 
@@ -234,8 +235,8 @@ function AppPage() {
         {/* Error with Help */}
         {error && !loading && (
           <>
-            <div className="error-message">
-              <span className="error-icon">⚠️</span>
+            <div className="alert-modern alert-error">
+              <AlertTriangle size={20} />
               <div className="error-content">
                 <strong>{t('oops')}</strong>
                 <p>{error}</p>
@@ -249,11 +250,11 @@ function AppPage() {
 
         {/* Result View */}
         {showResult && result && !loading && (
-          <div className="result-view">
+          <div className="result-view animate-fadeInUp">
             <ResultCard result={result} />
             <button
               type="button"
-              className="btn-primary new-analysis-btn"
+              className="btn-modern btn-primary-gradient new-analysis-btn"
               onClick={handleNewAnalysis}
             >
               {t('newAnalysis')}
