@@ -13,15 +13,6 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Only show language selector if user hasn't chosen a language yet
-  const [showLanguageSelector, setShowLanguageSelector] = useState(() => {
-    return !localStorage.getItem('serein-language-chosen');
-  });
-
-  const handleLanguageChosen = () => {
-    setShowLanguageSelector(false);
-  };
-
   // Redirect if already logged in
   useEffect(() => {
     if (user && userProfile) {
@@ -54,9 +45,7 @@ function LoginPage() {
           <ArrowLeft size={18} className="back-arrow" />
           <span>{t('login.backToHome')}</span>
         </Link>
-        {showLanguageSelector && (
-          <LanguageSelector onLanguageChosen={handleLanguageChosen} />
-        )}
+        <LanguageSelector />
       </div>
 
       <div className="login-container">

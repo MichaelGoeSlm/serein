@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Shield, ClipboardList, Search, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
@@ -7,15 +6,6 @@ import './LandingPage.css';
 
 function LandingPage() {
   const { t } = useLanguage();
-
-  // Only show language selector if user hasn't chosen a language yet
-  const [showLanguageSelector, setShowLanguageSelector] = useState(() => {
-    return !localStorage.getItem('serein-language-chosen');
-  });
-
-  const handleLanguageChosen = () => {
-    setShowLanguageSelector(false);
-  };
 
   return (
     <div className="landing">
@@ -26,9 +16,7 @@ function LandingPage() {
             <Shield size={32} className="logo-icon" />
             <span className="logo-text">Serein</span>
           </div>
-          {showLanguageSelector && (
-            <LanguageSelector onLanguageChosen={handleLanguageChosen} />
-          )}
+          <LanguageSelector />
         </div>
 
         <div className="hero">
