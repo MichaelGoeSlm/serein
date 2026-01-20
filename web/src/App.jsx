@@ -14,6 +14,7 @@ import PaymentPage from './pages/PaymentPage';
 import AdminLogin from './admin/pages/AdminLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminUsers from './admin/pages/AdminUsers';
+import VerifyMagicLinkPage from './pages/VerifyMagicLinkPage';
 import './styles/themes.css';
 import './App.css';
 
@@ -28,6 +29,7 @@ function App() {
               {/* Public routes */}
               <Route path="/" element={<LandingPage />} />
               <Route path="/login" element={<LoginPage />} />
+              <Route path="/auth/verify" element={<VerifyMagicLinkPage />} />
               <Route
                 path="/onboarding"
                 element={

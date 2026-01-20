@@ -58,6 +58,7 @@ const translations = {
       sendScreenshots: "Envoyer mes captures d'écran",
       choosePhotos: "Choisir mes photos",
       selectPhotos: "Sélectionnez une ou plusieurs photos à analyser",
+      photoDescription: "Capture d'écran de tout texte ou photo dont vous souhaitez vérifier la légitimité",
       analyze: "Analyser"
     },
 
@@ -89,7 +90,15 @@ const translations = {
       securityNote: "Connexion securisee. Nous n'accedons jamais a vos emails.",
       backToHome: "Retour a l'accueil",
       loading: "Connexion...",
-      error: "Une erreur est survenue. Veuillez reessayer."
+      error: "Une erreur est survenue. Veuillez reessayer.",
+      or: "OU",
+      magicLinkTitle: "Connexion par email",
+      magicLinkPlaceholder: "Votre adresse email",
+      magicLinkButton: "Recevoir un lien de connexion",
+      magicLinkSent: "Un lien de connexion a ete envoye a votre adresse email. Verifiez votre boite de reception.",
+      magicLinkError: "Erreur lors de l'envoi du lien",
+      verifying: "Verification en cours...",
+      verifyError: "Lien invalide ou expire"
     },
 
     // Onboarding
@@ -315,6 +324,7 @@ const translations = {
       sendScreenshots: "Send my screenshots",
       choosePhotos: "Choose my photos",
       selectPhotos: "Select one or more photos to analyze",
+      photoDescription: "Screenshot of any text or photo you want to verify the legitimacy of",
       analyze: "Analyze"
     },
 
@@ -346,7 +356,15 @@ const translations = {
       securityNote: "Secure login. We never access your emails.",
       backToHome: "Back to home",
       loading: "Signing in...",
-      error: "An error occurred. Please try again."
+      error: "An error occurred. Please try again.",
+      or: "OR",
+      magicLinkTitle: "Login by email",
+      magicLinkPlaceholder: "Your email address",
+      magicLinkButton: "Receive a login link",
+      magicLinkSent: "A login link has been sent to your email address. Check your inbox.",
+      magicLinkError: "Error sending link",
+      verifying: "Verifying...",
+      verifyError: "Invalid or expired link"
     },
 
     // Onboarding
@@ -572,6 +590,7 @@ const translations = {
       sendScreenshots: "Enviar mis capturas",
       choosePhotos: "Elegir mis fotos",
       selectPhotos: "Seleccione una o más fotos para analizar",
+      photoDescription: "Captura de pantalla de cualquier texto o foto cuya legitimidad desea verificar",
       analyze: "Analizar"
     },
 
@@ -603,7 +622,15 @@ const translations = {
       securityNote: "Inicio de sesion seguro. Nunca accedemos a tus correos.",
       backToHome: "Volver al inicio",
       loading: "Iniciando sesion...",
-      error: "Ha ocurrido un error. Por favor, intentalo de nuevo."
+      error: "Ha ocurrido un error. Por favor, intentalo de nuevo.",
+      or: "O",
+      magicLinkTitle: "Iniciar sesion por email",
+      magicLinkPlaceholder: "Tu direccion de email",
+      magicLinkButton: "Recibir un enlace de conexion",
+      magicLinkSent: "Se ha enviado un enlace de conexion a tu email. Revisa tu bandeja de entrada.",
+      magicLinkError: "Error al enviar el enlace",
+      verifying: "Verificando...",
+      verifyError: "Enlace invalido o expirado"
     },
 
     // Onboarding

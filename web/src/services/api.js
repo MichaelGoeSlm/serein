@@ -67,3 +67,48 @@ export async function analyzeText(text, lang = 'fr') {
     }
   }
 }
+
+// Magic Link Authentication
+export async function sendMagicLink(email) {
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/magic-link`, { email }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: 30000
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data?.error || 'Erreur lors de l\'envoi du lien';
+      throw new Error(message);
+    } else if (error.request) {
+      throw new Error('Impossible de contacter le serveur.');
+    } else {
+      throw new Error('Erreur lors de la préparation de la requête.');
+    }
+  }
+}
+
+export async function verifyMagicLink(token) {
+  try {
+    const response = await axios.post(`${API_URL}/api/auth/verify-magic-link`, { token }, {
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      timeout: 30000
+    });
+
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      const message = error.response.data?.error || 'Lien invalide ou expiré';
+      throw new Error(message);
+    } else if (error.request) {
+      throw new Error('Impossible de contacter le serveur.');
+    } else {
+      throw new Error('Erreur lors de la préparation de la requête.');
+    }
+  }
+}
