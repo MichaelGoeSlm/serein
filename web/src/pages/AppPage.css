@@ -127,6 +127,15 @@
   transition: background-color 0.3s ease;
 }
 
+.photo-description {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
+  font-style: italic;
+  margin-bottom: var(--spacing-base);
+  padding: 0 var(--spacing-sm);
+}
+
 /* Error Message */
 .error-message {
   display: flex;
