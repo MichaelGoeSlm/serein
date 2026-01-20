@@ -1,4 +1,5 @@
 import { useState, useRef } from 'react';
+import { Camera, Mail, Search, ArrowLeft, Pin, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import './SimpleModePage.css';
 
@@ -72,7 +73,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
             className="simple-mode-btn photo-btn"
             onClick={() => handleTypeSelect('photo')}
           >
-            <span className="simple-mode-icon">📷</span>
+            <Camera size={32} className="simple-mode-icon" />
             <span className="simple-mode-label">{t('simpleMode.photo')}</span>
           </button>
 
@@ -80,7 +81,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
             className="simple-mode-btn email-btn"
             onClick={() => handleTypeSelect('email')}
           >
-            <span className="simple-mode-icon">📧</span>
+            <Mail size={32} className="simple-mode-icon" />
             <span className="simple-mode-label">{t('simpleMode.email')}</span>
           </button>
         </div>
@@ -93,7 +94,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
     return (
       <div className="simple-mode">
         <button className="simple-mode-back" onClick={handleBack}>
-          ← {t('payment.back')}
+          <ArrowLeft size={18} /> {t('payment.back')}
         </button>
 
         <div className="simple-mode-email-section">
@@ -109,11 +110,11 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
           {showEmailInstructions && (
             <div className="simple-mode-instructions">
               <h3 className="instructions-title">
-                📌 {t('simpleMode.emailInstructionsTitle')}
+                <Pin size={18} /> {t('simpleMode.emailInstructionsTitle')}
               </h3>
 
               <div className="instruction-step">
-                <span className="step-number">1️⃣</span>
+                <span className="step-number">1</span>
                 <div className="step-content">
                   <strong>{t('simpleMode.step1Title')}</strong>
                   <p>{t('simpleMode.step1Text')}</p>
@@ -121,7 +122,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
               </div>
 
               <div className="instruction-step">
-                <span className="step-number">2️⃣</span>
+                <span className="step-number">2</span>
                 <div className="step-content">
                   <strong>{t('simpleMode.step2Title')}</strong>
                   <p>{t('simpleMode.step2Text')}</p>
@@ -129,7 +130,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
               </div>
 
               <div className="instruction-warning">
-                ⚠️ {t('simpleMode.warning')}
+                <AlertTriangle size={18} /> {t('simpleMode.warning')}
               </div>
             </div>
           )}
@@ -165,7 +166,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
           >
-            <span className="simple-mode-icon">📷</span>
+            <Camera size={24} className="simple-mode-icon" />
             <span className="simple-mode-label">{t('simpleMode.sendScreenshots')}</span>
           </button>
 
@@ -175,7 +176,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
               onClick={handleAnalyze}
               disabled={isLoading}
             >
-              <span className="simple-mode-icon">🔍</span>
+              <Search size={24} className="simple-mode-icon" />
               <span className="simple-mode-label">{t('simpleMode.analyze')}</span>
             </button>
           )}
@@ -189,7 +190,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
     return (
       <div className="simple-mode">
         <button className="simple-mode-back" onClick={handleBack}>
-          ← {t('payment.back')}
+          <ArrowLeft size={18} /> {t('payment.back')}
         </button>
 
         <div className="simple-mode-photo-section">
@@ -226,7 +227,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
             onClick={() => fileInputRef.current?.click()}
             disabled={isLoading}
           >
-            <span className="simple-mode-icon">📷</span>
+            <Camera size={24} className="simple-mode-icon" />
             <span className="simple-mode-label">{t('simpleMode.choosePhotos')}</span>
           </button>
 
@@ -236,7 +237,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
               onClick={handleAnalyze}
               disabled={isLoading}
             >
-              <span className="simple-mode-icon">🔍</span>
+              <Search size={24} className="simple-mode-icon" />
               <span className="simple-mode-label">{t('simpleMode.analyze')}</span>
             </button>
           )}

@@ -1,5 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
-import { Settings, Moon, Sun, Type, X } from 'lucide-react';
+import { Settings, Moon, Sun, Type, X, Target } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import './AccessibilitySettings.css';
@@ -84,7 +84,7 @@ function AccessibilitySettings() {
 
           <div className="accessibility-option">
             <div className="option-info">
-              <span className="option-icon">🎯</span>
+              <Target size={20} className="option-icon" />
               <span className="option-label">{t('accessibility.simpleMode')}</span>
             </div>
             <button

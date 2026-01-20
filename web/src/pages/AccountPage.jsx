@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Shield, User, Link2, Camera, FileText, File, Star, Zap, AlertTriangle, X } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { getAnalyses, updateUserProfile } from '../firebase/firestore';
@@ -84,10 +85,10 @@ function AccountPage() {
 
   const getTypeIcon = (type) => {
     switch (type) {
-      case 'link': return '🔗';
-      case 'image': return '📷';
-      case 'text': return '📝';
-      default: return '📄';
+      case 'link': return <Link2 size={18} />;
+      case 'image': return <Camera size={18} />;
+      case 'text': return <FileText size={18} />;
+      default: return <File size={18} />;
     }
   };
 
@@ -141,7 +142,7 @@ function AccountPage() {
           className="verify-content-button"
           onClick={() => navigate('/app')}
         >
-          <span className="verify-icon">🛡️</span>
+          <Shield size={20} className="verify-icon" />
           {t('nav.verifyContent')}
         </button>
 
@@ -160,7 +161,9 @@ function AccountPage() {
                   referrerPolicy="no-referrer"
                 />
               ) : (
-                <div className="profile-avatar-placeholder">👤</div>
+                <div className="profile-avatar-placeholder">
+                  <User size={24} />
+                </div>
               )}
               <div className="profile-info">
                 <p className="profile-name">{user?.displayName || userProfile?.name}</p>
@@ -201,7 +204,7 @@ function AccountPage() {
             {isPremium ? (
               <>
                 <div className="subscription-badge premium">
-                  <span>⭐</span> {t('account.premiumPlan')}
+                  <Star size={16} /> {t('account.premiumPlan')}
                 </div>
                 <p className="subscription-info">
                   {t('account.validUntil')} {premiumEndDate}
@@ -219,7 +222,7 @@ function AccountPage() {
                   className="upgrade-button"
                   onClick={() => navigate('/payment')}
                 >
-                  {t('account.upgradeToPremium')} ⚡
+                  {t('account.upgradeToPremium')} <Zap size={16} />
                 </button>
               </>
             )}
@@ -273,7 +276,9 @@ function AccountPage() {
           <div className="analysis-modal" onClick={(e) => e.stopPropagation()}>
             <div className="modal-header">
               <h2>{t('history.viewDetails')}</h2>
-              <button className="modal-close" onClick={() => setSelectedAnalysis(null)}>✕</button>
+              <button className="modal-close" onClick={() => setSelectedAnalysis(null)}>
+                <X size={20} />
+              </button>
             </div>
 
             <div className="modal-content">
@@ -330,7 +335,7 @@ function AccountPage() {
                   <label>{t('redFlags')}</label>
                   <ul className="modal-red-flags">
                     {selectedAnalysis.redFlags.map((flag, index) => (
-                      <li key={index}>⚠️ {flag}</li>
+                      <li key={index}><AlertTriangle size={14} /> {flag}</li>
                     ))}
                   </ul>
                 </div>
