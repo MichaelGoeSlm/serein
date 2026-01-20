@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { saveAnalysis, incrementAnalysesUsed } from '../firebase/firestore';
 import NavBar from '../components/NavBar';
 import LinkInput from '../components/LinkInput';
@@ -12,12 +13,14 @@ import ProgressIndicator from '../components/ProgressIndicator';
 import HelpMessage from '../components/HelpMessage';
 import PaywallModal from '../components/PaywallModal';
 import EmailInstructionsModal from '../components/EmailInstructionsModal';
+import SimpleModePage from '../components/SimpleModePage';
 import { analyzeUrl, analyzeImages, analyzeText } from '../services/api';
 import './AppPage.css';
 
 function AppPage() {
   const { t, language } = useLanguage();
   const { user, canAnalyze, analysesRemaining, isPremium, refreshUserProfile } = useAuth();
+  const { simpleMode } = useTheme();
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -245,8 +248,6 @@ function AppPage() {
             {showHelp && (
               <HelpMessage type={activeMode} onClose={() => setShowHelp(false)} />
             )}
-          </>
-        )}
 
         {/* Result View */}
         {showResult && result && !loading && (
@@ -262,21 +263,105 @@ function AppPage() {
           </div>
         )}
 
-        {/* Input Section - Only show when not loading and no result */}
-        {!loading && !showResult && (
-          <div className="input-section">
-            <p className="instruction">{getInstruction()}</p>
+            {/* Simple Mode Input */}
+            {!loading && !showResult && (
+              <SimpleModePage
+                onAnalyzeImages={handleAnalyzeImages}
+                isLoading={loading}
+              />
+            )}
+          </>
+        ) : (
+          <>
+            {/* Mode Tabs */}
+            <div className="mode-tabs">
+              <button
+                className={`mode-tab ${activeMode === 'link' ? 'active' : ''}`}
+                onClick={() => handleModeChange('link')}
+                disabled={loading}
+              >
+                <span className="tab-icon">🔗</span>
+                <span className="tab-label">{t('tabLink')}</span>
+              </button>
+              <button
+                className={`mode-tab ${activeMode === 'image' ? 'active' : ''}`}
+                onClick={() => handleModeChange('image')}
+                disabled={loading}
+              >
+                <span className="tab-icon">📷</span>
+                <span className="tab-label">{t('tabImage')}</span>
+              </button>
+              <button
+                className={`mode-tab ${activeMode === 'text' ? 'active' : ''}`}
+                onClick={() => handleModeChange('text')}
+                disabled={loading}
+              >
+                <span className="tab-icon">📝</span>
+                <span className="tab-label">{t('tabText')}</span>
+              </button>
+              <button
+                className="mode-tab"
+                onClick={() => handleModeChange('email')}
+                disabled={loading}
+              >
+                <span className="tab-icon">📧</span>
+                <span className="tab-label">{t('email.tabName')}</span>
+              </button>
+            </div>
 
-            {activeMode === 'link' && (
-              <LinkInput onAnalyzeUrl={handleAnalyzeUrl} isLoading={loading} />
+            {/* Loading State */}
+            {loading && <ProgressIndicator />}
+
+            {/* Error with Help */}
+            {error && !loading && (
+              <>
+                <div className="error-message">
+                  <span className="error-icon">⚠️</span>
+                  <div className="error-content">
+                    <strong>{t('oops')}</strong>
+                    <p>{error}</p>
+                  </div>
+                </div>
+                {showHelp && (
+                  <HelpMessage type={activeMode} onClose={() => setShowHelp(false)} />
+                )}
+              </>
             )}
-            {activeMode === 'image' && (
-              <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
+
+            {/* Result View */}
+            {showResult && result && !loading && (
+              <div className="result-view">
+                <ResultCard result={result} />
+                <button
+                  type="button"
+                  className="btn-primary new-analysis-btn"
+                  onClick={handleNewAnalysis}
+                >
+                  {t('newAnalysis')}
+                </button>
+              </div>
             )}
-            {activeMode === 'text' && (
-              <TextInput onAnalyzeText={handleAnalyzeText} isLoading={loading} />
+
+            {/* Input Section - Only show when not loading and no result */}
+            {!loading && !showResult && (
+              <div className="input-section">
+                <p className="instruction">{getInstruction()}</p>
+
+                {activeMode === 'link' && (
+                  <LinkInput onAnalyzeUrl={handleAnalyzeUrl} isLoading={loading} />
+                )}
+                {activeMode === 'image' && (
+                  <>
+                    <p className="photo-description">{t('simpleMode.photoDescription')}</p>
+                    <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
+                  </>
+                )}
+                {activeMode === 'text' && (
+                  <TextInput onAnalyzeText={handleAnalyzeText} isLoading={loading} />
+                )}
+              </div>
             )}
-          </div>
+          </>
         )}
       </main>
 

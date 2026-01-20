@@ -1,6 +1,7 @@
 import {
   GoogleAuthProvider,
   signInWithPopup,
+  signInWithCustomToken as firebaseSignInWithCustomToken,
   signOut as firebaseSignOut,
   onAuthStateChanged as firebaseOnAuthStateChanged
 } from 'firebase/auth';
@@ -23,6 +24,16 @@ export async function signOut() {
     await firebaseSignOut(auth);
   } catch (error) {
     console.error('Error signing out:', error);
+    throw error;
+  }
+}
+
+export async function signInWithCustomToken(token) {
+  try {
+    const result = await firebaseSignInWithCustomToken(auth, token);
+    return result.user;
+  } catch (error) {
+    console.error('Error signing in with custom token:', error);
     throw error;
   }
 }

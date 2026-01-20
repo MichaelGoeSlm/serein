@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+// Magic link désactivé temporairement - à réactiver avec Resend
+// import { sendMagicLink } from '../services/api';
 import LanguageSelector from '../components/LanguageSelector';
 import './LoginPage.css';
 
@@ -11,6 +13,11 @@ function LoginPage() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+
+  // Magic link désactivé temporairement - à réactiver avec Resend
+  // const [email, setEmail] = useState('');
+  // const [magicLinkSent, setMagicLinkSent] = useState(false);
+  // const [magicLinkLoading, setMagicLinkLoading] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -36,6 +43,25 @@ function LoginPage() {
       setLoading(false);
     }
   };
+
+  // Magic link désactivé temporairement - à réactiver avec Resend
+  // const handleMagicLinkSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!email.trim()) return;
+  //
+  //   setMagicLinkLoading(true);
+  //   setError(null);
+  //
+  //   try {
+  //     await sendMagicLink(email.trim());
+  //     setMagicLinkSent(true);
+  //   } catch (err) {
+  //     console.error('Magic link error:', err);
+  //     setError(err.message || t('login.magicLinkError'));
+  //   } finally {
+  //     setMagicLinkLoading(false);
+  //   }
+  // };
 
   return (
     <div className="login-page">
@@ -79,6 +105,49 @@ function LoginPage() {
               </>
             )}
           </button>
+
+          {/* Magic link désactivé temporairement - à réactiver avec Resend
+          <div className="login-separator">
+            <span>{t('login.or')}</span>
+          </div>
+
+          <div className="magic-link-section">
+            <h3 className="magic-link-title">{t('login.magicLinkTitle')}</h3>
+
+            {magicLinkSent ? (
+              <div className="magic-link-success">
+                <span className="success-icon">✉️</span>
+                <p>{t('login.magicLinkSent')}</p>
+              </div>
+            ) : (
+              <form onSubmit={handleMagicLinkSubmit} className="magic-link-form">
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder={t('login.magicLinkPlaceholder')}
+                  className="magic-link-input"
+                  disabled={magicLinkLoading}
+                  required
+                />
+                <button
+                  type="submit"
+                  className="magic-link-button"
+                  disabled={magicLinkLoading || !email.trim()}
+                >
+                  {magicLinkLoading ? (
+                    <span className="button-loading">{t('login.loading')}</span>
+                  ) : (
+                    <>
+                      <span className="magic-icon">✨</span>
+                      <span>{t('login.magicLinkButton')}</span>
+                    </>
+                  )}
+                </button>
+              </form>
+            )}
+          </div>
+          */}
 
           <p className="security-note">
             <span className="lock-icon">🔒</span>

@@ -29,10 +29,12 @@ app.use(limiter);
 const analyzeRoutes = require('./routes/analyze');
 const paymentRoutes = require('./routes/payment');
 const adminRoutes = require('./routes/admin');
+const authRoutes = require('./routes/auth');
 
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/payment', paymentRoutes);
 app.use('/api/admin', adminRoutes);
+app.use('/api/auth', authRoutes);
 
 // Route de test
 app.get('/api/health', (req, res) => {
