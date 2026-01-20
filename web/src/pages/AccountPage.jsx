@@ -45,6 +45,8 @@ function AccountPage() {
 
   const handleLanguageChange = async (newLang) => {
     setLanguage(newLang);
+    // Mark that user has explicitly chosen a language
+    localStorage.setItem('serein-language-chosen', 'true');
     if (user) {
       try {
         await updateUserProfile(user.uid, { language: newLang });
@@ -167,7 +169,6 @@ function AccountPage() {
               )}
               <div className="profile-info">
                 <p className="profile-name">{user?.displayName || userProfile?.name}</p>
-                <p className="profile-email">{user?.email}</p>
               </div>
             </div>
 
