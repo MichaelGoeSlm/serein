@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Shield, User } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import AccessibilitySettings from './AccessibilitySettings';
@@ -11,7 +12,7 @@ function NavBar() {
   return (
     <nav className="navbar">
       <Link to="/app" className="navbar-logo">
-        <span className="logo-icon">🛡️</span>
+        <Shield size={24} className="logo-icon" />
         <span className="logo-text">Serein</span>
       </Link>
 
@@ -28,7 +29,7 @@ function NavBar() {
             />
           ) : (
             <div className="navbar-avatar-placeholder">
-              <span>👤</span>
+              <User size={20} />
             </div>
           )}
           <span className="navbar-account-text">{t('nav.myAccount')}</span>

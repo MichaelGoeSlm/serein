@@ -16,6 +16,7 @@ import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminUsers from './admin/pages/AdminUsers';
 import VerifyMagicLinkPage from './pages/VerifyMagicLinkPage';
 import './styles/themes.css';
+import './styles/modern.css';
 import './App.css';
 
 function App() {

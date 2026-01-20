@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -195,41 +196,72 @@ function AppPage() {
           </div>
         )}
 
-        {/* Simple Mode View */}
-        {simpleMode ? (
+        {/* Mode Tabs */}
+        <div className="mode-tabs tabs-modern">
+          <button
+            className={`tab-modern ${activeMode === 'link' ? 'active' : ''}`}
+            onClick={() => handleModeChange('link')}
+            disabled={loading}
+          >
+            <Link size={18} />
+            <span>{t('tabLink')}</span>
+          </button>
+          <button
+            className={`tab-modern ${activeMode === 'image' ? 'active' : ''}`}
+            onClick={() => handleModeChange('image')}
+            disabled={loading}
+          >
+            <Camera size={18} />
+            <span>{t('tabImage')}</span>
+          </button>
+          <button
+            className={`tab-modern ${activeMode === 'text' ? 'active' : ''}`}
+            onClick={() => handleModeChange('text')}
+            disabled={loading}
+          >
+            <FileText size={18} />
+            <span>{t('tabText')}</span>
+          </button>
+          <button
+            className="tab-modern"
+            onClick={() => handleModeChange('email')}
+            disabled={loading}
+          >
+            <Mail size={18} />
+            <span>{t('email.tabName')}</span>
+          </button>
+        </div>
+
+        {/* Loading State */}
+        {loading && <ProgressIndicator />}
+
+        {/* Error with Help */}
+        {error && !loading && (
           <>
-            {/* Loading State */}
-            {loading && <ProgressIndicator />}
-
-            {/* Error with Help */}
-            {error && !loading && (
-              <>
-                <div className="error-message">
-                  <span className="error-icon">⚠️</span>
-                  <div className="error-content">
-                    <strong>{t('oops')}</strong>
-                    <p>{error}</p>
-                  </div>
-                </div>
-                {showHelp && (
-                  <HelpMessage type="image" onClose={() => setShowHelp(false)} />
-                )}
-              </>
-            )}
-
-            {/* Result View */}
-            {showResult && result && !loading && (
-              <div className="result-view">
-                <ResultCard result={result} />
-                <button
-                  type="button"
-                  className="btn-primary new-analysis-btn"
-                  onClick={handleNewAnalysis}
-                >
-                  {t('newAnalysis')}
-                </button>
+            <div className="alert-modern alert-error">
+              <AlertTriangle size={20} />
+              <div className="error-content">
+                <strong>{t('oops')}</strong>
+                <p>{error}</p>
               </div>
+            </div>
+            {showHelp && (
+              <HelpMessage type={activeMode} onClose={() => setShowHelp(false)} />
             )}
+
+        {/* Result View */}
+        {showResult && result && !loading && (
+          <div className="result-view animate-fadeInUp">
+            <ResultCard result={result} />
+            <button
+              type="button"
+              className="btn-modern btn-primary-gradient new-analysis-btn"
+              onClick={handleNewAnalysis}
+            >
+              {t('newAnalysis')}
+            </button>
+          </div>
+        )}
 
             {/* Simple Mode Input */}
             {!loading && !showResult && (
