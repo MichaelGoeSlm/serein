@@ -194,6 +194,7 @@ function SimpleModePage({ onAnalyzeImages, isLoading }) {
 
         <div className="simple-mode-photo-section">
           <p className="simple-mode-text">{t('simpleMode.selectPhotos')}</p>
+          <p className="simple-mode-description">{t('simpleMode.photoDescription')}</p>
 
           <input
             type="file"
