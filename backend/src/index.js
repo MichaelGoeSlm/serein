@@ -13,8 +13,8 @@ app.set('trust proxy', 1);
 app.use(helmet());
 app.use(cors({
   origin: ['https://magnificent-beijinho-f18e1c.netlify.app', 'http://localhost:5173'],
-  methods: ['GET', 'POST'],
-  allowedHeaders: ['Content-Type', 'Authorization']
+  methods: ['GET', 'POST', 'PUT'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Admin-Email', 'X-Admin-Password']
 }));
 app.use(express.json({ limit: '10mb' }));
 
@@ -28,9 +28,11 @@ app.use(limiter);
 // Routes
 const analyzeRoutes = require('./routes/analyze');
 const paymentRoutes = require('./routes/payment');
+const adminRoutes = require('./routes/admin');
 
 app.use('/api/analyze', analyzeRoutes);
 app.use('/api/payment', paymentRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Route de test
 app.get('/api/health', (req, res) => {
