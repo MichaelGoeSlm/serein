@@ -2,12 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 24px;
-  background: white;
-  border-bottom: 1px solid #e5e7eb;
+  padding: var(--spacing-base) var(--spacing-lg);
+  background: var(--navbar-bg);
+  border-bottom: 1px solid var(--border-color);
   position: sticky;
   top: 0;
   z-index: 100;
+  box-shadow: var(--navbar-shadow);
+  transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
 .navbar-logo {
@@ -18,13 +20,19 @@
 }
 
 .navbar-logo .logo-icon {
-  font-size: 28px;
+  font-size: var(--font-size-2xl);
 }
 
 .navbar-logo .logo-text {
-  font-size: 22px;
+  font-size: var(--font-size-xl);
   font-weight: 700;
-  color: #1e3a5f;
+  color: var(--accent-color);
+}
+
+.navbar-right {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-base);
 }
 
 .navbar-account {
@@ -37,14 +45,14 @@
 }
 
 .navbar-account-text {
-  font-size: 12px;
+  font-size: var(--font-size-xs);
   font-weight: 500;
-  color: #6b7280;
+  color: var(--text-muted);
   transition: color 0.2s ease;
 }
 
 .navbar-account:hover .navbar-account-text {
-  color: #2563eb;
+  color: var(--accent-color);
 }
 
 .navbar-avatar {
@@ -52,39 +60,43 @@
   height: 44px;
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e5e7eb;
+  border: 2px solid var(--border-color);
   transition: border-color 0.2s ease;
 }
 
 .navbar-avatar:hover {
-  border-color: #2563eb;
+  border-color: var(--accent-color);
 }
 
 .navbar-avatar-placeholder {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  background: #f3f4f6;
-  border: 2px solid #e5e7eb;
+  background: var(--bg-secondary);
+  border: 2px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
-  transition: border-color 0.2s ease;
+  font-size: var(--font-size-lg);
+  transition: border-color 0.2s ease, background-color 0.3s ease;
 }
 
 .navbar-avatar-placeholder:hover {
-  border-color: #2563eb;
+  border-color: var(--accent-color);
 }
 
 /* Responsive */
 @media (max-width: 600px) {
   .navbar {
-    padding: 12px 16px;
+    padding: var(--spacing-sm) var(--spacing-base);
   }
 
   .navbar-logo .logo-text {
-    font-size: 20px;
+    font-size: var(--font-size-lg);
+  }
+
+  .navbar-right {
+    gap: var(--spacing-sm);
   }
 
   .navbar-avatar,

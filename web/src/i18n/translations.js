@@ -33,6 +33,15 @@ const translations = {
       cancelButton: "Annuler"
     },
 
+    // Accessibility
+    accessibility: {
+      settings: "Accessibilité",
+      darkMode: "Mode nuit",
+      largeText: "Gros caractères",
+      on: "Activé",
+      off: "Désactivé"
+    },
+
     // Landing page
     landing: {
       heroTitle: "Protégez-vous des arnaques en ligne",
@@ -262,6 +271,15 @@ const translations = {
       cancelButton: "Cancel"
     },
 
+    // Accessibility
+    accessibility: {
+      settings: "Accessibility",
+      darkMode: "Dark mode",
+      largeText: "Large text",
+      on: "On",
+      off: "Off"
+    },
+
     // Landing page
     landing: {
       heroTitle: "Protect yourself from online scams",
@@ -489,6 +507,15 @@ const translations = {
       importantText: "Las DOS capturas son necesarias para un análisis completo. La dirección del remitente nos permite verificar si el email es legítimo.",
       understoodButton: "Entendido, analizar mis imágenes",
       cancelButton: "Cancelar"
+    },
+
+    // Accessibility
+    accessibility: {
+      settings: "Accesibilidad",
+      darkMode: "Modo nocturno",
+      largeText: "Texto grande",
+      on: "Activado",
+      off: "Desactivado"
     },
 
     // Landing page
