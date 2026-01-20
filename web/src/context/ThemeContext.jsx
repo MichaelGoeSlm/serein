@@ -11,14 +11,16 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }) {
+  // Dark mode enabled by default for new users
   const [darkMode, setDarkMode] = useState(() => {
     const stored = localStorage.getItem('serein_darkMode');
-    return stored === 'true';
+    return stored === null ? true : stored === 'true';
   });
 
+  // Large text enabled by default for new users (accessibility for seniors)
   const [largeText, setLargeText] = useState(() => {
     const stored = localStorage.getItem('serein_largeText');
-    return stored === 'true';
+    return stored === null ? true : stored === 'true';
   });
 
   const [simpleMode, setSimpleMode] = useState(() => {
