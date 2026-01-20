@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { Shield, ClipboardList, Search, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import LanguageSelector from '../components/LanguageSelector';
 import './LandingPage.css';
@@ -12,7 +13,7 @@ function LandingPage() {
       <header className="landing-header">
         <div className="landing-nav">
           <div className="landing-logo">
-            <span className="logo-icon">🛡️</span>
+            <Shield size={32} className="logo-icon" />
             <span className="logo-text">Serein</span>
           </div>
           <LanguageSelector />
@@ -32,15 +33,21 @@ function LandingPage() {
         <h2 className="section-title">{t('landing.howItWorks')}</h2>
         <div className="steps">
           <div className="step">
-            <span className="step-icon">📋</span>
+            <span className="step-icon">
+              <ClipboardList size={32} />
+            </span>
             <p className="step-text">{t('landing.step1')}</p>
           </div>
           <div className="step">
-            <span className="step-icon">🔍</span>
+            <span className="step-icon">
+              <Search size={32} />
+            </span>
             <p className="step-text">{t('landing.step2')}</p>
           </div>
           <div className="step">
-            <span className="step-icon">✅</span>
+            <span className="step-icon">
+              <CheckCircle size={32} />
+            </span>
             <p className="step-text">{t('landing.step3')}</p>
           </div>
         </div>
@@ -51,19 +58,27 @@ function LandingPage() {
         <h2 className="section-title">{t('landing.whySerein')}</h2>
         <ul className="benefits">
           <li className="benefit">
-            <span className="benefit-check">✓</span>
+            <span className="benefit-check">
+              <CheckCircle size={20} />
+            </span>
             {t('landing.benefit1')}
           </li>
           <li className="benefit">
-            <span className="benefit-check">✓</span>
+            <span className="benefit-check">
+              <CheckCircle size={20} />
+            </span>
             {t('landing.benefit2')}
           </li>
           <li className="benefit">
-            <span className="benefit-check">✓</span>
+            <span className="benefit-check">
+              <CheckCircle size={20} />
+            </span>
             {t('landing.benefit3')}
           </li>
           <li className="benefit">
-            <span className="benefit-check">✓</span>
+            <span className="benefit-check">
+              <CheckCircle size={20} />
+            </span>
             {t('landing.benefit4')}
           </li>
         </ul>

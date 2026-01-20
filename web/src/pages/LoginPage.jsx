@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { Shield, ArrowLeft, AlertTriangle, Lock } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 // Magic link désactivé temporairement - à réactiver avec Resend
@@ -67,7 +68,7 @@ function LoginPage() {
     <div className="login-page">
       <div className="login-nav">
         <Link to="/" className="back-link">
-          <span className="back-arrow">←</span>
+          <ArrowLeft size={18} className="back-arrow" />
           <span>{t('login.backToHome')}</span>
         </Link>
         <LanguageSelector />
@@ -76,13 +77,13 @@ function LoginPage() {
       <div className="login-container">
         <div className="login-card">
           <div className="login-header">
-            <span className="login-icon">🛡️</span>
+            <Shield size={48} className="login-icon" />
             <h1>{t('login.title')}</h1>
           </div>
 
           {error && (
             <div className="login-error">
-              <span>⚠️</span> {error}
+              <AlertTriangle size={18} /> {error}
             </div>
           )}
 
@@ -150,7 +151,7 @@ function LoginPage() {
           */}
 
           <p className="security-note">
-            <span className="lock-icon">🔒</span>
+            <Lock size={16} className="lock-icon" />
             {t('login.securityNote')}
           </p>
         </div>
