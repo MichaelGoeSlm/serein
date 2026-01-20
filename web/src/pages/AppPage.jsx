@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Link, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
+import { Link2, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
@@ -56,7 +56,6 @@ function AppPage() {
   };
 
   const handleAnalyzeUrl = async (url) => {
-    // Check if user can analyze
     if (!canAnalyze) {
       setShowPaywall(true);
       return;
@@ -82,7 +81,6 @@ function AppPage() {
   };
 
   const handleAnalyzeImages = async (imagesBase64Array) => {
-    // Check if user can analyze
     if (!canAnalyze) {
       setShowPaywall(true);
       return;
@@ -108,7 +106,6 @@ function AppPage() {
   };
 
   const handleAnalyzeText = async (text) => {
-    // Check if user can analyze
     if (!canAnalyze) {
       setShowPaywall(true);
       return;
@@ -136,7 +133,6 @@ function AppPage() {
   const handleModeChange = (mode) => {
     if (loading) return;
 
-    // Special handling for email tab
     if (mode === 'email') {
       setPreviousMode(activeMode);
       setShowEmailModal(true);
@@ -151,7 +147,6 @@ function AppPage() {
   };
 
   const handleEmailModalConfirm = () => {
-    // Switch to image tab after user understands
     setActiveMode('image');
     setResult(null);
     setError(null);
@@ -161,7 +156,6 @@ function AppPage() {
 
   const handleEmailModalClose = () => {
     setShowEmailModal(false);
-    // Stay on previous mode (don't switch to email)
   };
 
   const handleNewAnalysis = () => {
@@ -196,72 +190,41 @@ function AppPage() {
           </div>
         )}
 
-        {/* Mode Tabs */}
-        <div className="mode-tabs tabs-modern">
-          <button
-            className={`tab-modern ${activeMode === 'link' ? 'active' : ''}`}
-            onClick={() => handleModeChange('link')}
-            disabled={loading}
-          >
-            <Link size={18} />
-            <span>{t('tabLink')}</span>
-          </button>
-          <button
-            className={`tab-modern ${activeMode === 'image' ? 'active' : ''}`}
-            onClick={() => handleModeChange('image')}
-            disabled={loading}
-          >
-            <Camera size={18} />
-            <span>{t('tabImage')}</span>
-          </button>
-          <button
-            className={`tab-modern ${activeMode === 'text' ? 'active' : ''}`}
-            onClick={() => handleModeChange('text')}
-            disabled={loading}
-          >
-            <FileText size={18} />
-            <span>{t('tabText')}</span>
-          </button>
-          <button
-            className="tab-modern"
-            onClick={() => handleModeChange('email')}
-            disabled={loading}
-          >
-            <Mail size={18} />
-            <span>{t('email.tabName')}</span>
-          </button>
-        </div>
-
-        {/* Loading State */}
-        {loading && <ProgressIndicator />}
-
-        {/* Error with Help */}
-        {error && !loading && (
+        {/* Simple Mode View */}
+        {simpleMode ? (
           <>
-            <div className="alert-modern alert-error">
-              <AlertTriangle size={20} />
-              <div className="error-content">
-                <strong>{t('oops')}</strong>
-                <p>{error}</p>
-              </div>
-            </div>
-            {showHelp && (
-              <HelpMessage type={activeMode} onClose={() => setShowHelp(false)} />
+            {/* Loading State */}
+            {loading && <ProgressIndicator />}
+
+            {/* Error with Help */}
+            {error && !loading && (
+              <>
+                <div className="alert-modern alert-error">
+                  <AlertTriangle size={20} />
+                  <div className="error-content">
+                    <strong>{t('oops')}</strong>
+                    <p>{error}</p>
+                  </div>
+                </div>
+                {showHelp && (
+                  <HelpMessage type="image" onClose={() => setShowHelp(false)} />
+                )}
+              </>
             )}
 
-        {/* Result View */}
-        {showResult && result && !loading && (
-          <div className="result-view animate-fadeInUp">
-            <ResultCard result={result} />
-            <button
-              type="button"
-              className="btn-modern btn-primary-gradient new-analysis-btn"
-              onClick={handleNewAnalysis}
-            >
-              {t('newAnalysis')}
-            </button>
-          </div>
-        )}
+            {/* Result View */}
+            {showResult && result && !loading && (
+              <div className="result-view animate-fadeInUp">
+                <ResultCard result={result} />
+                <button
+                  type="button"
+                  className="btn-modern btn-primary-gradient new-analysis-btn"
+                  onClick={handleNewAnalysis}
+                >
+                  {t('newAnalysis')}
+                </button>
+              </div>
+            )}
 
             {/* Simple Mode Input */}
             {!loading && !showResult && (
@@ -274,38 +237,38 @@ function AppPage() {
         ) : (
           <>
             {/* Mode Tabs */}
-            <div className="mode-tabs">
+            <div className="mode-tabs tabs-modern">
               <button
-                className={`mode-tab ${activeMode === 'link' ? 'active' : ''}`}
+                className={`tab-modern ${activeMode === 'link' ? 'active' : ''}`}
                 onClick={() => handleModeChange('link')}
                 disabled={loading}
               >
-                <span className="tab-icon">🔗</span>
-                <span className="tab-label">{t('tabLink')}</span>
+                <Link2 size={20} />
+                <span>{t('tabLink')}</span>
               </button>
               <button
-                className={`mode-tab ${activeMode === 'image' ? 'active' : ''}`}
+                className={`tab-modern ${activeMode === 'image' ? 'active' : ''}`}
                 onClick={() => handleModeChange('image')}
                 disabled={loading}
               >
-                <span className="tab-icon">📷</span>
-                <span className="tab-label">{t('tabImage')}</span>
+                <Camera size={20} />
+                <span>{t('tabImage')}</span>
               </button>
               <button
-                className={`mode-tab ${activeMode === 'text' ? 'active' : ''}`}
+                className={`tab-modern ${activeMode === 'text' ? 'active' : ''}`}
                 onClick={() => handleModeChange('text')}
                 disabled={loading}
               >
-                <span className="tab-icon">📝</span>
-                <span className="tab-label">{t('tabText')}</span>
+                <FileText size={20} />
+                <span>{t('tabText')}</span>
               </button>
               <button
-                className="mode-tab"
+                className="tab-modern"
                 onClick={() => handleModeChange('email')}
                 disabled={loading}
               >
-                <span className="tab-icon">📧</span>
-                <span className="tab-label">{t('email.tabName')}</span>
+                <Mail size={20} />
+                <span>{t('email.tabName')}</span>
               </button>
             </div>
 
@@ -315,8 +278,8 @@ function AppPage() {
             {/* Error with Help */}
             {error && !loading && (
               <>
-                <div className="error-message">
-                  <span className="error-icon">⚠️</span>
+                <div className="alert-modern alert-error">
+                  <AlertTriangle size={20} />
                   <div className="error-content">
                     <strong>{t('oops')}</strong>
                     <p>{error}</p>
@@ -330,11 +293,11 @@ function AppPage() {
 
             {/* Result View */}
             {showResult && result && !loading && (
-              <div className="result-view">
+              <div className="result-view animate-fadeInUp">
                 <ResultCard result={result} />
                 <button
                   type="button"
-                  className="btn-primary new-analysis-btn"
+                  className="btn-modern btn-primary-gradient new-analysis-btn"
                   onClick={handleNewAnalysis}
                 >
                   {t('newAnalysis')}
