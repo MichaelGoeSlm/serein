@@ -34,6 +34,15 @@ function AccessibilitySettings() {
 
       {isOpen && (
         <div className="accessibility-menu">
+          <button
+            className="close-button"
+            onClick={() => setIsOpen(false)}
+            aria-label={t('accessibility.close')}
+          >
+            ✕
+            <span className="close-text">{t('accessibility.close')}</span>
+          </button>
+
           <div className="accessibility-header">
             {t('accessibility.settings')}
           </div>

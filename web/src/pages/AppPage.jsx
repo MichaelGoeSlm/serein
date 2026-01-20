@@ -319,7 +319,10 @@ function AppPage() {
                   <LinkInput onAnalyzeUrl={handleAnalyzeUrl} isLoading={loading} />
                 )}
                 {activeMode === 'image' && (
-                  <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
+                  <>
+                    <p className="photo-description">{t('simpleMode.photoDescription')}</p>
+                    <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
+                  </>
                 )}
                 {activeMode === 'text' && (
                   <TextInput onAnalyzeText={handleAnalyzeText} isLoading={loading} />

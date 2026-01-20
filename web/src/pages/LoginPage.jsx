@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { sendMagicLink } from '../services/api';
+// Magic link désactivé temporairement - à réactiver avec Resend
+// import { sendMagicLink } from '../services/api';
 import LanguageSelector from '../components/LanguageSelector';
 import './LoginPage.css';
 
@@ -13,10 +14,10 @@ function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  // Magic link state
-  const [email, setEmail] = useState('');
-  const [magicLinkSent, setMagicLinkSent] = useState(false);
-  const [magicLinkLoading, setMagicLinkLoading] = useState(false);
+  // Magic link désactivé temporairement - à réactiver avec Resend
+  // const [email, setEmail] = useState('');
+  // const [magicLinkSent, setMagicLinkSent] = useState(false);
+  // const [magicLinkLoading, setMagicLinkLoading] = useState(false);
 
   // Redirect if already logged in
   useEffect(() => {
@@ -43,23 +44,24 @@ function LoginPage() {
     }
   };
 
-  const handleMagicLinkSubmit = async (e) => {
-    e.preventDefault();
-    if (!email.trim()) return;
-
-    setMagicLinkLoading(true);
-    setError(null);
-
-    try {
-      await sendMagicLink(email.trim());
-      setMagicLinkSent(true);
-    } catch (err) {
-      console.error('Magic link error:', err);
-      setError(err.message || t('login.magicLinkError'));
-    } finally {
-      setMagicLinkLoading(false);
-    }
-  };
+  // Magic link désactivé temporairement - à réactiver avec Resend
+  // const handleMagicLinkSubmit = async (e) => {
+  //   e.preventDefault();
+  //   if (!email.trim()) return;
+  //
+  //   setMagicLinkLoading(true);
+  //   setError(null);
+  //
+  //   try {
+  //     await sendMagicLink(email.trim());
+  //     setMagicLinkSent(true);
+  //   } catch (err) {
+  //     console.error('Magic link error:', err);
+  //     setError(err.message || t('login.magicLinkError'));
+  //   } finally {
+  //     setMagicLinkLoading(false);
+  //   }
+  // };
 
   return (
     <div className="login-page">
@@ -104,12 +106,11 @@ function LoginPage() {
             )}
           </button>
 
-          {/* Separator */}
+          {/* Magic link désactivé temporairement - à réactiver avec Resend
           <div className="login-separator">
             <span>{t('login.or')}</span>
           </div>
 
-          {/* Magic Link Section */}
           <div className="magic-link-section">
             <h3 className="magic-link-title">{t('login.magicLinkTitle')}</h3>
 
@@ -146,6 +147,7 @@ function LoginPage() {
               </form>
             )}
           </div>
+          */}
 
           <p className="security-note">
             <span className="lock-icon">🔒</span>

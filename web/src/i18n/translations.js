@@ -40,7 +40,8 @@ const translations = {
       largeText: "Gros caractères",
       simpleMode: "Mode simplifié",
       on: "Activé",
-      off: "Désactivé"
+      off: "Désactivé",
+      close: "Fermer réglages"
     },
 
     // Simple mode
@@ -306,7 +307,8 @@ const translations = {
       largeText: "Large text",
       simpleMode: "Simple mode",
       on: "On",
-      off: "Off"
+      off: "Off",
+      close: "Close settings"
     },
 
     // Simple mode
@@ -572,7 +574,8 @@ const translations = {
       largeText: "Texto grande",
       simpleMode: "Modo simplificado",
       on: "Activado",
-      off: "Desactivado"
+      off: "Desactivado",
+      close: "Cerrar ajustes"
     },
 
     // Simple mode
