@@ -1,30 +1,31 @@
 .payment-page {
   min-height: 100vh;
-  background: linear-gradient(180deg, #fefefe 0%, #f8f6f3 100%);
-  padding: 24px;
+  background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+  padding: var(--spacing-lg);
+  transition: background-color 0.3s ease;
 }
 
 .payment-header {
   max-width: 600px;
-  margin: 0 auto 24px;
+  margin: 0 auto var(--spacing-lg);
 }
 
 .back-link {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: var(--spacing-sm);
   text-decoration: none;
-  color: #374151;
-  font-size: 16px;
+  color: var(--text-secondary);
+  font-size: var(--font-size-base);
   font-weight: 500;
 }
 
 .back-link:hover {
-  color: #2563eb;
+  color: var(--accent-color);
 }
 
 .back-arrow {
-  font-size: 20px;
+  font-size: var(--font-size-xl);
 }
 
 .payment-content {
@@ -33,28 +34,29 @@
 }
 
 .payment-card {
-  background: white;
-  border-radius: 24px;
-  padding: 32px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
-  margin-bottom: 24px;
+  background: var(--bg-card);
+  border-radius: var(--border-radius-xl);
+  padding: var(--spacing-xl);
+  box-shadow: var(--shadow-md);
+  margin-bottom: var(--spacing-lg);
+  transition: background-color 0.3s ease;
 }
 
 .payment-title-section {
   text-align: center;
-  margin-bottom: 32px;
+  margin-bottom: var(--spacing-xl);
 }
 
 .payment-icon {
   font-size: 48px;
   display: block;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-base);
 }
 
 .payment-title-section h1 {
-  font-size: 24px;
+  font-size: var(--font-size-2xl);
   font-weight: 700;
-  color: #1a1a1a;
+  color: var(--text-primary);
 }
 
 /* Loading state */
@@ -66,10 +68,10 @@
 .payment-loading .loading-spinner {
   width: 48px;
   height: 48px;
-  border: 4px solid #e5e7eb;
-  border-top-color: #f59e0b;
+  border: 4px solid var(--border-color);
+  border-top-color: var(--warning-color);
   border-radius: 50%;
-  margin: 0 auto 16px;
+  margin: 0 auto var(--spacing-base);
   animation: spin 1s linear infinite;
 }
 
@@ -78,58 +80,59 @@
 }
 
 .payment-loading p {
-  color: #6b7280;
-  font-size: 16px;
+  color: var(--text-muted);
+  font-size: var(--font-size-base);
 }
 
 /* Error state */
 .payment-error {
   text-align: center;
-  padding: 32px;
-  background: #fef2f2;
-  border-radius: 16px;
+  padding: var(--spacing-xl);
+  background: var(--danger-bg);
+  border-radius: var(--border-radius-lg);
 }
 
 .payment-error span {
-  font-size: 32px;
+  font-size: var(--font-size-4xl);
   display: block;
-  margin-bottom: 16px;
+  margin-bottom: var(--spacing-base);
 }
 
 .payment-error p {
-  color: #991b1b;
-  font-size: 16px;
-  margin-bottom: 16px;
+  color: var(--danger-text);
+  font-size: var(--font-size-base);
+  margin-bottom: var(--spacing-base);
 }
 
 .payment-error button {
-  padding: 12px 24px;
-  font-size: 16px;
+  padding: var(--button-padding-sm);
+  font-size: var(--font-size-base);
   font-weight: 600;
-  background: #dc2626;
+  background: var(--danger-color);
   color: white;
   border: none;
-  border-radius: 8px;
+  border-radius: var(--border-radius-sm);
   cursor: pointer;
 }
 
 .payment-error button:hover {
-  background: #b91c1c;
+  opacity: 0.9;
 }
 
 /* Info section */
 .payment-info {
-  background: white;
-  border-radius: 16px;
-  padding: 24px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-sm);
+  transition: background-color 0.3s ease;
 }
 
 .payment-info h3 {
-  font-size: 18px;
+  font-size: var(--font-size-lg);
   font-weight: 600;
-  color: #1a1a1a;
-  margin-bottom: 16px;
+  color: var(--text-primary);
+  margin-bottom: var(--spacing-base);
 }
 
 .payment-info ul {
@@ -139,19 +142,19 @@
 }
 
 .payment-info li {
-  font-size: 16px;
-  color: #4b5563;
-  padding: 8px 0;
+  font-size: var(--font-size-base);
+  color: var(--text-secondary);
+  padding: var(--spacing-sm) 0;
 }
 
 /* Responsive */
 @media (max-width: 600px) {
   .payment-card {
-    padding: 24px 16px;
+    padding: var(--spacing-lg) var(--spacing-base);
   }
 
   .payment-title-section h1 {
-    font-size: 20px;
+    font-size: var(--font-size-xl);
   }
 }
 

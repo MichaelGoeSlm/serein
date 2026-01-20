@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { LanguageProvider } from './i18n/LanguageContext';
 import { AuthProvider } from './context/AuthContext';
+import { ThemeProvider } from './context/ThemeContext';
 import { AdminProvider } from './admin/context/AdminContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import AdminProtectedRoute from './admin/components/AdminProtectedRoute';
@@ -13,14 +14,16 @@ import PaymentPage from './pages/PaymentPage';
 import AdminLogin from './admin/pages/AdminLogin';
 import AdminDashboard from './admin/pages/AdminDashboard';
 import AdminUsers from './admin/pages/AdminUsers';
+import './styles/themes.css';
 import './App.css';
 
 function App() {
   return (
-    <LanguageProvider>
-      <AuthProvider>
-        <AdminProvider>
-          <BrowserRouter>
+    <ThemeProvider>
+      <LanguageProvider>
+        <AuthProvider>
+          <AdminProvider>
+            <BrowserRouter>
             <Routes>
               {/* Public routes */}
               <Route path="/" element={<LandingPage />} />
@@ -77,11 +80,12 @@ function App() {
                   </AdminProtectedRoute>
                 }
               />
-            </Routes>
-          </BrowserRouter>
-        </AdminProvider>
-      </AuthProvider>
-    </LanguageProvider>
+              </Routes>
+            </BrowserRouter>
+          </AdminProvider>
+        </AuthProvider>
+      </LanguageProvider>
+    </ThemeProvider>
   );
 }
 
