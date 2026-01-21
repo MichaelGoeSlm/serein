@@ -45,8 +45,6 @@ function AccountPage() {
 
   const handleLanguageChange = async (newLang) => {
     setLanguage(newLang);
-    // Mark that user has explicitly chosen a language
-    localStorage.setItem('serein-language-chosen', 'true');
     if (user) {
       try {
         await updateUserProfile(user.uid, { language: newLang });
