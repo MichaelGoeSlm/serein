@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { Link, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
+import { Link2, Camera, FileText, Mail, AlertTriangle } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { saveAnalysis, incrementAnalysesUsed } from '../firebase/firestore';
 import NavBar from '../components/NavBar';
 import LinkInput from '../components/LinkInput';
@@ -12,12 +13,14 @@ import ProgressIndicator from '../components/ProgressIndicator';
 import HelpMessage from '../components/HelpMessage';
 import PaywallModal from '../components/PaywallModal';
 import EmailInstructionsModal from '../components/EmailInstructionsModal';
+import SimpleModePage from '../components/SimpleModePage';
 import { analyzeUrl, analyzeImages, analyzeText } from '../services/api';
 import './AppPage.css';
 
 function AppPage() {
   const { t, language } = useLanguage();
   const { user, canAnalyze, analysesRemaining, isPremium, refreshUserProfile } = useAuth();
+  const { simpleMode } = useTheme();
 
   const [result, setResult] = useState(null);
   const [loading, setLoading] = useState(false);
@@ -53,7 +56,6 @@ function AppPage() {
   };
 
   const handleAnalyzeUrl = async (url) => {
-    // Check if user can analyze
     if (!canAnalyze) {
       setShowPaywall(true);
       return;
@@ -79,7 +81,6 @@ function AppPage() {
   };
 
   const handleAnalyzeImages = async (imagesBase64Array) => {
-    // Check if user can analyze
     if (!canAnalyze) {
       setShowPaywall(true);
       return;
@@ -105,7 +106,6 @@ function AppPage() {
   };
 
   const handleAnalyzeText = async (text) => {
-    // Check if user can analyze
     if (!canAnalyze) {
       setShowPaywall(true);
       return;
@@ -133,7 +133,6 @@ function AppPage() {
   const handleModeChange = (mode) => {
     if (loading) return;
 
-    // Special handling for email tab
     if (mode === 'email') {
       setPreviousMode(activeMode);
       setShowEmailModal(true);
@@ -148,7 +147,6 @@ function AppPage() {
   };
 
   const handleEmailModalConfirm = () => {
-    // Switch to image tab after user understands
     setActiveMode('image');
     setResult(null);
     setError(null);
@@ -158,7 +156,6 @@ function AppPage() {
 
   const handleEmailModalClose = () => {
     setShowEmailModal(false);
-    // Stay on previous mode (don't switch to email)
   };
 
   const handleNewAnalysis = () => {
@@ -193,90 +190,141 @@ function AppPage() {
           </div>
         )}
 
-        {/* Mode Tabs */}
-        <div className="mode-tabs tabs-modern">
-          <button
-            className={`tab-modern ${activeMode === 'link' ? 'active' : ''}`}
-            onClick={() => handleModeChange('link')}
-            disabled={loading}
-          >
-            <Link size={18} />
-            <span>{t('tabLink')}</span>
-          </button>
-          <button
-            className={`tab-modern ${activeMode === 'image' ? 'active' : ''}`}
-            onClick={() => handleModeChange('image')}
-            disabled={loading}
-          >
-            <Camera size={18} />
-            <span>{t('tabImage')}</span>
-          </button>
-          <button
-            className={`tab-modern ${activeMode === 'text' ? 'active' : ''}`}
-            onClick={() => handleModeChange('text')}
-            disabled={loading}
-          >
-            <FileText size={18} />
-            <span>{t('tabText')}</span>
-          </button>
-          <button
-            className="tab-modern"
-            onClick={() => handleModeChange('email')}
-            disabled={loading}
-          >
-            <Mail size={18} />
-            <span>{t('email.tabName')}</span>
-          </button>
-        </div>
-
-        {/* Loading State */}
-        {loading && <ProgressIndicator />}
-
-        {/* Error with Help */}
-        {error && !loading && (
+        {/* Simple Mode View */}
+        {simpleMode ? (
           <>
-            <div className="alert-modern alert-error">
-              <AlertTriangle size={20} />
-              <div className="error-content">
-                <strong>{t('oops')}</strong>
-                <p>{error}</p>
+            {/* Loading State */}
+            {loading && <ProgressIndicator />}
+
+            {/* Error with Help */}
+            {error && !loading && (
+              <>
+                <div className="alert-modern alert-error">
+                  <AlertTriangle size={20} />
+                  <div className="error-content">
+                    <strong>{t('oops')}</strong>
+                    <p>{error}</p>
+                  </div>
+                </div>
+                {showHelp && (
+                  <HelpMessage type="image" onClose={() => setShowHelp(false)} />
+                )}
+              </>
+            )}
+
+            {/* Result View */}
+            {showResult && result && !loading && (
+              <div className="result-view animate-fadeInUp">
+                <ResultCard result={result} />
+                <button
+                  type="button"
+                  className="btn-modern btn-primary-gradient new-analysis-btn"
+                  onClick={handleNewAnalysis}
+                >
+                  {t('newAnalysis')}
+                </button>
               </div>
-            </div>
-            {showHelp && (
-              <HelpMessage type={activeMode} onClose={() => setShowHelp(false)} />
+            )}
+
+            {/* Simple Mode Input */}
+            {!loading && !showResult && (
+              <SimpleModePage
+                onAnalyzeImages={handleAnalyzeImages}
+                isLoading={loading}
+              />
             )}
           </>
-        )}
+        ) : (
+          <>
+            {/* Mode Tabs */}
+            <div className="mode-tabs tabs-modern">
+              <button
+                className={`tab-modern ${activeMode === 'link' ? 'active' : ''}`}
+                onClick={() => handleModeChange('link')}
+                disabled={loading}
+              >
+                <Link2 size={20} />
+                <span>{t('tabLink')}</span>
+              </button>
+              <button
+                className={`tab-modern ${activeMode === 'image' ? 'active' : ''}`}
+                onClick={() => handleModeChange('image')}
+                disabled={loading}
+              >
+                <Camera size={20} />
+                <span>{t('tabImage')}</span>
+              </button>
+              <button
+                className={`tab-modern ${activeMode === 'text' ? 'active' : ''}`}
+                onClick={() => handleModeChange('text')}
+                disabled={loading}
+              >
+                <FileText size={20} />
+                <span>{t('tabText')}</span>
+              </button>
+              <button
+                className="tab-modern"
+                onClick={() => handleModeChange('email')}
+                disabled={loading}
+              >
+                <Mail size={20} />
+                <span>{t('email.tabName')}</span>
+              </button>
+            </div>
 
-        {/* Result View */}
-        {showResult && result && !loading && (
-          <div className="result-view animate-fadeInUp">
-            <ResultCard result={result} />
-            <button
-              type="button"
-              className="btn-modern btn-primary-gradient new-analysis-btn"
-              onClick={handleNewAnalysis}
-            >
-              {t('newAnalysis')}
-            </button>
-          </div>
-        )}
+            {/* Loading State */}
+            {loading && <ProgressIndicator />}
 
-        {/* Input Section - Only show when not loading and no result */}
-        {!loading && !showResult && (
-          <div className="input-section">
-            <p className="instruction">{getInstruction()}</p>
+            {/* Error with Help */}
+            {error && !loading && (
+              <>
+                <div className="alert-modern alert-error">
+                  <AlertTriangle size={20} />
+                  <div className="error-content">
+                    <strong>{t('oops')}</strong>
+                    <p>{error}</p>
+                  </div>
+                </div>
+                {showHelp && (
+                  <HelpMessage type={activeMode} onClose={() => setShowHelp(false)} />
+                )}
+              </>
+            )}
 
-            {activeMode === 'link' && (
-              <LinkInput onAnalyzeUrl={handleAnalyzeUrl} isLoading={loading} />
+            {/* Result View */}
+            {showResult && result && !loading && (
+              <div className="result-view animate-fadeInUp">
+                <ResultCard result={result} />
+                <button
+                  type="button"
+                  className="btn-modern btn-primary-gradient new-analysis-btn"
+                  onClick={handleNewAnalysis}
+                >
+                  {t('newAnalysis')}
+                </button>
+              </div>
             )}
-            {activeMode === 'image' && (
-              <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
+
+            {/* Input Section - Only show when not loading and no result */}
+            {!loading && !showResult && (
+              <div className="input-section">
+                <p className="instruction">{getInstruction()}</p>
+
+                {activeMode === 'link' && (
+                  <LinkInput onAnalyzeUrl={handleAnalyzeUrl} isLoading={loading} />
+                )}
+                {activeMode === 'image' && (
+                  <>
+                    <p className="photo-description">{t('simpleMode.photoDescription')}</p>
+                    <ImageInput onAnalyzeImages={handleAnalyzeImages} isLoading={loading} />
+                  </>
+                )}
+                {activeMode === 'text' && (
+                  <TextInput onAnalyzeText={handleAnalyzeText} isLoading={loading} />
+                )}
+              </div>
             )}
-            {activeMode === 'text' && (
-              <TextInput onAnalyzeText={handleAnalyzeText} isLoading={loading} />
-            )}
-          </div>
+          </>
         )}
       </main>
 

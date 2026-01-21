@@ -1,11 +1,11 @@
 import { useState, useRef, useEffect } from 'react';
-import { Settings, Moon, Sun, Type, X } from 'lucide-react';
+import { Settings, Moon, Sun, Type, X, Target } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { useLanguage } from '../i18n/LanguageContext';
 import './AccessibilitySettings.css';
 
 function AccessibilitySettings() {
-  const { darkMode, toggleDarkMode, largeText, toggleLargeText } = useTheme();
+  const { darkMode, toggleDarkMode, largeText, toggleLargeText, simpleMode, toggleSimpleMode } = useTheme();
   const { t } = useLanguage();
   const [isOpen, setIsOpen] = useState(false);
   const menuRef = useRef(null);
@@ -78,6 +78,23 @@ function AccessibilitySettings() {
               <span className="toggle-slider"></span>
               <span className="toggle-text">
                 {largeText ? t('accessibility.on') : t('accessibility.off')}
+              </span>
+            </button>
+          </div>
+
+          <div className="accessibility-option">
+            <div className="option-info">
+              <Target size={20} className="option-icon" />
+              <span className="option-label">{t('accessibility.simpleMode')}</span>
+            </div>
+            <button
+              className={`toggle-btn ${simpleMode ? 'active' : ''}`}
+              onClick={toggleSimpleMode}
+              aria-pressed={simpleMode}
+            >
+              <span className="toggle-slider"></span>
+              <span className="toggle-text">
+                {simpleMode ? t('accessibility.on') : t('accessibility.off')}
               </span>
             </button>
           </div>

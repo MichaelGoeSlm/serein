@@ -11,13 +11,20 @@ export function useTheme() {
 }
 
 export function ThemeProvider({ children }) {
+  // Dark mode enabled by default for new users
   const [darkMode, setDarkMode] = useState(() => {
     const stored = localStorage.getItem('serein_darkMode');
-    return stored === 'true';
+    return stored === null ? true : stored === 'true';
   });
 
+  // Large text enabled by default for new users (accessibility for seniors)
   const [largeText, setLargeText] = useState(() => {
     const stored = localStorage.getItem('serein_largeText');
+    return stored === null ? true : stored === 'true';
+  });
+
+  const [simpleMode, setSimpleMode] = useState(() => {
+    const stored = localStorage.getItem('serein_simpleMode');
     return stored === 'true';
   });
 
@@ -33,16 +40,25 @@ export function ThemeProvider({ children }) {
     localStorage.setItem('serein_largeText', largeText.toString());
   }, [largeText]);
 
+  // Save simple mode to localStorage
+  useEffect(() => {
+    localStorage.setItem('serein_simpleMode', simpleMode.toString());
+  }, [simpleMode]);
+
   const toggleDarkMode = () => setDarkMode((prev) => !prev);
   const toggleLargeText = () => setLargeText((prev) => !prev);
+  const toggleSimpleMode = () => setSimpleMode((prev) => !prev);
 
   const value = {
     darkMode,
     setDarkMode,
     largeText,
     setLargeText,
+    simpleMode,
+    setSimpleMode,
     toggleDarkMode,
-    toggleLargeText
+    toggleLargeText,
+    toggleSimpleMode
   };
 
   return (

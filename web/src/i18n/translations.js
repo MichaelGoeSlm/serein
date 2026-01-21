@@ -38,8 +38,29 @@ const translations = {
       settings: "Accessibilité",
       darkMode: "Mode nuit",
       largeText: "Gros caractères",
+      simpleMode: "Mode simplifié",
       on: "Activé",
-      off: "Désactivé"
+      off: "Désactivé",
+      close: "Fermer réglages"
+    },
+
+    // Simple mode
+    simpleMode: {
+      title: "Que souhaitez-vous vérifier ?",
+      photo: "Une photo",
+      email: "Un email",
+      showEmailInstructions: "Voir les instructions pour analyser un email",
+      emailInstructionsTitle: "Comment analyser un email suspect ?",
+      step1Title: "Faites une capture du haut de l'email",
+      step1Text: "Ouvrez l'email, cliquez sur les détails de l'expéditeur, et capturez : nom, adresse email, date et objet.",
+      step2Title: "Faites une capture du corps de l'email",
+      step2Text: "Capturez le contenu du message avec les liens et boutons visibles.",
+      warning: "Les 2 captures sont nécessaires pour une analyse complète !",
+      sendScreenshots: "Envoyer mes captures d'écran",
+      choosePhotos: "Choisir mes photos",
+      selectPhotos: "Sélectionnez une ou plusieurs photos à analyser",
+      photoDescription: "Capture d'écran de tout texte ou photo dont vous souhaitez vérifier la légitimité",
+      analyze: "Analyser"
     },
 
     // Landing page
@@ -70,7 +91,15 @@ const translations = {
       securityNote: "Connexion securisee. Nous n'accedons jamais a vos emails.",
       backToHome: "Retour a l'accueil",
       loading: "Connexion...",
-      error: "Une erreur est survenue. Veuillez reessayer."
+      error: "Une erreur est survenue. Veuillez reessayer.",
+      or: "OU",
+      magicLinkTitle: "Connexion par email",
+      magicLinkPlaceholder: "Votre adresse email",
+      magicLinkButton: "Recevoir un lien de connexion",
+      magicLinkSent: "Un lien de connexion a ete envoye a votre adresse email. Verifiez votre boite de reception.",
+      magicLinkError: "Erreur lors de l'envoi du lien",
+      verifying: "Verification en cours...",
+      verifyError: "Lien invalide ou expire"
     },
 
     // Onboarding
@@ -276,8 +305,29 @@ const translations = {
       settings: "Accessibility",
       darkMode: "Dark mode",
       largeText: "Large text",
+      simpleMode: "Simple mode",
       on: "On",
-      off: "Off"
+      off: "Off",
+      close: "Close settings"
+    },
+
+    // Simple mode
+    simpleMode: {
+      title: "What would you like to verify?",
+      photo: "A photo",
+      email: "An email",
+      showEmailInstructions: "Show instructions for analyzing an email",
+      emailInstructionsTitle: "How to analyze a suspicious email?",
+      step1Title: "Take a screenshot of the email header",
+      step1Text: "Open the email, click on sender details, and capture: name, email address, date and subject.",
+      step2Title: "Take a screenshot of the email body",
+      step2Text: "Capture the message content with visible links and buttons.",
+      warning: "Both screenshots are needed for a complete analysis!",
+      sendScreenshots: "Send my screenshots",
+      choosePhotos: "Choose my photos",
+      selectPhotos: "Select one or more photos to analyze",
+      photoDescription: "Screenshot of any text or photo you want to verify the legitimacy of",
+      analyze: "Analyze"
     },
 
     // Landing page
@@ -308,7 +358,15 @@ const translations = {
       securityNote: "Secure login. We never access your emails.",
       backToHome: "Back to home",
       loading: "Signing in...",
-      error: "An error occurred. Please try again."
+      error: "An error occurred. Please try again.",
+      or: "OR",
+      magicLinkTitle: "Login by email",
+      magicLinkPlaceholder: "Your email address",
+      magicLinkButton: "Receive a login link",
+      magicLinkSent: "A login link has been sent to your email address. Check your inbox.",
+      magicLinkError: "Error sending link",
+      verifying: "Verifying...",
+      verifyError: "Invalid or expired link"
     },
 
     // Onboarding
@@ -514,8 +572,29 @@ const translations = {
       settings: "Accesibilidad",
       darkMode: "Modo nocturno",
       largeText: "Texto grande",
+      simpleMode: "Modo simplificado",
       on: "Activado",
-      off: "Desactivado"
+      off: "Desactivado",
+      close: "Cerrar ajustes"
+    },
+
+    // Simple mode
+    simpleMode: {
+      title: "¿Qué desea verificar?",
+      photo: "Una foto",
+      email: "Un email",
+      showEmailInstructions: "Ver instrucciones para analizar un email",
+      emailInstructionsTitle: "¿Cómo analizar un email sospechoso?",
+      step1Title: "Haga una captura del encabezado del email",
+      step1Text: "Abra el email, haga clic en los detalles del remitente y capture: nombre, dirección de email, fecha y asunto.",
+      step2Title: "Haga una captura del cuerpo del email",
+      step2Text: "Capture el contenido del mensaje con los enlaces y botones visibles.",
+      warning: "¡Las 2 capturas son necesarias para un análisis completo!",
+      sendScreenshots: "Enviar mis capturas",
+      choosePhotos: "Elegir mis fotos",
+      selectPhotos: "Seleccione una o más fotos para analizar",
+      photoDescription: "Captura de pantalla de cualquier texto o foto cuya legitimidad desea verificar",
+      analyze: "Analizar"
     },
 
     // Landing page
@@ -546,7 +625,15 @@ const translations = {
       securityNote: "Inicio de sesion seguro. Nunca accedemos a tus correos.",
       backToHome: "Volver al inicio",
       loading: "Iniciando sesion...",
-      error: "Ha ocurrido un error. Por favor, intentalo de nuevo."
+      error: "Ha ocurrido un error. Por favor, intentalo de nuevo.",
+      or: "O",
+      magicLinkTitle: "Iniciar sesion por email",
+      magicLinkPlaceholder: "Tu direccion de email",
+      magicLinkButton: "Recibir un enlace de conexion",
+      magicLinkSent: "Se ha enviado un enlace de conexion a tu email. Revisa tu bandeja de entrada.",
+      magicLinkError: "Error al enviar el enlace",
+      verifying: "Verificando...",
+      verifyError: "Enlace invalido o expirado"
     },
 
     // Onboarding
