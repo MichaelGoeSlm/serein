@@ -3,12 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import { Shield, User, Link2, Camera, FileText, File, Star, Zap, AlertTriangle, X } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import { getAnalyses, updateUserProfile } from '../firebase/firestore';
+import { getAnalyses } from '../firebase/firestore';
 import NavBar from '../components/NavBar';
 import './AccountPage.css';
 
 function AccountPage() {
-  const { t, language, setLanguage } = useLanguage();
+  const { t, language } = useLanguage();
   const { user, userProfile, signOut, isPremium, analysesUsed, refreshUserProfile } = useAuth();
   const navigate = useNavigate();
   const [analyses, setAnalyses] = useState([]);
@@ -42,18 +42,6 @@ function AccountPage() {
 
     fetchAnalyses();
   }, [user]);
-
-  const handleLanguageChange = async (newLang) => {
-    setLanguage(newLang);
-    if (user) {
-      try {
-        await updateUserProfile(user.uid, { language: newLang });
-        await refreshUserProfile();
-      } catch (error) {
-        console.error('Error updating language:', error);
-      }
-    }
-  };
 
   const handleSignOut = async () => {
     try {
@@ -167,30 +155,6 @@ function AccountPage() {
               )}
               <div className="profile-info">
                 <p className="profile-name">{user?.displayName || userProfile?.name}</p>
-              </div>
-            </div>
-
-            <div className="language-selector-row">
-              <span className="language-label">{t('account.language') || 'Langue'}:</span>
-              <div className="language-buttons">
-                <button
-                  className={`lang-btn ${language === 'fr' ? 'active' : ''}`}
-                  onClick={() => handleLanguageChange('fr')}
-                >
-                  🇫🇷 FR
-                </button>
-                <button
-                  className={`lang-btn ${language === 'en' ? 'active' : ''}`}
-                  onClick={() => handleLanguageChange('en')}
-                >
-                  🇬🇧 EN
-                </button>
-                <button
-                  className={`lang-btn ${language === 'es' ? 'active' : ''}`}
-                  onClick={() => handleLanguageChange('es')}
-                >
-                  🇪🇸 ES
-                </button>
               </div>
             </div>
           </div>
