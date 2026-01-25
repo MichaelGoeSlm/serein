@@ -34,7 +34,9 @@ function AccessibilitySettings() {
       </button>
 
       {isOpen && (
-        <div className="accessibility-menu">
+        <>
+          <div className="accessibility-overlay" onClick={() => setIsOpen(false)} />
+          <div className="accessibility-menu">
           <button
             className="close-button"
             onClick={() => setIsOpen(false)}
@@ -99,6 +101,7 @@ function AccessibilitySettings() {
             </button>
           </div>
         </div>
+        </>
       )}
     </div>
   );
