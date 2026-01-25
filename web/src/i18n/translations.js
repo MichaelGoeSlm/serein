@@ -30,7 +30,15 @@ const translations = {
       important: "Important",
       importantText: "Les DEUX captures sont nécessaires pour une analyse complète. L'adresse de l'expéditeur nous permet de vérifier si l'email est légitime.",
       understoodButton: "J'ai compris, analyser mes images",
-      cancelButton: "Annuler"
+      cancelButton: "Annuler",
+      // Animation demo
+      demoSenderName: "Banque Secure",
+      demoSubject: "⚠️ Urgent: Vérifiez votre compte",
+      demoDate: "Aujourd'hui, 14:32",
+      demoCapture: "Capturez ici !",
+      animStep1: "👆 Appuyez sur l'expéditeur",
+      animStep2: "✨ Les détails s'affichent",
+      animStep3: "📸 Faites une capture d'écran"
     },
 
     // Accessibility
@@ -297,7 +305,15 @@ const translations = {
       important: "Important",
       importantText: "BOTH screenshots are needed for a complete analysis. The sender's address allows us to verify if the email is legitimate.",
       understoodButton: "Got it, analyze my images",
-      cancelButton: "Cancel"
+      cancelButton: "Cancel",
+      // Animation demo
+      demoSenderName: "Secure Bank",
+      demoSubject: "⚠️ Urgent: Verify your account",
+      demoDate: "Today, 2:32 PM",
+      demoCapture: "Capture here!",
+      animStep1: "👆 Tap on the sender",
+      animStep2: "✨ Details appear",
+      animStep3: "📸 Take a screenshot"
     },
 
     // Accessibility
@@ -564,7 +580,15 @@ const translations = {
       important: "Importante",
       importantText: "Las DOS capturas son necesarias para un análisis completo. La dirección del remitente nos permite verificar si el email es legítimo.",
       understoodButton: "Entendido, analizar mis imágenes",
-      cancelButton: "Cancelar"
+      cancelButton: "Cancelar",
+      // Animation demo
+      demoSenderName: "Banco Seguro",
+      demoSubject: "⚠️ Urgente: Verifique su cuenta",
+      demoDate: "Hoy, 14:32",
+      demoCapture: "¡Capture aquí!",
+      animStep1: "👆 Toque en el remitente",
+      animStep2: "✨ Aparecen los detalles",
+      animStep3: "📸 Haga una captura de pantalla"
     },
 
     // Accessibility

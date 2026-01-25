@@ -38,7 +38,7 @@ function EmailInstructionsModal({ onClose, onConfirm }) {
                     <div className="email-demo-avatar">B</div>
                     <div className="email-demo-sender-info">
                       <div className="email-demo-sender-name">
-                        Banque Secure
+                        {t('email.demoSenderName')}
                         <span className={`email-demo-chevron ${animationStep >= 1 ? 'rotated' : ''}`}>▼</span>
                       </div>
                       {animationStep >= 1 && (
@@ -49,11 +49,11 @@ function EmailInstructionsModal({ onClose, onConfirm }) {
                     </div>
                   </div>
                   <div className="email-demo-subject">
-                    ⚠️ Urgent: Vérifiez votre compte
+                    {t('email.demoSubject')}
                   </div>
                   {animationStep >= 1 && (
                     <div className="email-demo-date animate-expand">
-                      Aujourd'hui, 14:32
+                      {t('email.demoDate')}
                     </div>
                   )}
                 </div>
@@ -70,16 +70,16 @@ function EmailInstructionsModal({ onClose, onConfirm }) {
                 {animationStep >= 2 && (
                   <div className="email-demo-arrow">
                     <span className="arrow-icon">📸</span>
-                    <span className="arrow-text">Capturez ici !</span>
+                    <span className="arrow-text">{t('email.demoCapture')}</span>
                   </div>
                 )}
               </div>
             </div>
 
             <div className="email-demo-caption">
-              {animationStep === 0 && "👆 Appuyez sur l'expéditeur"}
-              {animationStep === 1 && "✨ Les détails s'affichent"}
-              {animationStep >= 2 && "📸 Faites une capture d'écran"}
+              {animationStep === 0 && t('email.animStep1')}
+              {animationStep === 1 && t('email.animStep2')}
+              {animationStep >= 2 && t('email.animStep3')}
             </div>
           </div>
 
