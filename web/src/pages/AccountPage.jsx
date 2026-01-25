@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Shield, User, Link2, Camera, FileText, File, Star, Zap, AlertTriangle, X } from 'lucide-react';
+import { Shield, User, Link2, Camera, FileText, File, Star, Zap, AlertTriangle, X, Moon, Sun, Type, Target } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
+import { useTheme } from '../context/ThemeContext';
 import { getAnalyses } from '../firebase/firestore';
 import NavBar from '../components/NavBar';
 import './AccountPage.css';
@@ -10,6 +11,7 @@ import './AccountPage.css';
 function AccountPage() {
   const { t, language } = useLanguage();
   const { user, userProfile, signOut, isPremium, analysesUsed, refreshUserProfile } = useAuth();
+  const { darkMode, toggleDarkMode, largeText, toggleLargeText, simpleMode, toggleSimpleMode } = useTheme();
   const navigate = useNavigate();
   const [analyses, setAnalyses] = useState([]);
   const [loadingAnalyses, setLoadingAnalyses] = useState(true);
@@ -189,6 +191,54 @@ function AccountPage() {
                 </button>
               </>
             )}
+          </div>
+        </section>
+
+        {/* Settings Section */}
+        <section className="account-section settings-section">
+          <h2>{t('accessibility.settings') || 'Paramètres'}</h2>
+          <div className="settings-list">
+            <div className="settings-item">
+              <div className="settings-info">
+                {darkMode ? <Sun size={24} className="settings-icon" /> : <Moon size={24} className="settings-icon" />}
+                <span className="settings-label">{t('accessibility.darkMode') || 'Mode sombre'}</span>
+              </div>
+              <button
+                className={`settings-toggle ${darkMode ? 'active' : ''}`}
+                onClick={toggleDarkMode}
+                aria-pressed={darkMode}
+              >
+                <span className="toggle-slider"></span>
+              </button>
+            </div>
+
+            <div className="settings-item">
+              <div className="settings-info">
+                <Type size={24} className="settings-icon" />
+                <span className="settings-label">{t('accessibility.largeText') || 'Grand texte'}</span>
+              </div>
+              <button
+                className={`settings-toggle ${largeText ? 'active' : ''}`}
+                onClick={toggleLargeText}
+                aria-pressed={largeText}
+              >
+                <span className="toggle-slider"></span>
+              </button>
+            </div>
+
+            <div className="settings-item">
+              <div className="settings-info">
+                <Target size={24} className="settings-icon" />
+                <span className="settings-label">{t('accessibility.simpleMode') || 'Mode simplifié'}</span>
+              </div>
+              <button
+                className={`settings-toggle ${simpleMode ? 'active' : ''}`}
+                onClick={toggleSimpleMode}
+                aria-pressed={simpleMode}
+              >
+                <span className="toggle-slider"></span>
+              </button>
+            </div>
           </div>
         </section>
 

@@ -17,7 +17,10 @@ function NavBar() {
       </Link>
 
       <div className="navbar-right">
-        <AccessibilitySettings />
+        {/* Hide on mobile - settings are in Account page */}
+        <div className="navbar-settings-desktop">
+          <AccessibilitySettings />
+        </div>
 
         <Link to="/account" className="navbar-account">
           {user?.photoURL ? (
