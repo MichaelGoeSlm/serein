@@ -3,11 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Shield, ArrowLeft, AlertTriangle, Lock } from 'lucide-react';
 import { useLanguage } from '../i18n/LanguageContext';
 import { useAuth } from '../context/AuthContext';
-import LanguageSelector from '../components/LanguageSelector';
 import './LoginPage.css';
 
 function LoginPage() {
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const { signIn, user, userProfile } = useAuth();
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
@@ -38,31 +37,61 @@ function LoginPage() {
     }
   };
 
+  const languages = [
+    { code: 'fr', label: 'FR' },
+    { code: 'en', label: 'EN' },
+    { code: 'es', label: 'ES' }
+  ];
+
   return (
-    <div className="login-page">
-      <div className="login-nav">
-        <Link to="/" className="back-link">
-          <ArrowLeft size={18} className="back-arrow" />
-          <span>{t('login.backToHome')}</span>
-        </Link>
-        <LanguageSelector />
-      </div>
+    <div className="serein-login selection:bg-cyan-500/30 selection:text-white">
+      {/* Aurora Background */}
+      <div className="aurora-bg"></div>
 
-      <div className="login-container">
-        <div className="login-card">
-          <div className="login-header">
-            <Shield size={48} className="login-icon" />
-            <h1>{t('login.title')}</h1>
+      {/* Main Container */}
+      <main className="login-main glass-container">
+        {/* Header with Back Link and Language Selector */}
+        <div className="login-header-row">
+          <Link to="/" className="back-link group">
+            <ArrowLeft className="back-arrow" />
+            <span>{t('login.backToHome')}</span>
+          </Link>
+          
+          {/* Language Selector */}
+          <div className="lang-selector">
+            {languages.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => setLanguage(lang.code)}
+                className={`lang-btn ${language === lang.code ? 'lang-btn-active' : ''}`}
+              >
+                <span>{lang.label}</span>
+              </button>
+            ))}
           </div>
+        </div>
 
-          {error && (
-            <div className="login-error">
-              <AlertTriangle size={18} /> {error}
-            </div>
-          )}
+        {/* Icon and Title */}
+        <div className="login-title-section">
+          <div className="icon-container glass-container">
+            <Shield className="shield-icon icon-glow" />
+          </div>
+          <h1 className="login-title">
+            {t('login.title')}
+          </h1>
+        </div>
 
+        {/* Error Message */}
+        {error && (
+          <div className="login-error">
+            <AlertTriangle size={18} /> {error}
+          </div>
+        )}
+
+        {/* Google Login Button */}
+        <div className="login-button-section">
           <button
-            className="google-button"
+            className="google-button btn-glow"
             onClick={handleGoogleLogin}
             disabled={loading}
           >
@@ -80,13 +109,14 @@ function LoginPage() {
               </>
             )}
           </button>
-
-          <p className="security-note">
-            <Lock size={16} className="lock-icon" />
-            {t('login.securityNote')}
-          </p>
         </div>
-      </div>
+
+        {/* Security Note */}
+        <div className="security-note glass-container">
+          <Lock className="lock-icon" />
+          <p>{t('login.securityNote')}</p>
+        </div>
+      </main>
     </div>
   );
 }

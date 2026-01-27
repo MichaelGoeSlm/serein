@@ -17,10 +17,10 @@ function LandingPage() {
   return (
     <div className="serein-landing selection:bg-cyan-500/30 selection:text-white">
       {/* Aurora Background */}
-      <div className="aurora-bg"></div>
+      <div className="aurora-bg" style={{ position: 'fixed', top: 0, left: 0, width: '100%', height: '100%', zIndex: -1 }}></div>
 
       {/* Header */}
-      <header className="fixed top-0 left-0 w-full z-50 py-4 px-6">
+      <header style={{ position: 'fixed', top: 0, left: 0, width: '100%', zIndex: 50, padding: '1rem 1.5rem' }}>
         <div className="max-w-5xl mx-auto flex justify-between items-center glass-container rounded-full p-3 pl-5">
           <div className="flex items-center gap-3">
             <Shield className="w-7 h-7 text-cyan-400 fill-cyan-400/10" />
@@ -41,9 +41,9 @@ function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-20 md:pt-32 pb-16 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
+      <section className="hero-section" style={{ paddingTop: '130px', paddingBottom: '2rem', paddingLeft: '1rem', paddingRight: '1rem' }}>
+        <div style={{ maxWidth: '48rem', margin: '0 auto', textAlign: 'center' }}>
+          <h1 style={{ margin: 0, fontSize: '2.5rem', fontWeight: 800, marginBottom: '1rem' }}>
             <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300">Protégez-vous des</span>
             <span className="text-gradient-cyan">arnaques en ligne</span>
           </h1>
@@ -158,7 +158,7 @@ function LandingPage() {
       </footer>
 
       {/* Chat Bubble */}
-      <div className="fixed bottom-6 right-6 z-50">
+      <div style={{ position: 'fixed', bottom: '1.5rem', right: '1.5rem', zIndex: 50 }}>
         <button className="chat-bubble p-4 rounded-full bg-[#1A1F36] hover:bg-[#242a45] transition-colors">
           <MessageCircle className="w-6 h-6 text-blue-400" />
         </button>
