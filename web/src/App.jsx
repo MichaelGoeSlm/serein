@@ -17,6 +17,7 @@ import AdminUsers from './admin/pages/AdminUsers';
 import VerifyMagicLinkPage from './pages/VerifyMagicLinkPage';
 import './styles/themes.css';
 import './styles/modern.css';
+import './styles/aurora.css';
 import './App.css';
 
 function App() {

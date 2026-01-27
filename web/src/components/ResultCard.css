@@ -1,9 +1,22 @@
 .result-card {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 20px;
   padding: 32px;
   box-shadow: 0 4px 25px rgba(107, 140, 179, 0.15);
   animation: slideUp 0.4s ease-out;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora glassmorphism for result card in dark mode */
+[data-theme="dark"] .result-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 @keyframes slideUp {
@@ -20,19 +33,23 @@
 .result-header {
   margin-bottom: 24px;
   padding-bottom: 16px;
-  border-bottom: 1px solid #ecf0f1;
+  border-bottom: 1px solid var(--border-color, #ecf0f1);
+}
+
+[data-theme="dark"] .result-header {
+  border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 .result-title {
-  font-size: 20px;
-  color: #2c3e50;
+  font-size: var(--font-size-xl, 20px);
+  color: var(--text-primary, #2c3e50);
   margin: 0 0 8px 0;
   font-weight: 600;
 }
 
 .result-url {
-  color: #7f8c8d;
-  font-size: 14px;
+  color: var(--text-muted, #7f8c8d);
+  font-size: var(--font-size-sm, 14px);
   margin: 0;
   word-break: break-all;
 }
@@ -43,9 +60,10 @@
   gap: 10px;
   padding: 12px 24px;
   border-radius: 50px;
-  font-size: 18px;
+  font-size: var(--font-size-lg, 18px);
   font-weight: 600;
   margin-bottom: 24px;
+  transition: all 0.3s ease;
 }
 
 .verdict-badge.verdict-safe {
@@ -63,8 +81,30 @@
   color: #e74c3c;
 }
 
+/* Aurora verdict badges in dark mode with glow */
+[data-theme="dark"] .verdict-badge.verdict-safe {
+  background: rgba(16, 185, 129, 0.15);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3), 0 0 40px rgba(16, 185, 129, 0.15);
+}
+
+[data-theme="dark"] .verdict-badge.verdict-caution {
+  background: rgba(249, 115, 22, 0.15);
+  color: #f97316;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+}
+
+[data-theme="dark"] .verdict-badge.verdict-danger {
+  background: rgba(236, 72, 153, 0.15);
+  color: #ec4899;
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
 .verdict-icon {
-  font-size: 20px;
+  font-size: var(--font-size-xl, 20px);
 }
 
 .confidence-section {
@@ -76,21 +116,25 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 10px;
-  color: #5d6d7e;
-  font-size: 14px;
+  color: var(--text-secondary, #5d6d7e);
+  font-size: var(--font-size-sm, 14px);
 }
 
 .confidence-value {
   font-weight: 700;
-  font-size: 18px;
-  color: #2c3e50;
+  font-size: var(--font-size-lg, 18px);
+  color: var(--text-primary, #2c3e50);
 }
 
 .confidence-bar {
   height: 12px;
-  background: #ecf0f1;
+  background: var(--bg-secondary, #ecf0f1);
   border-radius: 6px;
   overflow: hidden;
+}
+
+[data-theme="dark"] .confidence-bar {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .confidence-fill {
@@ -111,19 +155,33 @@
   background: linear-gradient(90deg, #ec7063 0%, #e74c3c 100%);
 }
 
+/* Aurora progress fill with glow in dark mode */
+[data-theme="dark"] .confidence-fill.verdict-safe {
+  background: linear-gradient(90deg, #10b981 0%, #22d3ee 100%);
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.5);
+}
+
+[data-theme="dark"] .confidence-fill.verdict-caution {
+  background: linear-gradient(90deg, #f97316 0%, #fbbf24 100%);
+}
+
+[data-theme="dark"] .confidence-fill.verdict-danger {
+  background: linear-gradient(90deg, #ec4899 0%, #f97316 100%);
+}
+
 .summary-section {
   margin-bottom: 24px;
 }
 
 .summary-section h3 {
-  font-size: 16px;
-  color: #2c3e50;
+  font-size: var(--font-size-base, 16px);
+  color: var(--text-primary, #2c3e50);
   margin: 0 0 12px 0;
   font-weight: 600;
 }
 
 .summary-section p {
-  color: #5d6d7e;
+  color: var(--text-secondary, #5d6d7e);
   line-height: 1.7;
   margin: 0;
 }
@@ -136,11 +194,21 @@
   border-left: 4px solid #e74c3c;
 }
 
+/* Aurora red flags in dark mode */
+[data-theme="dark"] .red-flags-section {
+  background: rgba(236, 72, 153, 0.08);
+  border-left-color: #ec4899;
+}
+
 .red-flags-section h3 {
-  font-size: 16px;
+  font-size: var(--font-size-base, 16px);
   color: #c0392b;
   margin: 0 0 16px 0;
   font-weight: 600;
+}
+
+[data-theme="dark"] .red-flags-section h3 {
+  color: #ec4899;
 }
 
 .red-flags-list {
@@ -158,15 +226,28 @@
   line-height: 1.5;
 }
 
+[data-theme="dark"] .red-flag-item {
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
 .red-flag-item:not(:last-child) {
   border-bottom: 1px solid #f5e0e0;
 }
 
+[data-theme="dark"] .red-flag-item:not(:last-child) {
+  border-bottom-color: rgba(255, 255, 255, 0.05);
+}
+
 .red-flag-icon {
   color: #e74c3c;
-  font-size: 14px;
+  font-size: var(--font-size-sm, 14px);
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+[data-theme="dark"] .red-flag-icon {
+  color: #ec4899;
 }
 
 .reassurance-section {
@@ -178,8 +259,14 @@
   gap: 16px;
 }
 
+/* Aurora reassurance in dark mode */
+[data-theme="dark"] .reassurance-section {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
 .reassurance-icon {
-  font-size: 24px;
+  font-size: var(--font-size-2xl, 24px);
   flex-shrink: 0;
 }
 
@@ -190,17 +277,21 @@
   font-style: italic;
 }
 
+[data-theme="dark"] .reassurance-text {
+  color: rgba(255, 255, 255, 0.8);
+}
+
 @media (max-width: 600px) {
   .result-card {
     padding: 24px 20px;
   }
 
   .verdict-badge {
-    font-size: 16px;
+    font-size: var(--font-size-base, 16px);
     padding: 10px 20px;
   }
 
   .result-title {
-    font-size: 18px;
+    font-size: var(--font-size-lg, 18px);
   }
 }

@@ -38,13 +38,25 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
   box-shadow: var(--shadow-sm);
+}
+
+/* Aurora trigger button in dark mode */
+[data-theme="dark"] .accessibility-trigger {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .accessibility-trigger:hover {
   background: var(--bg-secondary);
   transform: scale(1.05);
+}
+
+[data-theme="dark"] .accessibility-trigger:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.3);
 }
 
 .accessibility-icon {
@@ -63,6 +75,17 @@
   overflow: hidden;
   border: 1px solid var(--border-color);
   animation: slideDown 0.2s ease;
+}
+
+/* Aurora glassmorphism menu in dark mode */
+[data-theme="dark"] .accessibility-menu {
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 /* Close Button */
@@ -147,12 +170,23 @@
   border: none;
   border-radius: 20px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
   padding: 0;
+}
+
+/* Aurora toggle in dark mode */
+[data-theme="dark"] .toggle-btn {
+  background: rgba(255, 255, 255, 0.1);
 }
 
 .toggle-btn.active {
   background: var(--accent-color);
+}
+
+/* Aurora active toggle with glow in dark mode */
+[data-theme="dark"] .toggle-btn.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+  box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
 }
 
 .toggle-slider {

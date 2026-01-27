@@ -1,0 +1,527 @@
+/* ===== Aurora 2026 Design System ===== */
+/* Inspired by devhub.wiki - Dark mesh gradients with glassmorphism */
+
+/* Aurora color palette */
+:root {
+  --aurora-blue: #3b82f6;
+  --aurora-violet: #9333ea;
+  --aurora-cyan: #22d3ee;
+  --aurora-green: #10b981;
+  --aurora-pink: #ec4899;
+  --aurora-orange: #f97316;
+  
+  /* Glow effects */
+  --glow-blue: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
+  --glow-violet: 0 0 20px rgba(147, 51, 234, 0.5), 0 0 40px rgba(147, 51, 234, 0.3);
+  --glow-cyan: 0 0 20px rgba(34, 211, 238, 0.5), 0 0 40px rgba(34, 211, 238, 0.3);
+  --glow-green: 0 0 20px rgba(16, 185, 129, 0.5), 0 0 40px rgba(16, 185, 129, 0.3);
+}
+
+/* Aurora background with mesh gradient */
+.aurora-bg {
+  background-color: #030712;
+  position: relative;
+  min-height: 100vh;
+  overflow: hidden;
+}
+
+.aurora-bg::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(34, 211, 238, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 60% 60%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
+  animation: auroraMove 20s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes auroraMove {
+  0% {
+    transform: translate(0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate(-5%, -5%) rotate(5deg);
+  }
+  100% {
+    transform: translate(5%, 5%) rotate(-5deg);
+  }
+}
+
+/* Glassmorphism card */
+.aurora-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+.aurora-card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+  transform: translateY(-2px);
+}
+
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, var(--aurora-blue) 0%, var(--aurora-violet) 50%, var(--aurora-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-safe {
+  background: linear-gradient(135deg, var(--aurora-green) 0%, var(--aurora-cyan) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-danger {
+  background: linear-gradient(135deg, var(--aurora-orange) 0%, var(--aurora-pink) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Aurora button with glow */
+.aurora-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 16px 32px;
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  min-height: 60px;
+  border: none;
+  border-radius: 16px;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.aurora-btn-primary {
+  background: linear-gradient(135deg, var(--aurora-blue) 0%, var(--aurora-violet) 100%);
+  color: white;
+  box-shadow: var(--glow-blue);
+}
+
+.aurora-btn-primary:hover:not(:disabled) {
+  box-shadow: 
+    0 0 30px rgba(59, 130, 246, 0.6), 
+    0 0 60px rgba(147, 51, 234, 0.4);
+  transform: translateY(-3px);
+}
+
+.aurora-btn-primary:active:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.aurora-btn-success {
+  background: linear-gradient(135deg, var(--aurora-green) 0%, var(--aurora-cyan) 100%);
+  color: white;
+  box-shadow: var(--glow-green);
+}
+
+.aurora-btn-success:hover:not(:disabled) {
+  box-shadow: 
+    0 0 30px rgba(16, 185, 129, 0.6), 
+    0 0 60px rgba(34, 211, 238, 0.4);
+  transform: translateY(-3px);
+}
+
+.aurora-btn-danger {
+  background: linear-gradient(135deg, var(--aurora-orange) 0%, var(--aurora-pink) 100%);
+  color: white;
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+}
+
+.aurora-btn-danger:hover:not(:disabled) {
+  box-shadow: 
+    0 0 30px rgba(249, 115, 22, 0.6), 
+    0 0 60px rgba(236, 72, 153, 0.4);
+  transform: translateY(-3px);
+}
+
+.aurora-btn-secondary {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.aurora-btn-secondary:hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  transform: translateY(-2px);
+}
+
+.aurora-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Aurora input */
+.aurora-input {
+  width: 100%;
+  padding: 18px 24px;
+  font-size: var(--font-size-lg);
+  font-family: inherit;
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.aurora-input:focus {
+  outline: none;
+  border-color: var(--aurora-blue);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.aurora-input::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
+/* Aurora tabs */
+.aurora-tabs {
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+}
+
+.aurora-tab {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 16px 12px;
+  min-height: 90px;
+  background: transparent;
+  border: 2px solid transparent;
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: var(--font-size-base);
+  font-weight: 600;
+}
+
+.aurora-tab:hover:not(:disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.aurora-tab.active {
+  background: linear-gradient(135deg, var(--aurora-blue) 0%, var(--aurora-violet) 100%);
+  color: white;
+  box-shadow: var(--glow-blue);
+}
+
+.aurora-tab:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* Aurora badge */
+.aurora-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 24px;
+  font-size: var(--font-size-lg);
+  font-weight: 600;
+  border-radius: 50px;
+  backdrop-filter: blur(8px);
+}
+
+.aurora-badge-safe {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--aurora-green);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  box-shadow: var(--glow-green);
+}
+
+.aurora-badge-caution {
+  background: rgba(249, 115, 22, 0.15);
+  color: var(--aurora-orange);
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  box-shadow: 0 0 15px rgba(249, 115, 22, 0.3);
+}
+
+.aurora-badge-danger {
+  background: rgba(236, 72, 153, 0.15);
+  color: var(--aurora-pink);
+  border: 1px solid rgba(236, 72, 153, 0.3);
+  box-shadow: 0 0 15px rgba(236, 72, 153, 0.3);
+}
+
+.aurora-badge-premium {
+  background: linear-gradient(135deg, var(--aurora-violet) 0%, var(--aurora-pink) 100%);
+  color: white;
+  border: none;
+  box-shadow: var(--glow-violet);
+}
+
+/* Pulse animation for loading */
+@keyframes auroraPulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow: var(--glow-blue);
+  }
+  50% {
+    opacity: 0.7;
+    box-shadow: 0 0 40px rgba(59, 130, 246, 0.8), 0 0 80px rgba(147, 51, 234, 0.5);
+  }
+}
+
+.aurora-pulse {
+  animation: auroraPulse 2s ease-in-out infinite;
+}
+
+/* Aurora spinner */
+.aurora-spinner {
+  width: 60px;
+  height: 60px;
+  border: 3px solid rgba(255, 255, 255, 0.1);
+  border-top-color: var(--aurora-blue);
+  border-right-color: var(--aurora-violet);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+/* Floating orbs decoration */
+.aurora-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(60px);
+  opacity: 0.5;
+  pointer-events: none;
+  animation: float 8s ease-in-out infinite;
+}
+
+.aurora-orb-blue {
+  background: var(--aurora-blue);
+}
+
+.aurora-orb-violet {
+  background: var(--aurora-violet);
+}
+
+.aurora-orb-cyan {
+  background: var(--aurora-cyan);
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Navbar aurora style */
+.aurora-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--spacing-base) var(--spacing-lg);
+  background: rgba(3, 7, 18, 0.8);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+/* Alert aurora style */
+.aurora-alert {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 20px;
+  border-radius: 16px;
+  backdrop-filter: blur(8px);
+}
+
+.aurora-alert-error {
+  background: rgba(236, 72, 153, 0.1);
+  border: 1px solid rgba(236, 72, 153, 0.2);
+  color: var(--aurora-pink);
+}
+
+.aurora-alert-success {
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  color: var(--aurora-green);
+}
+
+.aurora-alert-warning {
+  background: rgba(249, 115, 22, 0.1);
+  border: 1px solid rgba(249, 115, 22, 0.2);
+  color: var(--aurora-orange);
+}
+
+/* Progress bar aurora */
+.aurora-progress {
+  height: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.aurora-progress-fill {
+  height: 100%;
+  border-radius: 6px;
+  transition: width 0.6s ease-out;
+}
+
+.aurora-progress-fill.safe {
+  background: linear-gradient(90deg, var(--aurora-green) 0%, var(--aurora-cyan) 100%);
+  box-shadow: var(--glow-green);
+}
+
+.aurora-progress-fill.caution {
+  background: linear-gradient(90deg, var(--aurora-orange) 0%, #fbbf24 100%);
+}
+
+.aurora-progress-fill.danger {
+  background: linear-gradient(90deg, var(--aurora-pink) 0%, var(--aurora-orange) 100%);
+}
+
+/* Section headers */
+.aurora-section-title {
+  font-size: var(--font-size-xl);
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 16px;
+}
+
+/* Divider */
+.aurora-divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.15), transparent);
+  border: none;
+  margin: 24px 0;
+}
+
+/* Red flags section */
+.aurora-red-flags {
+  background: rgba(236, 72, 153, 0.08);
+  border-radius: 16px;
+  padding: 20px;
+  border-left: 4px solid var(--aurora-pink);
+}
+
+.aurora-red-flags h3 {
+  color: var(--aurora-pink);
+  margin-bottom: 16px;
+}
+
+.aurora-red-flag-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+  color: rgba(255, 255, 255, 0.8);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.aurora-red-flag-item:last-child {
+  border-bottom: none;
+}
+
+/* Reassurance section */
+.aurora-reassurance {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(34, 211, 238, 0.1) 100%);
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.aurora-reassurance p {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  font-style: italic;
+}
+
+/* Link styling in dark theme */
+.aurora-link {
+  color: var(--aurora-cyan);
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.aurora-link:hover {
+  color: var(--aurora-blue);
+  text-shadow: 0 0 10px rgba(34, 211, 238, 0.5);
+}
+
+/* Responsive - keep accessibility */
+@media (max-width: 600px) {
+  .aurora-card {
+    border-radius: 16px;
+    padding: 20px;
+  }
+
+  .aurora-btn {
+    padding: 14px 24px;
+    min-height: 56px;
+    font-size: var(--font-size-base);
+  }
+
+  .aurora-tabs {
+    padding: 6px;
+  }
+
+  .aurora-tab {
+    padding: 12px 8px;
+    min-height: 80px;
+  }
+
+  .aurora-badge {
+    padding: 10px 20px;
+    font-size: var(--font-size-base);
+  }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .aurora-bg::before {
+    animation: none;
+  }
+  
+  .aurora-pulse {
+    animation: none;
+  }
+  
+  .aurora-orb {
+    animation: none;
+  }
+}

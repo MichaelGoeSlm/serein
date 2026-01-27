@@ -3,6 +3,35 @@
   background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
   color: var(--text-primary);
   transition: background-color 0.3s ease, color 0.3s ease;
+  position: relative;
+}
+
+/* Aurora mesh gradient background for landing in dark mode */
+[data-theme="dark"] .landing {
+  background: #030712;
+}
+
+[data-theme="dark"] .landing::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.2) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(34, 211, 238, 0.12) 0%, transparent 40%),
+    radial-gradient(circle at 60% 60%, rgba(236, 72, 153, 0.1) 0%, transparent 40%);
+  animation: auroraMove 20s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes auroraMove {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-5%, -5%) rotate(5deg); }
+  100% { transform: translate(5%, 5%) rotate(-5deg); }
 }
 
 /* Header and Navigation */
@@ -35,6 +64,19 @@
   color: var(--text-primary);
 }
 
+/* Aurora gradient text for logo in dark mode */
+[data-theme="dark"] .landing-logo .logo-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+[data-theme="dark"] .landing-logo .logo-icon {
+  color: #3b82f6;
+  filter: drop-shadow(0 0 10px rgba(59, 130, 246, 0.5));
+}
+
 /* Hero Section */
 .hero {
   text-align: center;
@@ -49,6 +91,14 @@
   line-height: 1.2;
   margin-bottom: var(--spacing-lg);
   color: var(--text-primary);
+}
+
+/* Aurora gradient text for hero title in dark mode */
+[data-theme="dark"] .hero-title {
+  background: linear-gradient(135deg, #f8fafc 0%, #cbd5e1 50%, #94a3b8 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 .hero-subtitle {
@@ -67,13 +117,26 @@
   font-weight: 600;
   border-radius: var(--border-radius-base);
   text-decoration: none;
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: all 0.3s ease;
   min-height: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora glow CTA button in dark mode */
+[data-theme="dark"] .cta-button {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+  box-shadow: 0 0 25px rgba(59, 130, 246, 0.5), 0 0 50px rgba(59, 130, 246, 0.3);
 }
 
 .cta-button:hover {
   background: var(--accent-hover);
   transform: translateY(-2px);
+}
+
+[data-theme="dark"] .cta-button:hover {
+  box-shadow: 0 0 35px rgba(59, 130, 246, 0.7), 0 0 70px rgba(147, 51, 234, 0.5);
+  transform: translateY(-3px);
 }
 
 .cta-button:active {
@@ -85,6 +148,8 @@
   padding: 80px var(--spacing-lg);
   max-width: 1000px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 .section-title {
@@ -95,13 +160,34 @@
   color: var(--text-primary);
 }
 
+/* Aurora gradient section titles in dark mode */
+[data-theme="dark"] .section-title {
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 /* How it works */
 .how-it-works {
   background: var(--bg-card);
   border-radius: var(--border-radius-xl);
   margin: 0 var(--spacing-lg);
   box-shadow: var(--shadow-sm);
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora glassmorphism card in dark mode */
+[data-theme="dark"] .how-it-works {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .steps {
@@ -122,6 +208,13 @@
   font-size: 56px;
   display: block;
   margin-bottom: var(--spacing-lg);
+  color: var(--accent-color);
+}
+
+/* Aurora colored icons in dark mode */
+[data-theme="dark"] .step-icon {
+  color: #22d3ee;
+  filter: drop-shadow(0 0 10px rgba(34, 211, 238, 0.5));
 }
 
 .step-text {
@@ -159,6 +252,12 @@
   font-weight: bold;
 }
 
+/* Aurora green glow check in dark mode */
+[data-theme="dark"] .benefit-check {
+  color: #10b981;
+  filter: drop-shadow(0 0 8px rgba(16, 185, 129, 0.5));
+}
+
 /* Pricing */
 .pricing {
   text-align: center;
@@ -171,7 +270,20 @@
   max-width: 500px;
   margin: 0 auto;
   box-shadow: var(--shadow-md);
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora glassmorphism pricing card in dark mode */
+[data-theme="dark"] .pricing-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .pricing-free {
@@ -179,6 +291,12 @@
   color: var(--success-color);
   font-weight: 600;
   margin-bottom: var(--spacing-base);
+}
+
+/* Aurora green glow in dark mode */
+[data-theme="dark"] .pricing-free {
+  color: #10b981;
+  text-shadow: 0 0 20px rgba(16, 185, 129, 0.5);
 }
 
 .pricing-paid {

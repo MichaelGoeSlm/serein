@@ -14,6 +14,15 @@
   transition: all var(--transition-normal);
 }
 
+/* Aurora navbar in dark mode */
+[data-theme="dark"] .navbar {
+  background: rgba(3, 7, 18, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
 .navbar-logo {
   display: flex;
   align-items: center;
@@ -31,10 +40,23 @@
   filter: drop-shadow(0 2px 4px rgba(102, 126, 234, 0.3));
 }
 
+[data-theme="dark"] .navbar-logo .logo-icon {
+  color: #3b82f6;
+  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.5));
+}
+
 .navbar-logo .logo-text {
   font-size: var(--font-size-xl);
   font-weight: 700;
   background: var(--gradient-primary);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* Aurora gradient text for logo in dark mode */
+[data-theme="dark"] .navbar-logo .logo-text {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 50%, #22d3ee 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;

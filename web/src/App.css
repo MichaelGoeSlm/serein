@@ -15,6 +15,35 @@ body {
   transition: background-color 0.3s ease, color 0.3s ease;
 }
 
+/* Aurora mesh gradient background for dark theme */
+[data-theme="dark"] body {
+  background-color: #030712;
+  position: relative;
+}
+
+[data-theme="dark"] body::before {
+  content: '';
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: 
+    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(147, 51, 234, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(34, 211, 238, 0.1) 0%, transparent 40%),
+    radial-gradient(circle at 60% 60%, rgba(236, 72, 153, 0.08) 0%, transparent 40%);
+  animation: auroraMove 20s ease-in-out infinite alternate;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes auroraMove {
+  0% { transform: translate(0, 0) rotate(0deg); }
+  50% { transform: translate(-5%, -5%) rotate(5deg); }
+  100% { transform: translate(5%, 5%) rotate(-5deg); }
+}
+
 /* Polices grandes et lisibles */
 p, span, label {
   font-size: var(--font-size-lg);
@@ -69,10 +98,22 @@ button:disabled {
   background-color: var(--accent-color);
   color: var(--button-text);
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover:not(:disabled) {
   background-color: var(--accent-hover);
+}
+
+/* Aurora glow buttons in dark mode */
+[data-theme="dark"] .btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
+}
+
+[data-theme="dark"] .btn-primary:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(147, 51, 234, 0.4);
+  transform: translateY(-3px);
 }
 
 /* Bouton secondaire */
@@ -94,7 +135,27 @@ button:disabled {
   border-radius: var(--border-radius-lg);
   margin: var(--spacing-base) 0;
   box-shadow: var(--shadow-sm);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Glassmorphism cards in dark mode */
+[data-theme="dark"] .card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+[data-theme="dark"] .card:hover {
+  border-color: rgba(255, 255, 255, 0.15);
+  box-shadow: 
+    0 12px 40px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
 
 /* Inputs - Grands et clairs */
@@ -108,13 +169,27 @@ input, textarea {
   font-family: inherit;
   background-color: var(--bg-input);
   color: var(--text-primary);
-  transition: border-color 0.2s ease, background-color 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 input:focus, textarea:focus {
   border-color: var(--accent-color);
   outline: none;
   box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Aurora inputs in dark mode */
+[data-theme="dark"] input,
+[data-theme="dark"] textarea {
+  background: rgba(255, 255, 255, 0.05);
+  border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] input:focus,
+[data-theme="dark"] textarea:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 input:disabled, textarea:disabled {
@@ -126,6 +201,11 @@ input::placeholder, textarea::placeholder {
   color: var(--text-muted);
 }
 
+[data-theme="dark"] input::placeholder,
+[data-theme="dark"] textarea::placeholder {
+  color: rgba(255, 255, 255, 0.4);
+}
+
 /* App Container */
 .app {
   min-height: 100vh;
@@ -134,6 +214,8 @@ input::placeholder, textarea::placeholder {
   padding: var(--spacing-xl) var(--spacing-lg);
   max-width: 640px;
   margin: 0 auto;
+  position: relative;
+  z-index: 1;
 }
 
 /* Header */
@@ -167,6 +249,14 @@ input::placeholder, textarea::placeholder {
   letter-spacing: -0.5px;
 }
 
+/* Gradient text for logo in dark mode */
+[data-theme="dark"] .logo h1 {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 50%, #22d3ee 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
 .tagline {
   font-size: var(--font-size-lg);
   color: var(--text-secondary);
@@ -189,7 +279,16 @@ input::placeholder, textarea::placeholder {
   padding: var(--spacing-sm);
   border-radius: var(--border-radius-lg);
   border: 2px solid var(--border-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora tabs in dark mode */
+[data-theme="dark"] .mode-tabs {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
 }
 
 .mode-tab {
@@ -205,7 +304,7 @@ input::placeholder, textarea::placeholder {
   border: 2px solid transparent;
   border-radius: var(--border-radius-base);
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
   color: var(--text-secondary);
   font-size: var(--font-size-base);
   font-weight: 600;
@@ -216,10 +315,21 @@ input::placeholder, textarea::placeholder {
   color: var(--text-primary);
 }
 
+[data-theme="dark"] .mode-tab:hover:not(:disabled):not(.active) {
+  background: rgba(255, 255, 255, 0.05);
+  color: rgba(255, 255, 255, 0.9);
+}
+
 .mode-tab.active {
   background-color: var(--accent-color);
   color: var(--button-text);
   border-color: var(--accent-color);
+}
+
+[data-theme="dark"] .mode-tab.active {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+  border-color: transparent;
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
 }
 
 .mode-tab:disabled {
@@ -294,7 +404,18 @@ input::placeholder, textarea::placeholder {
   padding: 40px var(--spacing-lg);
   text-align: center;
   border: 2px solid var(--border-color);
-  transition: background-color 0.3s ease, border-color 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora loading card in dark mode */
+[data-theme="dark"] .loading-card {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
 }
 
 .loading-spinner {
@@ -305,6 +426,13 @@ input::placeholder, textarea::placeholder {
   border-radius: 50%;
   margin: 0 auto var(--spacing-lg);
   animation: spin 1s linear infinite;
+}
+
+/* Aurora spinner in dark mode */
+[data-theme="dark"] .loading-spinner {
+  border-color: rgba(255, 255, 255, 0.1);
+  border-top-color: #3b82f6;
+  border-right-color: #9333ea;
 }
 
 @keyframes spin {

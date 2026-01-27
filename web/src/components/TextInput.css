@@ -3,12 +3,25 @@
 }
 
 .textarea-container {
-  background: white;
+  background: var(--bg-card, white);
   border-radius: 16px;
   box-shadow: 0 4px 20px rgba(107, 140, 179, 0.15);
   border: 2px solid transparent;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.3s ease;
   overflow: hidden;
+  position: relative;
+  z-index: 1;
+}
+
+/* Aurora glassmorphism textarea in dark mode */
+[data-theme="dark"] .textarea-container {
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .textarea-container:focus-within {
@@ -16,14 +29,19 @@
   box-shadow: 0 4px 25px rgba(107, 140, 179, 0.25);
 }
 
+[data-theme="dark"] .textarea-container:focus-within {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.2), 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
 .text-area {
   width: 100%;
   padding: 20px;
-  font-size: 18px;
+  font-size: var(--font-size-lg, 18px);
   font-family: inherit;
   border: none;
   background: transparent;
-  color: #2c3e50;
+  color: var(--text-primary, #2c3e50);
   outline: none;
   resize: vertical;
   min-height: 180px;
@@ -31,45 +49,74 @@
 }
 
 .text-area::placeholder {
-  color: #95a5a6;
+  color: var(--text-muted, #95a5a6);
+}
+
+[data-theme="dark"] .text-area::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 .text-area:disabled {
   opacity: 0.7;
-  background: #f8f9fa;
+  background: var(--bg-secondary, #f8f9fa);
+}
+
+[data-theme="dark"] .text-area:disabled {
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .char-counter {
   padding: 10px 20px;
   text-align: right;
-  font-size: 14px;
-  color: #7f8c8d;
-  background: #f8f9fa;
-  border-top: 1px solid #eee;
+  font-size: var(--font-size-sm, 14px);
+  color: var(--text-muted, #7f8c8d);
+  background: var(--bg-secondary, #f8f9fa);
+  border-top: 1px solid var(--border-color, #eee);
+}
+
+[data-theme="dark"] .char-counter {
+  background: rgba(255, 255, 255, 0.03);
+  border-top-color: rgba(255, 255, 255, 0.05);
 }
 
 .char-counter.over-limit {
-  color: #e74c3c;
+  color: var(--danger-color, #e74c3c);
   font-weight: 600;
+}
+
+[data-theme="dark"] .char-counter.over-limit {
+  color: #ec4899;
 }
 
 .text-input .analyze-button {
   width: 100%;
   margin-top: 16px;
   padding: 18px 32px;
-  font-size: 18px;
+  font-size: var(--font-size-lg, 18px);
   font-weight: 600;
   background: linear-gradient(135deg, #7fb3d5 0%, #5da0c7 100%);
   color: white;
   border: none;
   border-radius: 12px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
+  transition: all 0.3s ease;
+  min-height: 60px;
+}
+
+/* Aurora glow button in dark mode */
+[data-theme="dark"] .text-input .analyze-button {
+  background: linear-gradient(135deg, #3b82f6 0%, #9333ea 100%);
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.5), 0 0 40px rgba(59, 130, 246, 0.3);
 }
 
 .text-input .analyze-button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 15px rgba(93, 160, 199, 0.4);
+}
+
+[data-theme="dark"] .text-input .analyze-button:hover:not(:disabled) {
+  box-shadow: 0 0 30px rgba(59, 130, 246, 0.6), 0 0 60px rgba(147, 51, 234, 0.4);
+  transform: translateY(-3px);
 }
 
 .text-input .analyze-button:active:not(:disabled) {
