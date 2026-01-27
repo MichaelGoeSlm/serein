@@ -70,7 +70,10 @@
 }
 
 /* Tailwind-like utilities for the landing page */
+.serein-landing .pt-20 { padding-top: 5rem; }
+.serein-landing .pt-24 { padding-top: 6rem; }
 .serein-landing .pt-40 { padding-top: 10rem; }
+.serein-landing .pb-16 { padding-bottom: 4rem; }
 .serein-landing .pb-20 { padding-bottom: 5rem; }
 .serein-landing .py-20 { padding-top: 5rem; padding-bottom: 5rem; }
 .serein-landing .py-10 { padding-top: 2.5rem; padding-bottom: 2.5rem; }
@@ -237,6 +240,8 @@
 
 /* Media Queries */
 @media (min-width: 768px) {
+  .serein-landing .md\:pt-32 { padding-top: 8rem; }
+  .serein-landing .md\:pt-40 { padding-top: 10rem; }
   .serein-landing .md\:text-6xl { font-size: 3.75rem; line-height: 1; }
   .serein-landing .md\:text-xl { font-size: 1.25rem; line-height: 1.75rem; }
   .serein-landing .md\:grid-cols-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }

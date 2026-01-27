@@ -41,7 +41,7 @@ function LandingPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-40 pb-20 px-6">
+      <section className="pt-20 md:pt-32 pb-16 px-6">
         <div className="max-w-3xl mx-auto text-center">
           <h1 className="text-5xl md:text-6xl font-extrabold mb-6 leading-tight">
             <span className="block text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-300">Protégez-vous des</span>
